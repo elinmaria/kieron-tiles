@@ -9,8 +9,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/site.css">
+<script>
+  /* Projects come from this Google Sheet (share it as "Anyone with the link: Viewer").
+     Paste the sheet's link between the quotes. Leave it empty to use the projects written below. */
+  window.KT_SHEET = "";
+</script>
 </head>
-<body data-page="home">
+<body data-page="home" class="is-loading">
 <div class="wrap">
   <header>
     <a class="brand" href="index.html"><span data-roll data-d="0.15">Kieron’s Tiles</span><img class="brand-tile" src="img/brand-tile.svg" alt=""></a>
@@ -28,7 +33,7 @@
 
 <section class="stage" id="work" aria-label="Projects">
   <div class="track" id="track">
-    <article class="card"><div class="tile a"></div>
+    <article class="card" data-title="Hampstead" data-year="2026" data-type="Garden path" data-location="Hampstead, London" data-desc="A cracked concrete path replaced with a Victorian geometric pattern in red, buff and black, finished with a black border."><div class="tile a"></div>
       <div class="labels" aria-hidden="true"><span>Before</span><span>After</span></div>
       <div class="frame" aria-label="Open project">
         <div class="ph ph-after" role="img" aria-label="Finished Victorian geometric tiled garden path"></div>
@@ -36,9 +41,9 @@
         <div class="divider"></div>
         <button class="handle" type="button" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="37"></button>
       </div>
-      <div class="caption" data-type="Garden path">Hampstead 2026.</div>
+      <div class="caption">Hampstead 2026.</div>
     </article>
-<article class="card"><div class="tile b"></div>
+<article class="card" data-title="Hampstead" data-year="2026" data-type="Garden path" data-location="Hampstead, London" data-desc="A cracked concrete path replaced with a Victorian geometric pattern in red, buff and black, finished with a black border."><div class="tile b"></div>
       <div class="labels" aria-hidden="true"><span>Before</span><span>After</span></div>
       <div class="frame" aria-label="Open project">
         <div class="ph ph-after" role="img" aria-label="Finished Victorian geometric tiled garden path"></div>
@@ -46,9 +51,9 @@
         <div class="divider"></div>
         <button class="handle" type="button" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="37"></button>
       </div>
-      <div class="caption" data-type="Garden path">Hampstead 2026.</div>
+      <div class="caption">Hampstead 2026.</div>
     </article>
-<article class="card"><div class="tile a"></div>
+<article class="card" data-title="Hampstead" data-year="2026" data-type="Garden path" data-location="Hampstead, London" data-desc="A cracked concrete path replaced with a Victorian geometric pattern in red, buff and black, finished with a black border."><div class="tile a"></div>
       <div class="labels" aria-hidden="true"><span>Before</span><span>After</span></div>
       <div class="frame" aria-label="Open project">
         <div class="ph ph-after" role="img" aria-label="Finished Victorian geometric tiled garden path"></div>
@@ -56,9 +61,9 @@
         <div class="divider"></div>
         <button class="handle" type="button" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="37"></button>
       </div>
-      <div class="caption" data-type="Garden path">Hampstead 2026.</div>
+      <div class="caption">Hampstead 2026.</div>
     </article>
-<article class="card"><div class="tile b"></div>
+<article class="card" data-title="Hampstead" data-year="2026" data-type="Garden path" data-location="Hampstead, London" data-desc="A cracked concrete path replaced with a Victorian geometric pattern in red, buff and black, finished with a black border."><div class="tile b"></div>
       <div class="labels" aria-hidden="true"><span>Before</span><span>After</span></div>
       <div class="frame" aria-label="Open project">
         <div class="ph ph-after" role="img" aria-label="Finished Victorian geometric tiled garden path"></div>
@@ -66,7 +71,7 @@
         <div class="divider"></div>
         <button class="handle" type="button" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="37"></button>
       </div>
-      <div class="caption" data-type="Garden path">Hampstead 2026.</div>
+      <div class="caption">Hampstead 2026.</div>
     </article>
   </div>
 </section>
@@ -78,7 +83,7 @@
   <div class="copy-col">
     <h3 id="d-title"><span class="line"><span id="d-l1">Hampstead</span></span><span class="line"><span id="d-l2">2026.</span></span></h3>
     <p id="d-text">A cracked concrete path replaced with a Victorian geometric pattern in red, buff and black, finished with a black border.</p>
-    <div class="meta"><span>Type</span><b id="d-type">Garden path</b><span>Location</span><b>Hampstead, London</b><span>Year</span><b>2026</b></div>
+    <div class="meta"><span>Type</span><b id="d-type" data-row>Garden path</b><span>Location</span><b id="d-loc" data-row>Hampstead, London</b><span>Year</span><b id="d-year" data-row>2026</b></div>
   </div>
   <div class="stage-img" id="d-img"></div>
 </div>
@@ -92,7 +97,8 @@
 <div class="cursor" id="cursor" aria-hidden="true">Drag</div>
 
 <script>
-(()=>{
+window.KT.startHome=()=>{
+  document.body.classList.remove("is-loading");
   const stage=document.querySelector('.stage'), track=document.getElementById('track'), cur=document.getElementById('cursor');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cards=[...document.querySelectorAll('.card')];
@@ -108,6 +114,7 @@
   let sliding=null;
   function bindSlider(frame){
     const h=frame.querySelector('.handle');
+    if(!h)return;
     const setPos=x=>{const r=frame.getBoundingClientRect();const p=Math.max(0,Math.min(100,(x-r.left)/r.width*100));
       frame.style.setProperty('--pos',p+'%');h.setAttribute('aria-valuenow',Math.round(p));};
     h.addEventListener('pointerdown',e=>{e.stopPropagation();sliding=frame;h.setPointerCapture(e.pointerId);cur.classList.add('slide')});
@@ -208,9 +215,10 @@
     const src=card.querySelector('.frame');
     const clone=src.cloneNode(true);clone.style.transform='';clone.removeAttribute('tabindex');
     dImg.innerHTML='';dImg.append(clone);bindSlider(clone);
-    const [l1,...rest]=card.querySelector('.caption > span .roll > span').textContent.split(' ');
-    document.getElementById('d-l1').textContent=l1;document.getElementById('d-l2').textContent=rest.join(' ')||'';
-    document.getElementById('d-type').textContent=card.querySelector('.caption').dataset.type;
+    const d=card.dataset, set=(id,v)=>{const el=document.getElementById(id);el.textContent=v||'';if(el.dataset.row!==undefined){el.hidden=!v;el.previousElementSibling.hidden=!v;}};
+    set('d-l1',d.title);set('d-l2',d.year?d.year+'.':'');
+    set('d-text',d.desc);document.getElementById('d-text').hidden=!d.desc;
+    set('d-type',d.type);set('d-loc',d.location);set('d-year',d.year);
     detail.setAttribute('aria-hidden','false');
     const from=src.getBoundingClientRect();openFrom=src;
     detail.classList.add('open');
@@ -238,7 +246,8 @@
   document.getElementById('d-close').addEventListener('click',closeCard);
   addEventListener('keydown',e=>{if(e.key==='Escape')closeCard()});
 
-})();
+};
 </script>
+<script src="js/projects.js"></script>
 </body>
 </html>

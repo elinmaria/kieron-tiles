@@ -238,3 +238,8 @@ body.is-leaving>main,body.is-leaving>.stage{opacity:0;transform:translateY(-10px
   .about-tile{width:30vw;top:auto;bottom:90px}
   .contact-tile{width:62vw;left:auto;right:-14vw;bottom:-10vw}
 }
+
+/* while the project sheet loads */
+.track{transition:opacity .8s var(--ease-out)}
+.is-loading .track{opacity:0}
+.card.single .frame{cursor:pointer}
