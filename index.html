@@ -206,23 +206,30 @@ window.KT.startHome=()=>{
     if(reduce){intro.remove();tile.remove();return}
     document.body.classList.add('is-intro');
     intro.classList.add('wait');
-    const slides=[...intro.querySelectorAll('.ph')];
-    const T=1250;   // 1. the tile turns in on its own
-    setTimeout(()=>{tile.classList.add('aside');intro.classList.remove('wait');intro.classList.add('grow')},T);  // 2. photo frame joins it
-    slides[0].style.clipPath='inset(0 0 0 0)';   // the frame opens on the before photo
-    slides.slice(1).forEach((s,i)=>setTimeout(()=>s.classList.add('show'),T+450+i*420));   // 3. after / before / after wipe through
-    const flyAt=T+450+(slides.length-1)*420+450;
-    setTimeout(()=>{   // 4. both glide to their places on the first card
-      const r=cards[0].querySelector('.frame').getBoundingClientRect();
-      intro.classList.add('fly');
-      intro.style.left=r.left+'px';intro.style.top=r.top+'px';intro.style.width=r.width+'px';intro.style.transform='translate(0,0)';
-      const cardTile=cards[0].querySelector('.tile');
-      if(cardTile){const tr=cardTile.getBoundingClientRect();tile.classList.add('fly');
-        tile.style.left=tr.left+'px';tile.style.top=tr.top+'px';tile.style.width=tr.width+'px';tile.style.transform='none';}
-      else tile.classList.add('gone');
-      setTimeout(()=>{unfold();intro.classList.add('gone');tile.classList.add('gone');setTimeout(()=>{intro.remove();tile.remove()},450)},1150);
+    const laterTiles=cards.slice(1).map(c=>c.querySelector('.tile')).filter(Boolean);
+    laterTiles.forEach(t=>t.classList.add('pre'));   // the other tiles wait and arrive on their own later
+    const place=(el,r)=>{el.style.left=r.left+'px';el.style.top=r.top+'px';el.style.width=r.width+'px';el.style.transform='none';};
+    // 1. the tile turns in at the centre, then glides to its place beside the first card and stays
+    const cardTile=cards[0].querySelector('.tile');
+    setTimeout(()=>{ if(cardTile){tile.classList.add('fly');place(tile,cardTile.getBoundingClientRect());} else tile.classList.add('gone'); },1150);
+    // 2. the photo frame appears, opening on the before photo; after / before / after wipe through
+    const F=2300, slides=[...intro.querySelectorAll('.ph')];
+    slides[0].style.clipPath='inset(0 0 0 0)';
+    setTimeout(()=>{intro.classList.remove('wait');intro.classList.add('grow')},F);
+    slides.slice(1).forEach((s,i)=>setTimeout(()=>s.classList.add('show'),F+450+i*400));
+    const flyAt=F+450+(slides.length-1)*400+400;
+    // 3. the frame glides onto the first card, then the other cards unfold
+    setTimeout(()=>{
+      intro.classList.add('fly');place(intro,cards[0].querySelector('.frame').getBoundingClientRect());
+      setTimeout(()=>{
+        unfold();intro.classList.add('gone');tile.classList.add('gone');
+        setTimeout(()=>{intro.remove();tile.remove()},450);
+        // 4. the other tiles settle in slowly, one after another
+        laterTiles.forEach((t,i)=>setTimeout(()=>t.classList.remove('pre'),1500+i*500));
+      },1150);
     },flyAt);
-    const skip=()=>{if(!intro.isConnected)return;intro.remove();tile.remove();document.body.classList.remove('is-intro');cards.forEach(c=>{c.style.opacity='';c.style.transform=''})};
+    const skip=()=>{if(!intro.isConnected)return;intro.remove();tile.remove();document.body.classList.remove('is-intro');
+      laterTiles.forEach(t=>t.classList.remove('pre'));cards.forEach(c=>{c.style.opacity='';c.style.transform=''})};
     intro.addEventListener('click',skip);tile.addEventListener('click',skip);
   }
   runIntro();
