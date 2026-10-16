@@ -101,6 +101,6 @@
       const projects = toProjects(parseCSV(text));
       if (projects.length) render(projects);
     })
-    .catch(err => console.warn('[Kieron’s Tiles] Using the built-in projects:', err.message))
+    .catch(err => console.warn('[Kieron’s Tiling] Using the built-in projects:', err.message))
     .finally(() => { clearTimeout(timer); start(); });
 })();
