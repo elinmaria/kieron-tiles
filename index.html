@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/site.css?v=202610161508">
+<link rel="stylesheet" href="css/site.css?v=202610161514">
 <script>
   /* Projects come from this Google Sheet (share it as "Anyone with the link: Viewer").
      Paste the sheet's link between the quotes. Leave it empty to use the projects written below. */
@@ -93,7 +93,7 @@
 </div>
 
 <footer><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
-<script src="js/site.js?v=202610161508"></script>
+<script src="js/site.js?v=202610161514"></script>
 <div class="cursor" id="cursor" aria-hidden="true">Drag</div>
 
 <script>
@@ -107,7 +107,7 @@ window.KT.startHome=()=>{
   const stageEl=document.querySelector('.stage');
   const ghosts=cards.slice(0,2).map(c=>c.querySelector('.tile')).filter(Boolean);   // markers for the design position
   cards.slice(2).forEach(c=>{const t=c.querySelector('.tile');if(t)t.remove();});
-  const fixedTiles=ghosts.map(g=>{const t=document.createElement('div');t.className=g.className+' fixed';stageEl.appendChild(t);g.classList.add('ghost');return t;});
+  const fixedTiles=ghosts.map((g,i)=>{const t=document.createElement('div');t.className=g.className+' fixed'+(reduce?'':' pre'+(i?' hold':''));stageEl.appendChild(t);g.classList.add('ghost');return t;});
   function placeTiles(){
     const s=stageEl.getBoundingClientRect();
     fixedTiles.forEach((t,i)=>{const c=ghosts[i].closest('.card');const prev=c.style.transform;c.style.transform='none';
@@ -229,17 +229,23 @@ window.KT.startHome=()=>{
     const tiles=fixedTiles;
     tiles.forEach((t,i)=>{t.classList.add('pre');if(i)t.classList.add('hold')});
     // 1. the first tile turns in exactly where it lives in the design
-    setTimeout(()=>tiles[0]&&tiles[0].classList.remove('pre'),150);
-    // 2. the photo rises up and grows in the first card's place while before/after wipe upward through it
+    requestAnimationFrame(()=>requestAnimationFrame(()=>tiles[0]&&tiles[0].classList.remove('pre')));
+    // 2. the photo appears small in the middle of the screen; before/after wipe upward through it while it grows
     const r=cards[0].querySelector('.frame').getBoundingClientRect();
     Object.assign(intro.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px'});
+    const dx=innerWidth/2-(r.left+r.width/2), dy=innerHeight/2-(r.top+r.height/2);
+    const at=s=>`translate(${dx.toFixed(1)}px,${dy.toFixed(1)}px) scale(${s})`;
+    intro.style.transition='none';intro.style.transform=at(.24);intro.getBoundingClientRect();
     const slides=[...intro.querySelectorAll('.ph')];
     slides[0].style.clipPath='inset(0 0 0 0)';
-    const F=1300;
-    setTimeout(()=>intro.classList.add('up'),F);
+    const F=1200;
+    setTimeout(()=>{intro.style.transition='opacity .7s var(--ease-out),transform 2.8s var(--ease-io)';intro.style.opacity='1';intro.style.transform=at(.5);},F);
     slides.slice(1).forEach((s,i)=>setTimeout(()=>s.classList.add('show'),F+500+i*700));
+    // then it glides into its place in the row
+    const flyAt=F+2900;
+    setTimeout(()=>{intro.style.transition='transform 1.25s var(--ease-io)';intro.style.transform='none';},flyAt);
     // 3. the other projects slide out from behind it
-    const doneAt=F+3500;
+    const doneAt=flyAt+1300;
     setTimeout(()=>{
       unfold();intro.classList.add('gone');setTimeout(()=>intro.remove(),350);
       // 4. the other tiles fade in where they sit once their card has arrived
@@ -291,6 +297,6 @@ window.KT.startHome=()=>{
 
 };
 </script>
-<script src="js/projects.js?v=202610161508"></script>
+<script src="js/projects.js?v=202610161514"></script>
 </body>
 </html>

@@ -59,7 +59,7 @@ nav a:hover::after{transform:scaleX(1);transform-origin:left}
 @keyframes rise{from{transform:translateY(60%);opacity:.15}to{transform:none;opacity:1}}
 
 /* Gallery */
-.stage{position:absolute;top:0;left:0;right:0;padding-block:calc(310 * var(--dp)) calc(150 * var(--dp));overflow:hidden;cursor:none}   /* cards start 310 design px from the top */
+.stage{position:absolute;top:0;left:0;right:0;height:100vh;box-sizing:border-box;padding-block:calc(310 * var(--dp)) 0;overflow:hidden;cursor:none}   /* cards start 310 design px from the top */
 .track{display:flex;gap:calc(36.6 * var(--dp));padding-left:calc(485 * var(--dp));width:max-content;will-change:transform;touch-action:pan-y}
 .card{position:relative;flex:0 0 auto;width:calc(729.5 * var(--dp));container-type:inline-size;animation:up 1.2s var(--ease) both}
 .card:nth-child(2){animation-delay:.12s}.card:nth-child(3){animation-delay:.24s}.card:nth-child(4){animation-delay:.36s}
@@ -117,7 +117,7 @@ footer img{width:13px;height:13px}
   header{grid-template-columns:1fr;gap:10px}
   nav{flex-wrap:wrap;gap:6px 18px;order:3}
   .coords{justify-self:start;padding-top:0;order:2;font-size:15px}
-  .stage{position:relative;cursor:auto;padding-block:70px 100px}
+  .stage{position:relative;height:auto;cursor:auto;padding-block:70px 100px}
   .track{padding-left:6vw;gap:16px}
   .card{width:min(82vw,520px)}
   .info{grid-template-columns:1fr}
@@ -152,11 +152,11 @@ nav a::after{display:none}
 .caption{overflow:hidden}
 
 /* drifting tiles */
-.stage .tile{transform:none;animation:none;transition:opacity 1.3s ease,transform 1.6s var(--ease-out)}
+.stage .tile{transform:none;animation:none;transition:opacity 1.2s ease,transform 1.9s var(--ease-out)}
 .tile.ghost{visibility:hidden}
 .stage>.tile.fixed{z-index:0}
 .track{position:relative;z-index:1}
-.stage .tile.pre{opacity:0;transform:rotate(-14deg) scale(.9)}   /* first tile: turns in on the spot */
+.stage .tile.pre{opacity:0;transform:translateX(calc(140 * var(--dp)))}   /* first tile: fades in while gliding a short way, then lands */
 .stage .tile.pre.hold{transform:none}                                /* later tiles: just fade in where they are */
 .tile.a{--r:0deg}
 .tile.b{--r:0deg;animation-duration:13s;animation-delay:-4s}
