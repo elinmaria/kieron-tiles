@@ -26,3 +26,8 @@ The project cards can come from a Google Sheet, so new jobs can be added without
 Photos: upload them to a Google Drive folder shared as *Anyone with the link*, and paste each file's share link
 into the sheet. Rows with `Show = No` stay hidden; `Order` sets the position. If the sheet can't be reached, the
 projects written in `index.html` are shown instead.
+
+## Publishing changes
+
+After changing `css/site.css` or anything in `js/`, bump the `?v=` number on those links in all three pages so
+browsers load the new files straight away (GitHub Pages lets browsers keep them for up to 10 minutes).
