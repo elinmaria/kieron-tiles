@@ -58,7 +58,7 @@ nav a:hover::after{transform:scaleX(1);transform-origin:left}
 
 /* Gallery */
 .stage{position:relative;padding-block:clamp(90px,12.6vw,240px) 120px;overflow:hidden;cursor:none}
-.track{display:flex;gap:clamp(56px,6.5vw,140px);padding-left:28vw;width:max-content;will-change:transform;touch-action:pan-y}
+.track{display:flex;gap:clamp(20px,2.12vw,44px);padding-left:28vw;width:max-content;will-change:transform;touch-action:pan-y}
 .card{position:relative;flex:0 0 auto;width:clamp(280px,42.22vw,780px);container-type:inline-size;animation:up 1.2s var(--ease) both}
 .card:nth-child(2){animation-delay:.12s}.card:nth-child(3){animation-delay:.24s}.card:nth-child(4){animation-delay:.36s}
 @keyframes up{from{transform:translateY(28px);opacity:.2}to{transform:none;opacity:1}}
@@ -66,7 +66,7 @@ nav a:hover::after{transform:scaleX(1);transform-origin:left}
   box-shadow:0 22px 40px -18px var(--card-shadow),0 2px 6px rgba(0,0,0,.18);
   transition:transform .7s var(--ease),box-shadow .7s var(--ease);transform-style:preserve-3d}
 .card:hover .frame{box-shadow:0 34px 60px -22px var(--card-shadow),0 2px 6px rgba(0,0,0,.18)}
-.frame .ph{position:absolute;inset:0;background-size:cover;background-position:center;pointer-events:none}
+.frame .ph{position:absolute;inset:0 -6%;background-size:cover;background-position:center;pointer-events:none}   /* a little wider than the frame so the photo can glide inside it */
 .before{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--pos,37%)) 0 0)}
 .divider{position:absolute;top:0;bottom:0;left:var(--pos,37%);width:1.6px;margin-left:-.8px;background:#fff;pointer-events:none}
 .labels{position:absolute;left:0;right:0;top:-4px;transform:translateY(-100%);display:flex;justify-content:space-between;font-size:clamp(9px,.579vw,12px);letter-spacing:.22em;text-transform:uppercase;color:var(--ink);pointer-events:none}
@@ -116,7 +116,7 @@ footer img{width:13px;height:13px}
   nav{flex-wrap:wrap;gap:6px 18px;order:3}
   .coords{justify-self:start;padding-top:0;order:2;font-size:15px}
   .stage{cursor:auto;padding-block:70px 100px}
-  .track{padding-left:6vw;gap:40px}
+  .track{padding-left:6vw;gap:16px}
   .card{width:min(82vw,520px)}
   .info{grid-template-columns:1fr}
   .info h2,.info .body,.info .side{grid-column:1/-1}
