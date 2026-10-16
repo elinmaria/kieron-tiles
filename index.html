@@ -91,7 +91,6 @@
 <div class="intro" id="intro" aria-hidden="true">
   <div class="ph ph-before"></div><div class="ph ph-after"></div><div class="ph ph-before"></div><div class="ph ph-after"></div>
 </div>
-<img class="intro-tile" id="intro-tile" src="img/geometric-tile.svg" alt="" aria-hidden="true">
 
 <footer><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
 <script src="js/site.js"></script>
@@ -177,9 +176,12 @@ window.KT.startHome=()=>{
   addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;
     const overFrame=e.target.closest&&e.target.closest('.card .frame');cur.textContent=overFrame?'View':'Drag';});
 
+  const tiles=[...document.querySelectorAll('.card .tile')];
   function tick(){
     x+=(target-x)*(reduce?1:.075);
     track.style.transform=`translate3d(${x.toFixed(2)}px,0,0)`;
+    const lag=Math.max(-28,Math.min(28,(x-target)*.09));
+    if(Math.abs(lag)>.05||tiles.lag){tiles.forEach(el=>el.style.translate=lag.toFixed(2)+'px 0');tiles.lag=Math.abs(lag)>.05;}
     cx+=(mx-cx)*.14;cy+=(my-cy)*.14;cur.style.transform=`translate(${cx}px,${cy}px)`;
     requestAnimationFrame(tick);
   }
@@ -190,47 +192,42 @@ window.KT.startHome=()=>{
   function unfold(){
     const first=cards[0];
     cards.forEach((c,i)=>{c.style.zIndex=String(cards.length-i);
-      if(i){c.style.transform=`translateX(${first.offsetLeft-c.offsetLeft}px)`;}});
+      if(i){c.style.transform=`translateX(${first.offsetLeft-c.offsetLeft}px)`;c.classList.add('sliding');}});
     document.body.classList.remove('is-intro');
     cards.forEach((c,i)=>{ if(!i)return; c.style.opacity='0'; });
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
       cards.forEach((c,i)=>{ if(!i)return;
         c.classList.add('unfold');c.style.transitionDelay=(i*0.11)+'s';
         c.style.transform='';c.style.opacity='1';
-        const done=e=>{if(e.propertyName!=='transform')return;c.removeEventListener('transitionend',done);c.classList.remove('unfold');c.style.transitionDelay='';c.style.zIndex=''};c.addEventListener('transitionend',done);
+        const done=e=>{if(e.propertyName!=='transform')return;c.removeEventListener('transitionend',done);c.classList.remove('unfold','sliding');c.style.transitionDelay='';c.style.zIndex=''};c.addEventListener('transitionend',done);
       });
     }));
   }
   function runIntro(){
-    const tile=document.getElementById('intro-tile');
-    if(reduce){intro.remove();tile.remove();return}
+    if(reduce){intro.remove();return}
     document.body.classList.add('is-intro');
-    intro.classList.add('wait');
-    const laterTiles=cards.slice(1).map(c=>c.querySelector('.tile')).filter(Boolean);
-    laterTiles.forEach(t=>t.classList.add('pre'));   // the other tiles wait and arrive on their own later
-    const place=(el,r)=>{el.style.left=r.left+'px';el.style.top=r.top+'px';el.style.width=r.width+'px';el.style.transform='none';};
-    // 1. the tile turns in at the centre, then glides to its place beside the first card and stays
-    const cardTile=cards[0].querySelector('.tile');
-    setTimeout(()=>{ if(cardTile){tile.classList.add('fly');place(tile,cardTile.getBoundingClientRect());} else tile.classList.add('gone'); },1150);
-    // 2. the photo frame appears, opening on the before photo; after / before / after wipe through
-    const F=2300, slides=[...intro.querySelectorAll('.ph')];
+    const tiles=cards.map(c=>c.querySelector('.tile')).filter(Boolean);
+    tiles.forEach((t,i)=>{t.classList.add('pre');if(i)t.classList.add('hold')});
+    // 1. the first tile turns in exactly where it lives in the design
+    setTimeout(()=>tiles[0]&&tiles[0].classList.remove('pre'),150);
+    // 2. the photo rises up and grows in the first card's place while before/after wipe upward through it
+    const r=cards[0].querySelector('.frame').getBoundingClientRect();
+    Object.assign(intro.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px'});
+    const slides=[...intro.querySelectorAll('.ph')];
     slides[0].style.clipPath='inset(0 0 0 0)';
-    setTimeout(()=>{intro.classList.remove('wait');intro.classList.add('grow')},F);
-    slides.slice(1).forEach((s,i)=>setTimeout(()=>s.classList.add('show'),F+450+i*400));
-    const flyAt=F+450+(slides.length-1)*400+400;
-    // 3. the frame glides onto the first card, then the other cards unfold
+    const F=1300;
+    setTimeout(()=>intro.classList.add('up'),F);
+    slides.slice(1).forEach((s,i)=>setTimeout(()=>s.classList.add('show'),F+500+i*700));
+    // 3. the other projects slide out from behind it
+    const doneAt=F+3500;
     setTimeout(()=>{
-      intro.classList.add('fly');place(intro,cards[0].querySelector('.frame').getBoundingClientRect());
-      setTimeout(()=>{
-        unfold();intro.classList.add('gone');tile.classList.add('gone');
-        setTimeout(()=>{intro.remove();tile.remove()},450);
-        // 4. the other tiles settle in slowly, one after another
-        laterTiles.forEach((t,i)=>setTimeout(()=>t.classList.remove('pre'),1500+i*500));
-      },1150);
-    },flyAt);
-    const skip=()=>{if(!intro.isConnected)return;intro.remove();tile.remove();document.body.classList.remove('is-intro');
-      laterTiles.forEach(t=>t.classList.remove('pre'));cards.forEach(c=>{c.style.opacity='';c.style.transform=''})};
-    intro.addEventListener('click',skip);tile.addEventListener('click',skip);
+      unfold();intro.classList.add('gone');setTimeout(()=>intro.remove(),350);
+      // 4. the other tiles fade in where they sit once their card has arrived
+      tiles.slice(1).forEach((t,i)=>setTimeout(()=>t.classList.remove('pre','hold'),1400+i*130));
+    },doneAt);
+    const skip=()=>{if(!intro.isConnected)return;intro.remove();document.body.classList.remove('is-intro');
+      tiles.forEach(t=>t.classList.remove('pre','hold'));cards.forEach(c=>{c.style.opacity='';c.style.transform=''})};
+    intro.addEventListener('click',skip);
   }
   runIntro();
 
