@@ -6,7 +6,7 @@ A single static page (`index.html`) with fonts in `fonts/` and photos in `img/`.
 
 ## Editing
 
-- **Projects:** each project is an `<article class="card">` in `index.html`. The before/after photos are set by `.ph-before` and `.ph-after` in the stylesheet.
+- **Projects:** each project is an `<article class="card">` in `index.html`. The before/after photos are set by `.ph-before` and `.ph-after` in the stylesheet; the geometric tiles are `img/geometric-tile.svg`.
 - **Contact details:** search `index.html` for `Email@email.com` and `Instagram handle`.
 
 Typeface: PP Editorial New (Pangram Pangram). Check the licence covers web use before the site goes public.

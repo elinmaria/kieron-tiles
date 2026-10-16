@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Kieron Tiles: floor and wall tiling across London, from Victorian path restorations to kitchens and bathrooms.">
-<title>Kieron Tiles</title>
+<meta name="description" content="Kieron’s Tiles: floor and wall tiling across London, from Victorian path restorations to kitchens and bathrooms.">
+<title>Kieron’s Tiles</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
@@ -52,7 +52,9 @@ a:focus-visible,button:focus-visible,.handle:focus-visible{outline:1.5px solid v
 
 /* Header */
 header{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:24px;padding-block:clamp(18px,1.53vw,28px) 0;position:relative;z-index:5}
-.brand{font-size:clamp(28px,2.315vw,46px);line-height:1.2;letter-spacing:-.005em;font-weight:200;margin:0;text-transform:uppercase}
+.brand{font-size:clamp(28px,2.315vw,46px);line-height:1.2;letter-spacing:-.005em;font-weight:200;margin:0;text-transform:uppercase;display:flex;align-items:center;gap:.1em}
+.brand-tile{width:2.22em;height:2.22em;margin-block:-.6em;flex:none;filter:drop-shadow(0 .08em .12em rgba(40,25,10,.28));transition:transform 1.6s var(--ease-out)}
+.brand:hover .brand-tile{transform:rotate(90deg)}
 nav{display:flex;gap:clamp(16px,1.3vw,26px);font-size:clamp(16px,1.273vw,25px);padding-top:0}
 nav a:nth-child(4){margin-left:clamp(4px,.55vw,12px)}
 nav a{position:relative;color:var(--ink)}
@@ -78,16 +80,18 @@ nav a:hover::after{transform:scaleX(1);transform-origin:left}
 .card:hover .frame{box-shadow:0 34px 60px -22px var(--card-shadow),0 2px 6px rgba(0,0,0,.18)}
 .frame .ph{position:absolute;inset:0;background-size:cover;background-position:center;pointer-events:none}
 .before{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--pos,37%)) 0 0)}
-.divider{position:absolute;top:0;bottom:0;left:var(--pos,37%);width:1px;background:rgba(255,255,255,.55);pointer-events:none}
+.divider{position:absolute;top:0;bottom:0;left:var(--pos,37%);width:1.6px;margin-left:-.8px;background:#fff;pointer-events:none}
+.labels{position:absolute;left:0;right:0;top:-4px;transform:translateY(-100%);display:flex;justify-content:space-between;font-size:clamp(9px,.579vw,12px);letter-spacing:.22em;text-transform:uppercase;color:var(--ink);pointer-events:none}
 .handle{position:absolute;top:50%;left:var(--pos,37%);width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;
   border:2px solid #fff;background:transparent;cursor:ew-resize;padding:0;transition:transform .5s var(--ease)}
 .handle:hover{transform:scale(1.12)}
 .caption{margin-top:11px;font-size:clamp(13px,.868vw,17px);text-transform:uppercase;color:var(--ink-soft);display:flex}
 
-/* loose red tiles */
+/* geometric tiles (Figma: Group 11 / Group 13) */
 .tile{position:absolute;z-index:-1;pointer-events:none;background:center/contain no-repeat;transition:transform 1.2s var(--ease)}
-.tile.a{background-image:url("img/red-tile-a.png");left:-12.75cqw;top:-7.58cqw;width:46.06cqw;aspect-ratio:336/259}
-.tile.b{background-image:url("img/red-tile-b.png");left:17cqw;top:40.05cqw;width:51.68cqw;aspect-ratio:377/323}
+.tile{background-image:url("img/geometric-tile.svg");width:33.31cqw;aspect-ratio:243/242}
+.tile.a{left:-20.7cqw;top:17.55cqw}
+.tile.b{left:32.08cqw;top:50.58cqw}
 
 
 /* cursor */
@@ -201,7 +205,7 @@ nav a::after{display:none}
 <body>
 <div class="wrap">
   <header>
-    <h1 class="brand"><span data-roll data-d="0.15">Kieron Tiles</span></h1>
+    <h1 class="brand"><span data-roll data-d="0.15">Kieron’s Tiles</span><img class="brand-tile" src="img/brand-tile.svg" alt=""></h1>
     <nav aria-label="Main">
       <a href="#contact" data-roll data-d="0.35">Email@email.com</a>
       <a href="https://instagram.com/" target="_blank" rel="noopener" data-roll data-d="0.45">Instagram handle</a>
@@ -215,6 +219,7 @@ nav a::after{display:none}
 <section class="stage" id="work" aria-label="Projects">
   <div class="track" id="track">
     <article class="card"><div class="tile a"></div>
+      <div class="labels" aria-hidden="true"><span>Before</span><span>After</span></div>
       <div class="frame" aria-label="Open project">
         <div class="ph ph-after" role="img" aria-label="Finished Victorian geometric tiled garden path"></div>
         <div class="before"><div class="ph ph-before" role="img" aria-label="The cracked concrete path before tiling"></div></div>
@@ -224,6 +229,7 @@ nav a::after{display:none}
       <div class="caption" data-type="Garden path">Hampstead 2026.</div>
     </article>
 <article class="card"><div class="tile b"></div>
+      <div class="labels" aria-hidden="true"><span>Before</span><span>After</span></div>
       <div class="frame" aria-label="Open project">
         <div class="ph ph-after" role="img" aria-label="Finished Victorian geometric tiled garden path"></div>
         <div class="before"><div class="ph ph-before" role="img" aria-label="The cracked concrete path before tiling"></div></div>
@@ -233,6 +239,7 @@ nav a::after{display:none}
       <div class="caption" data-type="Garden path">Hampstead 2026.</div>
     </article>
 <article class="card"><div class="tile a"></div>
+      <div class="labels" aria-hidden="true"><span>Before</span><span>After</span></div>
       <div class="frame" aria-label="Open project">
         <div class="ph ph-after" role="img" aria-label="Finished Victorian geometric tiled garden path"></div>
         <div class="before"><div class="ph ph-before" role="img" aria-label="The cracked concrete path before tiling"></div></div>
@@ -242,6 +249,7 @@ nav a::after{display:none}
       <div class="caption" data-type="Garden path">Hampstead 2026.</div>
     </article>
 <article class="card"><div class="tile b"></div>
+      <div class="labels" aria-hidden="true"><span>Before</span><span>After</span></div>
       <div class="frame" aria-label="Open project">
         <div class="ph ph-after" role="img" aria-label="Finished Victorian geometric tiled garden path"></div>
         <div class="before"><div class="ph ph-before" role="img" aria-label="The cracked concrete path before tiling"></div></div>
@@ -264,7 +272,7 @@ nav a::after{display:none}
 </section>
 
 <div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="d-title" aria-hidden="true">
-  <span class="back-note">Kieron Tiles — Project</span>
+  <span class="back-note">Kieron’s Tiles — Project</span>
   <button class="close" type="button" id="d-close" data-roll>Close</button>
   <div class="copy-col">
     <h3 id="d-title"><span class="line"><span id="d-l1">Hampstead</span></span><span class="line"><span id="d-l2">2026.</span></span></h3>
