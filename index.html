@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/site.css?v=202610161454">
+<link rel="stylesheet" href="css/site.css?v=202610161500">
 <script>
   /* Projects come from this Google Sheet (share it as "Anyone with the link: Viewer").
      Paste the sheet's link between the quotes. Leave it empty to use the projects written below. */
@@ -93,7 +93,7 @@
 </div>
 
 <footer><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
-<script src="js/site.js?v=202610161454"></script>
+<script src="js/site.js?v=202610161500"></script>
 <div class="cursor" id="cursor" aria-hidden="true">Drag</div>
 
 <script>
@@ -102,6 +102,20 @@ window.KT.startHome=()=>{
   const stage=document.querySelector('.stage'), track=document.getElementById('track'), cur=document.getElementById('cursor');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cards=[...document.querySelectorAll('.card')];
+
+  /* ---- the two tiles stay put on screen: they sit where the design puts them and never scroll ---- */
+  const stageEl=document.querySelector('.stage');
+  const ghosts=cards.slice(0,2).map(c=>c.querySelector('.tile')).filter(Boolean);   // markers for the design position
+  cards.slice(2).forEach(c=>{const t=c.querySelector('.tile');if(t)t.remove();});
+  const fixedTiles=ghosts.map(g=>{const t=document.createElement('div');t.className=g.className+' fixed';stageEl.appendChild(t);g.classList.add('ghost');return t;});
+  function placeTiles(){
+    const s=stageEl.getBoundingClientRect();
+    fixedTiles.forEach((t,i)=>{const c=ghosts[i].closest('.card');const prev=c.style.transform;c.style.transform='none';
+      const r=ghosts[i].getBoundingClientRect();c.style.transform=prev;
+      const tx=(new DOMMatrixReadOnly(getComputedStyle(document.getElementById('track')).transform)).m41;
+      Object.assign(t.style,{left:(r.left-s.left-tx)+'px',top:(r.top-s.top)+'px',width:r.width+'px'});});
+  }
+  placeTiles();addEventListener('resize',placeTiles);
 
   const rollify=window.KT.rollify;
   /* ---- project line under each card: title, type, 01 / 04 ---- */
@@ -176,14 +190,11 @@ window.KT.startHome=()=>{
   addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;
     const overFrame=e.target.closest&&e.target.closest('.card .frame');cur.textContent=overFrame?'View':'Drag';});
 
-  const tiles=[...document.querySelectorAll('.card .tile')];
   const photoFrames=[...document.querySelectorAll('.card .frame')];let lastPX=0;
   function tick(){
     x+=(target-x)*(reduce?1:.075);
     track.style.transform=`translate3d(${x.toFixed(2)}px,0,0)`;
-    // while the gallery moves: tiles sway a little and settle back; photos glide inside their frames
-    const lag=Math.max(-34,Math.min(34,(x-target)*.11));
-    if(Math.abs(lag)>.05||tiles.lag){tiles.forEach(el=>el.style.translate=lag.toFixed(2)+'px 0');tiles.lag=Math.abs(lag)>.05;}
+    // while the gallery moves, photos glide inside their frames (the tiles stay put)
     if(Math.abs(x-lastPX)>.05||!lastPX){lastPX=x;const mid=innerWidth/2;
       photoFrames.forEach(f=>{const r=f.getBoundingClientRect();const d=(r.left+r.width/2-mid)/innerWidth;
         const off=Math.max(-5,Math.min(5,-d*7));f.querySelectorAll('.ph').forEach(p=>p.style.translate=off.toFixed(2)+'% 0');});}
@@ -211,7 +222,7 @@ window.KT.startHome=()=>{
   function runIntro(){
     if(reduce){intro.remove();return}
     document.body.classList.add('is-intro');
-    const tiles=cards.map(c=>c.querySelector('.tile')).filter(Boolean);
+    const tiles=fixedTiles;
     tiles.forEach((t,i)=>{t.classList.add('pre');if(i)t.classList.add('hold')});
     // 1. the first tile turns in exactly where it lives in the design
     setTimeout(()=>tiles[0]&&tiles[0].classList.remove('pre'),150);
@@ -276,6 +287,6 @@ window.KT.startHome=()=>{
 
 };
 </script>
-<script src="js/projects.js?v=202610161454"></script>
+<script src="js/projects.js?v=202610161500"></script>
 </body>
 </html>

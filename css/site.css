@@ -150,9 +150,12 @@ nav a::after{display:none}
 .caption{overflow:hidden}
 
 /* drifting tiles */
-.card .tile{transform:none;animation:none;transition:opacity 1.3s ease,transform 1.6s var(--ease-out)}
-.card .tile.pre{opacity:0;transform:rotate(-14deg) scale(.9)}   /* first tile: turns in on the spot */
-.card .tile.pre.hold{transform:none}                                /* later tiles: just fade in where they are */
+.stage .tile{transform:none;animation:none;transition:opacity 1.3s ease,transform 1.6s var(--ease-out)}
+.tile.ghost{visibility:hidden}
+.stage>.tile.fixed{z-index:0}
+.track{position:relative;z-index:1}
+.stage .tile.pre{opacity:0;transform:rotate(-14deg) scale(.9)}   /* first tile: turns in on the spot */
+.stage .tile.pre.hold{transform:none}                                /* later tiles: just fade in where they are */
 .tile.a{--r:0deg}
 .tile.b{--r:0deg;animation-duration:13s;animation-delay:-4s}
 @keyframes drift{0%,100%{transform:rotate(var(--r)) translate(0,0)}50%{transform:rotate(calc(var(--r) - 2deg)) translate(-5px,-7px)}}
