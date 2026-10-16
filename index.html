@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/site.css?v=202610161524">
+<link rel="stylesheet" href="css/site.css?v=202610161530">
 <script>
   /* Projects come from this Google Sheet (share it as "Anyone with the link: Viewer").
      Paste the sheet's link between the quotes. Leave it empty to use the projects written below. */
@@ -93,7 +93,7 @@
 </div>
 
 <footer><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
-<script src="js/site.js?v=202610161524"></script>
+<script src="js/site.js?v=202610161530"></script>
 <div class="cursor" id="cursor" aria-hidden="true">Drag</div>
 
 <script>
@@ -105,8 +105,11 @@ window.KT.startHome=()=>{
 
   /* ---- the two tiles stay put on screen: they sit where the design puts them and never scroll ---- */
   const stageEl=document.querySelector('.stage');
-  const ghosts=cards.slice(0,2).map(c=>c.querySelector('.tile')).filter(Boolean);   // markers for the design position
-  cards.slice(2).forEach(c=>{const t=c.querySelector('.tile');if(t)t.remove();});
+  const ghosts=cards.slice(0,1).map(c=>c.querySelector('.tile')).filter(Boolean);   // marker for the first tile's design position
+  cards.slice(1).forEach(c=>{const t=c.querySelector('.tile');if(t)t.remove();});
+  // the second tile lives in the gallery itself, just off the right edge (Figma: 292 px at 1763, 775), so it slides in with image 3
+  const tileB=document.createElement('div');tileB.className='tile b in-track';tileB.setAttribute('aria-hidden','true');
+  document.getElementById('track').appendChild(tileB);
   const fixedTiles=ghosts.map((g,i)=>{const t=document.createElement('div');t.className=g.className+' fixed'+(reduce?'':' pre'+(i?' hold':''));stageEl.appendChild(t);g.classList.add('ghost');return t;});
   function placeTiles(){
     const s=stageEl.getBoundingClientRect();
@@ -116,7 +119,6 @@ window.KT.startHome=()=>{
       Object.assign(t.style,{left:(r.left-s.left-tx)+'px',top:(r.top-s.top)+'px',width:r.width+'px'});});
   }
   placeTiles();addEventListener('resize',placeTiles);
-  let riding=null;   // set while the second tile travels in with image 3
 
   const rollify=window.KT.rollify;
   /* ---- project line under each card: title, type, 01 / 04 ---- */
@@ -193,13 +195,11 @@ window.KT.startHome=()=>{
 
   const photoFrames=[...document.querySelectorAll('.card .frame')];let lastPX=0;
   function tick(){
-    if(riding){const m=new DOMMatrixReadOnly(getComputedStyle(riding.carrier).transform).m41;
-      riding.el.style.transform=`translateX(${Math.min(0,m+riding.lead).toFixed(1)}px)`;}
     x+=(target-x)*(reduce?1:.075);
     track.style.transform=`translate3d(${x.toFixed(2)}px,0,0)`;
     // while the gallery moves, photos glide inside their frames; the tiles only nudge a few pixels and settle
     const nudge=Math.max(-6,Math.min(6,(x-target)*.035));
-    if(Math.abs(nudge)>.02||fixedTiles.moving){fixedTiles.forEach((el,i)=>{const k=i?.7:1;
+    if(Math.abs(nudge)>.02||fixedTiles.moving){[...fixedTiles,tileB].forEach((el,i)=>{const k=i?.7:1;
       el.style.translate=(nudge*k).toFixed(2)+'px 0';el.style.rotate=(nudge*k*.18).toFixed(2)+'deg';});
       fixedTiles.moving=Math.abs(nudge)>.02;}
     if(Math.abs(x-lastPX)>.05||!lastPX){lastPX=x;const mid=innerWidth/2;
@@ -212,23 +212,12 @@ window.KT.startHome=()=>{
 
   /* ---- intro: photos wipe through a small frame, then the cards unfold ---- */
   const intro=document.getElementById('intro');
-  // the second tile travels in with image 3 as the cards slide out, then stops at its design spot
-  function rideIn(){
-    const el=fixedTiles[1]; if(!el) return;
-    const carrier=cards[2]||cards[cards.length-1];
-    const travel=carrier.offsetLeft-cards[0].offsetLeft;
-    riding={el,carrier,lead:travel*.35};
-    el.classList.remove('pre','hold');el.style.transition='none';
-    el.style.transform=`translateX(${(-travel+riding.lead).toFixed(1)}px)`;
-    setTimeout(()=>{if(!riding)return;el.style.transform='';el.style.transition='';riding=null;},2400);
-  }
   function unfold(){
     const first=cards[0];
     cards.forEach((c,i)=>{c.style.zIndex=String(cards.length-i);
       if(i){c.style.transform=`translateX(${first.offsetLeft-c.offsetLeft}px)`;c.classList.add('sliding');}});
     document.body.classList.remove('is-intro');
     cards.forEach((c,i)=>{ if(!i)return; c.style.opacity='0'; });
-    if(!reduce)rideIn();
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
       cards.forEach((c,i)=>{ if(!i)return;
         c.classList.add('unfold');c.style.transitionDelay=(i*0.11)+'s';
@@ -309,6 +298,6 @@ window.KT.startHome=()=>{
 
 };
 </script>
-<script src="js/projects.js?v=202610161524"></script>
+<script src="js/projects.js?v=202610161530"></script>
 </body>
 </html>

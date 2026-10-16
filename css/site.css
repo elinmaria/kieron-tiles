@@ -263,3 +263,6 @@ body.is-leaving>main,body.is-leaving>.stage{opacity:0;transform:translateY(-10px
 /* cards sliding out: keep their labels and captions back until they land */
 .card .labels,.card .caption{transition:opacity .7s ease}
 .card.sliding .labels,.card.sliding .caption{opacity:0}
+
+/* second tile: part of the gallery, parked just past the right edge until you scroll */
+.track>.tile.in-track{position:absolute;z-index:-1;left:max(calc(1763 * var(--gp)), calc(100vw + 24px));top:calc(465 * var(--gp));width:calc(292 * var(--gp));opacity:1;transform:none}
