@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
 <link rel="icon" type="image/svg+xml" href="img/brand-tile.svg">
-<link rel="stylesheet" href="css/site.css?v=202610161709">
+<link rel="stylesheet" href="css/site.css?v=202610161711">
 </head>
 <body data-page="contact">
 <div class="wrap">
@@ -26,14 +26,58 @@
 </div>
 <main class="page page-contact">
   <h1 class="page-title"><span class="line"><span>Get in</span></span><span class="line"><span>touch</span></span></h1>
+  <div class="contact-side">
   <dl class="contact-list">
     <div><dt>Email</dt><dd>Email@email.com <button class="copy" type="button" data-copy="Email@email.com">Copy</button></dd></div>
     <div><dt>Instagram</dt><dd><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram handle</a></dd></div>
-    <div><dt>Studio</dt><dd>London, working city-wide</dd></div>
   </dl>
+
+  <!-- Enquiry form: handled by Netlify Forms (emails each enquiry to Kieron once notifications are switched on in Netlify) -->
+  <form class="enquiry" id="enquiry" name="enquiry" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
+    <input type="hidden" name="form-name" value="enquiry">
+    <input type="hidden" name="subject" value="New tiling enquiry from the website">
+    <p class="hp" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+    <h2 class="enquiry-title">Ask for a quote</h2>
+
+    <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+    <div class="row">
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="f-phone">Phone <span class="opt">optional</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
+    </div>
+    <div class="field"><label for="f-area">Postcode or area</label><input id="f-area" name="area" autocomplete="postal-code" placeholder="e.g. NW3 or Hampstead"></div>
+
+    <fieldset class="field kinds">
+      <legend>Type of job</legend>
+      <div class="chips">
+        <label><input type="radio" name="job" value="Garden path" checked><span>Garden path</span></label>
+        <label><input type="radio" name="job" value="Hallway"><span>Hallway</span></label>
+        <label><input type="radio" name="job" value="Bathroom"><span>Bathroom</span></label>
+        <label><input type="radio" name="job" value="Kitchen"><span>Kitchen</span></label>
+        <label><input type="radio" name="job" value="Other"><span>Other</span></label>
+      </div>
+    </fieldset>
+
+    <div class="field"><label for="f-msg">About the job</label><textarea id="f-msg" name="message" rows="3" placeholder="Rough size, what's there now, when you'd like it done" required></textarea></div>
+
+    <div class="field photos">
+      <span class="label">Photos <span class="opt">optional, up to 3</span></span>
+      <input type="file" name="photo-1" accept="image/*" hidden>
+      <input type="file" name="photo-2" accept="image/*" hidden>
+      <input type="file" name="photo-3" accept="image/*" hidden>
+      <div class="photo-list" id="photo-list"></div>
+      <button type="button" class="add-photo" id="add-photo">+ Add a photo</button>
+    </div>
+
+    <div class="send-row">
+      <button type="submit" class="send nav-like" id="send"><span>Send enquiry</span></button>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </div>
+  </form>
+  </div>
   <img class="page-tile contact-tile" src="img/contact-tile.svg" alt="">
 </main>
 <footer><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
-<script src="js/site.js?v=202610161709"></script>
+<script src="js/enquiry.js?v=202610161711"></script>
+<script src="js/site.js?v=202610161711"></script>
 </body>
 </html>

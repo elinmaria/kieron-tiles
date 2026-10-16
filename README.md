@@ -31,3 +31,15 @@ projects written in `index.html` are shown instead.
 
 After changing `css/site.css` or anything in `js/`, bump the `?v=` number on those links in all three pages so
 browsers load the new files straight away (GitHub Pages lets browsers keep them for up to 10 minutes).
+
+## Enquiry form (Netlify)
+
+The form on `contact.html` uses Netlify Forms, so it only sends once the site is hosted on Netlify.
+
+1. Deploy the site on Netlify. The form is picked up automatically (Forms → enable form detection if asked).
+2. In Netlify: Project configuration → Notifications → Emails and webhooks → Form submission notifications →
+   add Kieron's email. Each enquiry then arrives by email, with any photos as links.
+3. Spam is filtered with a hidden honeypot field; Netlify also flags spam itself.
+
+Up to 3 photos per enquiry. Large phone photos are shrunk in the browser before sending, to stay under
+Netlify's 8 MB limit per enquiry. On other hosts the form shows a "didn't send, please email" message.
