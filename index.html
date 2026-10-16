@@ -7,7 +7,7 @@
 <title>Kieron Tiles</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
 @font-face{font-family:"PP Editorial New";src:url("fonts/PPEditorialNew-Ultralight.otf") format("opentype");font-weight:200;font-style:normal;font-display:swap}
@@ -17,17 +17,17 @@
 .ph-before{background-image:url("img/before.webp")}
 /* Layout: cream architectural grid, editorial top bar, one draggable row of project cards with before/after sliders, quiet about + contact below. */
 :root{
-  --linen:#F4F1EA;
+  --linen:#F4EFE3;
   --grid:rgba(60,45,30,.055);
-  --ink:#1A1A1A;
-  --ink-soft:#4A453F;
+  --ink:#2E2E2E;
+  --ink-soft:#2E2E2E;
   --muted:#7A736A;
   --terracotta:#8B261D;
   --tile-frame:#1E1B19;
   --card-shadow:rgba(40,25,10,.28);
   --line:#D8D2C5;
   --serif:"PP Editorial New","Cormorant Garamond",Georgia,"Times New Roman",serif;
-  --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   --ease:cubic-bezier(.25,1,.5,1);
   color-scheme:light;
 }
@@ -46,18 +46,19 @@ body{
   background-size:cover;background-position:center top;background-attachment:fixed;background-repeat:no-repeat;
   overflow-x:hidden;-webkit-font-smoothing:antialiased;
 }
-.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px),3.48vw);padding-right:max(16px,env(safe-area-inset-right,0px),5.15vw)}
 a{color:inherit;text-decoration:none}
 a:focus-visible,button:focus-visible,.handle:focus-visible{outline:1.5px solid var(--terracotta);outline-offset:4px}
 
 /* Header */
-header{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:24px;padding-block:28px 0;position:relative;z-index:5}
-.brand{font-size:clamp(30px,3.1vw,48px);line-height:1;letter-spacing:-.005em;font-weight:200;margin:0;text-transform:uppercase}
-nav{display:flex;gap:clamp(16px,2vw,30px);font-size:clamp(17px,1.45vw,23px);padding-top:4px}
+header{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:24px;padding-block:clamp(18px,1.53vw,28px) 0;position:relative;z-index:5}
+.brand{font-size:clamp(28px,2.315vw,46px);line-height:1.2;letter-spacing:-.005em;font-weight:200;margin:0;text-transform:uppercase}
+nav{display:flex;gap:clamp(16px,1.3vw,26px);font-size:clamp(16px,1.273vw,25px);padding-top:0}
+nav a:nth-child(4){margin-left:clamp(4px,.55vw,12px)}
 nav a{position:relative;color:var(--ink)}
 nav a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .6s var(--ease)}
 nav a:hover::after{transform:scaleX(1);transform-origin:left}
-.coords{justify-self:end;font-size:clamp(17px,1.45vw,23px);padding-top:18px;white-space:nowrap;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.coords{justify-self:end;font-size:clamp(16px,1.273vw,25px);padding-top:clamp(10px,.955vw,18px);white-space:nowrap;text-transform:uppercase;font-variant-numeric:tabular-nums}
 .coords>span{margin-right:.5em}
 
 /* reveal: starts visible-ish, settles in */
@@ -66,9 +67,9 @@ nav a:hover::after{transform:scaleX(1);transform-origin:left}
 @keyframes rise{from{transform:translateY(60%);opacity:.15}to{transform:none;opacity:1}}
 
 /* Gallery */
-.stage{position:relative;padding-block:clamp(90px,14vh,170px) 120px;overflow:hidden;cursor:none}
+.stage{position:relative;padding-block:clamp(90px,12.6vw,240px) 120px;overflow:hidden;cursor:none}
 .track{display:flex;gap:36px;padding-left:28vw;width:max-content;will-change:transform;touch-action:pan-y}
-.card{position:relative;flex:0 0 auto;width:clamp(280px,42vw,730px);animation:up 1.2s var(--ease) both}
+.card{position:relative;flex:0 0 auto;width:clamp(280px,42.22vw,780px);container-type:inline-size;animation:up 1.2s var(--ease) both}
 .card:nth-child(2){animation-delay:.12s}.card:nth-child(3){animation-delay:.24s}.card:nth-child(4){animation-delay:.36s}
 @keyframes up{from{transform:translateY(28px);opacity:.2}to{transform:none;opacity:1}}
 .frame{position:relative;aspect-ratio:730/541;max-width:100%;overflow:hidden;background:#111;
@@ -81,18 +82,13 @@ nav a:hover::after{transform:scaleX(1);transform-origin:left}
 .handle{position:absolute;top:50%;left:var(--pos,37%);width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;
   border:2px solid #fff;background:transparent;cursor:ew-resize;padding:0;transition:transform .5s var(--ease)}
 .handle:hover{transform:scale(1.12)}
-.caption{margin-top:14px;font-size:clamp(15px,1.15vw,18px);text-transform:uppercase;letter-spacing:.01em;color:var(--ink-soft);display:flex;justify-content:space-between}
-.caption em{font-style:normal;color:var(--muted)}
+.caption{margin-top:11px;font-size:clamp(13px,.868vw,17px);text-transform:uppercase;color:var(--ink-soft);display:flex}
 
 /* loose red tiles */
-.tile{position:absolute;width:clamp(120px,12.5vw,220px);aspect-ratio:1;background:var(--tile-frame);padding:clamp(7px,.7vw,12px);
-  box-shadow:0 10px 20px -8px var(--card-shadow);z-index:-1;transition:transform 1.2s var(--ease)}
-.tile::before{content:"";display:block;width:100%;height:100%;background:linear-gradient(140deg,#9E1E22,#7C1218 70%,#6A0F14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 -8px 14px rgba(0,0,0,.25)}
-.tile.a{left:-40px;top:-42px;transform:rotate(-2.5deg)}
-.tile.b{right:clamp(20px,6vw,140px);bottom:-48px;transform:rotate(-13deg);width:clamp(110px,11vw,190px)}
-.card:hover .tile.a{transform:rotate(-5deg) translate(-6px,-6px)}
+.tile{position:absolute;z-index:-1;pointer-events:none;background:center/contain no-repeat;transition:transform 1.2s var(--ease)}
+.tile.a{background-image:url("img/red-tile-a.png");left:-12.75cqw;top:-7.58cqw;width:46.06cqw;aspect-ratio:336/259}
+.tile.b{background-image:url("img/red-tile-b.png");left:17cqw;top:40.05cqw;width:51.68cqw;aspect-ratio:377/323}
 
-.hint{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:48px;font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
 /* cursor */
 .cursor{position:fixed;left:0;top:0;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;border:1px solid var(--ink);
@@ -114,8 +110,9 @@ nav a:hover::after{transform:scaleX(1);transform-origin:left}
 
 footer{position:fixed;left:0;right:0;bottom:0;z-index:6;border-top:1px solid var(--line);background:var(--linen);
   padding:5px max(16px,env(safe-area-inset-right,0px)) calc(5px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
-  display:flex;justify-content:flex-end;font-family:var(--sans);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
-footer span::before{content:"♡";margin-right:4px}
+  display:flex;justify-content:flex-end;font-family:var(--sans);font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:#3B3B3B}
+footer span{display:flex;align-items:center;gap:2px}
+footer img{width:13px;height:13px}
 
 @media (max-width:820px){
   header{grid-template-columns:1fr;gap:10px}
@@ -124,7 +121,6 @@ footer span::before{content:"♡";margin-right:4px}
   .stage{cursor:auto;padding-block:70px 100px}
   .track{padding-left:6vw}
   .card{width:min(82vw,520px)}
-  .tile.a{left:-18px;top:-22px}
   .info{grid-template-columns:1fr}
   .info h2,.info .body,.info .side{grid-column:1/-1}
   .cursor{display:none}
@@ -153,15 +149,12 @@ nav a::after{display:none}
 .card:hover .frame .ph{transform:scale(1.035)}
 .card.unfold{transition:transform 1.25s var(--ease-io),opacity .5s ease}
 .is-intro .card{opacity:0}
-.is-intro .hint{opacity:0}
-.hint{transition:opacity 1.2s ease 1s}
 .caption{overflow:hidden}
 
 /* drifting tiles */
 .tile{transform:rotate(var(--r));animation:drift 11s ease-in-out infinite}
-.tile.a{--r:-2.5deg;transform:rotate(var(--r))}
-.tile.b{--r:-13deg;transform:rotate(var(--r));animation-duration:13s;animation-delay:-4s}
-.card:hover .tile.a{transform:rotate(var(--r))}
+.tile.a{--r:0deg}
+.tile.b{--r:0deg;animation-duration:13s;animation-delay:-4s}
 @keyframes drift{0%,100%{transform:rotate(var(--r)) translate(0,0)}50%{transform:rotate(calc(var(--r) - 2deg)) translate(-5px,-7px)}}
 
 /* intro frame */
@@ -202,7 +195,7 @@ nav a::after{display:none}
   .detail .stage-img{order:-1}
   .detail .copy-col{padding-left:0}
 }
-@media (prefers-reduced-motion:reduce){.intro{display:none}.is-intro .card,.is-intro .hint{opacity:1}}
+@media (prefers-reduced-motion:reduce){.intro{display:none}.is-intro .card{opacity:1}}
 </style>
 </head>
 <body>
@@ -228,7 +221,7 @@ nav a::after{display:none}
         <div class="divider"></div>
         <button class="handle" type="button" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="37"></button>
       </div>
-      <div class="caption">Hampstead 2026.<em>Garden path</em></div>
+      <div class="caption" data-type="Garden path">Hampstead 2026.</div>
     </article>
 <article class="card"><div class="tile b"></div>
       <div class="frame" aria-label="Open project">
@@ -237,7 +230,7 @@ nav a::after{display:none}
         <div class="divider"></div>
         <button class="handle" type="button" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="37"></button>
       </div>
-      <div class="caption">Hampstead 2026.<em>Garden path</em></div>
+      <div class="caption" data-type="Garden path">Hampstead 2026.</div>
     </article>
 <article class="card"><div class="tile a"></div>
       <div class="frame" aria-label="Open project">
@@ -246,7 +239,7 @@ nav a::after{display:none}
         <div class="divider"></div>
         <button class="handle" type="button" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="37"></button>
       </div>
-      <div class="caption">Hampstead 2026.<em>Garden path</em></div>
+      <div class="caption" data-type="Garden path">Hampstead 2026.</div>
     </article>
 <article class="card"><div class="tile b"></div>
       <div class="frame" aria-label="Open project">
@@ -255,10 +248,9 @@ nav a::after{display:none}
         <div class="divider"></div>
         <button class="handle" type="button" role="slider" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="37"></button>
       </div>
-      <div class="caption">Hampstead 2026.<em>Garden path</em></div>
+      <div class="caption" data-type="Garden path">Hampstead 2026.</div>
     </article>
   </div>
-  <div class="hint">Drag to browse · Pull the circle to compare · Click to open</div>
 </section>
 
 <section class="info" id="about">
@@ -286,7 +278,7 @@ nav a::after{display:none}
   <div class="ph ph-before"></div><div class="ph ph-after"></div><div class="ph ph-before"></div><div class="ph ph-after"></div>
 </div>
 
-<footer><span>Made by ElinLondon</span></footer>
+<footer><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
 <div class="cursor" id="cursor" aria-hidden="true">Drag</div>
 
 <script>
@@ -307,9 +299,9 @@ nav a::after{display:none}
   };
   document.querySelectorAll('[data-roll]').forEach(el=>rollify(el,!!el.dataset.d));
   document.querySelectorAll('.caption').forEach(c=>{
-    const em=c.querySelector('em');const txt=c.firstChild.textContent.trim();
+    const txt=c.firstChild.textContent.trim();
     c.firstChild.remove();const s=document.createElement('span');s.textContent=txt;c.prepend(s);
-    rollify(s,false);rollify(em,false);
+    rollify(s,false);
   });
 
   /* ---- before / after sliders ---- */
@@ -417,7 +409,7 @@ nav a::after{display:none}
     dImg.innerHTML='';dImg.append(clone);bindSlider(clone);
     const [l1,...rest]=card.querySelector('.caption > span .roll > span').textContent.split(' ');
     document.getElementById('d-l1').textContent=l1;document.getElementById('d-l2').textContent=rest.join(' ')||'';
-    document.getElementById('d-type').textContent=card.querySelector('.caption em .roll > span').textContent;
+    document.getElementById('d-type').textContent=card.querySelector('.caption').dataset.type;
     detail.setAttribute('aria-hidden','false');
     const from=src.getBoundingClientRect();openFrom=src;
     detail.classList.add('open');
