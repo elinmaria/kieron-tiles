@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-<link rel="stylesheet" href="css/site.css?v=202610161500">
+<link rel="stylesheet" href="css/site.css?v=202610161501">
 <script>
   /* Projects come from this Google Sheet (share it as "Anyone with the link: Viewer").
      Paste the sheet's link between the quotes. Leave it empty to use the projects written below. */
@@ -93,7 +93,7 @@
 </div>
 
 <footer><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
-<script src="js/site.js?v=202610161500"></script>
+<script src="js/site.js?v=202610161501"></script>
 <div class="cursor" id="cursor" aria-hidden="true">Drag</div>
 
 <script>
@@ -194,7 +194,11 @@ window.KT.startHome=()=>{
   function tick(){
     x+=(target-x)*(reduce?1:.075);
     track.style.transform=`translate3d(${x.toFixed(2)}px,0,0)`;
-    // while the gallery moves, photos glide inside their frames (the tiles stay put)
+    // while the gallery moves, photos glide inside their frames; the tiles only nudge a few pixels and settle
+    const nudge=Math.max(-6,Math.min(6,(x-target)*.035));
+    if(Math.abs(nudge)>.02||fixedTiles.moving){fixedTiles.forEach((el,i)=>{const k=i?.7:1;
+      el.style.translate=(nudge*k).toFixed(2)+'px 0';el.style.rotate=(nudge*k*.18).toFixed(2)+'deg';});
+      fixedTiles.moving=Math.abs(nudge)>.02;}
     if(Math.abs(x-lastPX)>.05||!lastPX){lastPX=x;const mid=innerWidth/2;
       photoFrames.forEach(f=>{const r=f.getBoundingClientRect();const d=(r.left+r.width/2-mid)/innerWidth;
         const off=Math.max(-5,Math.min(5,-d*7));f.querySelectorAll('.ph').forEach(p=>p.style.translate=off.toFixed(2)+'% 0');});}
@@ -287,6 +291,6 @@ window.KT.startHome=()=>{
 
 };
 </script>
-<script src="js/projects.js?v=202610161500"></script>
+<script src="js/projects.js?v=202610161501"></script>
 </body>
 </html>
