@@ -104,10 +104,15 @@ window.KT.startHome=()=>{
   const cards=[...document.querySelectorAll('.card')];
 
   const rollify=window.KT.rollify;
-  document.querySelectorAll('.caption').forEach(c=>{
-    const txt=c.firstChild.textContent.trim();
-    c.firstChild.remove();const s=document.createElement('span');s.textContent=txt;c.prepend(s);
-    rollify(s,false);
+  /* ---- project line under each card: title, type, 01 / 04 ---- */
+  const pad=n=>String(n).padStart(2,'0');
+  cards.forEach((card,i)=>{
+    const c=card.querySelector('.caption'); const txt=c.textContent.trim(); c.textContent='';
+    const s=document.createElement('span');s.className='cap-title';s.textContent=txt;
+    const ty=document.createElement('span');ty.className='cap-type';ty.textContent=card.dataset.type||'';
+    const n=document.createElement('span');n.className='cap-num';n.textContent=pad(i+1)+' / '+pad(cards.length);
+    c.append(s,ty,n);rollify(s,false);
+    card.style.setProperty('--pos','37%');
   });
 
   /* ---- before / after sliders ---- */
@@ -116,7 +121,7 @@ window.KT.startHome=()=>{
     const h=frame.querySelector('.handle');
     if(!h)return;
     const setPos=x=>{const r=frame.getBoundingClientRect();const p=Math.max(0,Math.min(100,(x-r.left)/r.width*100));
-      frame.style.setProperty('--pos',p+'%');h.setAttribute('aria-valuenow',Math.round(p));};
+      frame.style.setProperty('--pos',p+'%');const cd=frame.closest('.card');if(cd)cd.style.setProperty('--pos',p+'%');h.setAttribute('aria-valuenow',Math.round(p));};
     h.addEventListener('pointerdown',e=>{e.stopPropagation();sliding=frame;h.setPointerCapture(e.pointerId);cur.classList.add('slide')});
     h.addEventListener('pointermove',e=>{if(sliding===frame)setPos(e.clientX)});
     const end=()=>{sliding=null;cur.classList.remove('slide')};
@@ -125,7 +130,7 @@ window.KT.startHome=()=>{
     h.addEventListener('keydown',e=>{
       const v=parseFloat(frame.style.getPropertyValue('--pos'))||37;
       const step=e.key==='ArrowLeft'?-4:e.key==='ArrowRight'?4:0;
-      if(step){e.preventDefault();const n=Math.max(0,Math.min(100,v+step));frame.style.setProperty('--pos',n+'%');h.setAttribute('aria-valuenow',Math.round(n))}
+      if(step){e.preventDefault();const n=Math.max(0,Math.min(100,v+step));frame.style.setProperty('--pos',n+'%');const cd=frame.closest('.card');if(cd)cd.style.setProperty('--pos',n+'%');h.setAttribute('aria-valuenow',Math.round(n))}
     });
   }
   document.querySelectorAll('.card .frame').forEach(bindSlider);
