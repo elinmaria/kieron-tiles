@@ -163,6 +163,14 @@ nav a::after{display:none}
 @keyframes wipe{to{clip-path:inset(0 0 0 0)}}
 .intro.fly{transition:left 1.1s var(--ease-io),top 1.1s var(--ease-io),width 1.1s var(--ease-io),transform 1.1s var(--ease-io)}
 .intro.gone{opacity:0;transition:opacity .35s ease}
+.intro.wait{opacity:0;transform:translate(-50%,-50%) scale(.82)}
+.intro:not(.fly){transition:width 1.8s var(--ease-io),opacity .8s var(--ease-out),transform 1s var(--ease-out)}
+.intro-tile{position:fixed;left:50%;top:50%;width:clamp(140px,13vw,240px);aspect-ratio:243/242;transform:translate(-50%,-50%);z-index:39;
+  animation:tilein 1.3s var(--ease-out) backwards;transition:transform 1.1s var(--ease-io)}
+@keyframes tilein{from{opacity:0;transform:translate(-50%,-50%) rotate(-90deg) scale(.55)}}
+.intro-tile.aside{transform:translate(calc(-50% - clamp(80px,8vw,140px)),-56%)}
+.intro-tile.fly{transition:left 1.1s var(--ease-io),top 1.1s var(--ease-io),width 1.1s var(--ease-io),transform 1.1s var(--ease-io)}
+.intro-tile.gone{opacity:0;transition:opacity .4s ease}
 
 /* project view */
 .detail{position:fixed;inset:0;z-index:30;background:var(--linen);
@@ -192,7 +200,7 @@ nav a::after{display:none}
   .detail .stage-img{order:-1}
   .detail .copy-col{padding-left:0}
 }
-@media (prefers-reduced-motion:reduce){.intro{display:none}.is-intro .card{opacity:1}}
+@media (prefers-reduced-motion:reduce){.intro,.intro-tile{display:none}.is-intro .card{opacity:1}}
 
 /* ---------- navigation: hand-drawn underline ---------- */
 .nav-link{position:relative;display:inline-block}
