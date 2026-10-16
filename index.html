@@ -157,8 +157,14 @@ window.KT.startHome=()=>{
     if(moved<6&&downCard){target=Math.max(mn,Math.min(mx,target));openCard(downCard);return}
     target=Math.max(mn,Math.min(mx,target+vel*420));};
   stage.addEventListener('pointerup',release);stage.addEventListener('pointercancel',()=>{dragging=false;cur.classList.remove('down')});
-  stage.addEventListener('wheel',e=>{
-    if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){e.preventDefault();const [mn,mx]=bounds();target=Math.max(mn,Math.min(mx,target-e.deltaX));}
+  /* mouse wheel / trackpad anywhere on the page moves the gallery sideways */
+  addEventListener('wheel',e=>{
+    if(detail.classList.contains('open')||document.body.classList.contains('is-intro'))return;
+    if(e.ctrlKey)return; // pinch-zoom
+    e.preventDefault();
+    const unit=e.deltaMode===1?32:e.deltaMode===2?innerHeight:1;
+    const d=(Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY)*unit;
+    const [mn,mx]=bounds();target=Math.max(mn,Math.min(mx,target-d*1.1));
   },{passive:false});
   addEventListener('resize',()=>{const [mn,mx]=bounds();target=Math.max(mn,Math.min(mx,target))});
   cards.forEach(c=>{c.querySelector('.frame').tabIndex=0;c.querySelector('.frame').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target===e.currentTarget)openCard(c)})});
