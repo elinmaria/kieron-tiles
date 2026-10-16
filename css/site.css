@@ -38,7 +38,7 @@ body{
 /* Design unit: 1 Figma px of the 1728 x 1117 HOMEPAGE frame, scaled by whichever of width or height is tighter */
 :root{--dp:min(100vw / 1728, 100vh / 1117);
   --w:calc(100vw / 1728);                                          /* header: follows the screen width only */
-  --gp:min(calc(100vw / 1728), calc((100vh - 150px) / 753))  /* gallery: as large as the width allows, while the cards and bottom tile still fit the height */
+  --gp:min(calc(100vw / 1728), calc((100vh - 190px) / 600))  /* gallery: as large as the width allows, while the cards and captions still fit the height */
 }
 .wrap{padding-left:max(16px,env(safe-area-inset-left,0px),calc(60 * var(--w)));padding-right:max(16px,env(safe-area-inset-right,0px),calc(89 * var(--w)))}
 a{color:inherit;text-decoration:none}
@@ -62,7 +62,7 @@ nav a:hover::after{transform:scaleX(1);transform-origin:left}
 @keyframes rise{from{transform:translateY(60%);opacity:.15}to{transform:none;opacity:1}}
 
 /* Gallery */
-.stage{position:absolute;top:0;left:0;right:0;height:100vh;box-sizing:border-box;padding-block:max(116px,min(310 * var(--gp), 100vh - 26px - 760 * var(--gp))) 0;overflow:hidden;cursor:none}   /* cards start 310 design px from the top */
+.stage{position:absolute;top:0;left:0;right:0;height:100vh;box-sizing:border-box;padding-block:max(130px,min(310 * var(--gp), 100vh - 44px - 600 * var(--gp))) 0;overflow:hidden;cursor:none}   /* cards start 310 design px from the top */
 .track{display:flex;gap:calc(36.6 * var(--gp));padding-left:calc(485 * var(--gp));width:max-content;will-change:transform;touch-action:pan-y}
 .card{position:relative;flex:0 0 auto;width:calc(729.5 * var(--gp));container-type:inline-size;animation:up 1.2s var(--ease) both}
 .card:nth-child(2){animation-delay:.12s}.card:nth-child(3){animation-delay:.24s}.card:nth-child(4){animation-delay:.36s}
