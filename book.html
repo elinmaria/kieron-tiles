@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Book a free home visit from Victorian Tiling in London.">
+<title>Book a visit — Victorian Tiling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+<link rel="icon" type="image/svg+xml" href="img/brand-tile.svg">
+<link rel="stylesheet" href="css/site.css?v=202611031440">
+<script>
+  /* Free home visits are booked through Cal.com. Paste the event's link (the part after cal.com/) between the quotes.
+     Test account for now; swap for Kieron's own event when he has one. */
+  window.KT_BOOKING = "elin-test-01/30min";
+</script>
+</head>
+<body data-page="book">
+<div class="wrap">
+  <header class="header-min">
+    <a class="brand" href="index.html" aria-label="Victorian Tiling, home"><span data-roll data-d="0.15">Victorian Tiling</span><img class="brand-tile" src="img/brand-tile.svg" alt=""></a>
+    <a class="back" id="back" href="index.html"><span class="back-arrow" aria-hidden="true">←</span> <span data-roll data-d="0.4">Back</span></a>
+  </header>
+</div>
+<main class="page page-book">
+  <section class="booking booking-page" aria-labelledby="book-title">
+    <div class="booking-intro">
+      <h1 class="booking-title" id="book-title"><span class="line"><span>Book a free</span></span><span class="line"><span>home visit</span></span></h1>
+      <p>Every job starts with a visit. Kieron comes to see the space, measures up and talks you through the options. It's free, and there's no obligation.</p>
+      <ol class="booking-steps">
+        <li><span>01</span>Pick a time that suits you</li>
+        <li><span>02</span>Tell us a little about the job</li>
+        <li><span>03</span>Kieron visits, then sends a quote</li>
+      </ol>
+    </div>
+    <div class="booking-cal">
+      <div id="cal-inline" class="cal-inline"><p class="cal-loading">Loading available times…</p></div>
+      <a class="cal-fallback" id="cal-fallback" target="_blank" rel="noopener">Open the calendar in a new tab</a>
+    </div>
+  </section>
+  <img class="page-tile book-tile" src="img/geometric-tile.svg" alt="">
+</main>
+<footer><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
+<script src="js/booking.js?v=202611031440"></script>
+<script>
+  // Back: return to the page you came from on this site, otherwise home
+  document.getElementById('back').addEventListener('click', e => {
+    try { if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) { e.preventDefault(); history.back(); } } catch (err) {}
+  });
+</script>
+<script src="js/site.js?v=202611031440"></script>
+</body>
+</html>

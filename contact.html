@@ -9,12 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
 <link rel="icon" type="image/svg+xml" href="img/brand-tile.svg">
-<link rel="stylesheet" href="css/site.css?v=202611031357">
-<script>
-  /* Free home visits are booked through Cal.com. Paste the event's link (the part after cal.com/) between the quotes.
-     Test account for now; swap for Kieron's own event when he has one. */
-  window.KT_BOOKING = "elin-test-01/30min";
-</script>
+<link rel="stylesheet" href="css/site.css?v=202611031440">
 </head>
 <body data-page="contact">
 <div class="wrap">
@@ -36,23 +31,9 @@
     <div><dt>Email</dt><dd>Email@email.com <button class="copy" type="button" data-copy="Email@email.com">Copy</button></dd></div>
     <div><dt>Instagram</dt><dd><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram handle</a></dd></div>
   </dl>
+  <p class="book-pointer">Want Kieron to come and see the space? <a class="text-cta" href="book.html">Book a free visit</a></p>
   </div>
 
-  <section class="booking" id="book" aria-labelledby="book-title">
-    <div class="booking-intro">
-      <h2 class="booking-title" id="book-title">Book a free<br>home visit</h2>
-      <p>Every job starts with a visit. Kieron comes to see the space, measures up and talks you through the options. It's free, and there's no obligation.</p>
-      <ol class="booking-steps">
-        <li><span>01</span>Pick a time that suits you</li>
-        <li><span>02</span>Tell us a little about the job</li>
-        <li><span>03</span>Kieron visits, then sends a quote</li>
-      </ol>
-    </div>
-    <div class="booking-cal">
-      <div id="cal-inline" class="cal-inline"><p class="cal-loading">Loading available times…</p></div>
-      <a class="cal-fallback" id="cal-fallback" target="_blank" rel="noopener">Open the calendar in a new tab</a>
-    </div>
-  </section>
 
   <div class="contact-side message-side">
   <!-- Enquiry form: handled by Netlify Forms (emails each enquiry to Kieron once notifications are switched on in Netlify) -->
@@ -99,9 +80,8 @@
   </div>
   <img class="page-tile contact-tile" src="img/contact-tile.svg" alt="">
 </main>
-<footer><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
-<script src="js/booking.js?v=202611031357"></script>
-<script src="js/enquiry.js?v=202611031357"></script>
-<script src="js/site.js?v=202611031357"></script>
+<footer><a class="foot-cta" href="book.html">Book a free visit</a><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
+<script src="js/enquiry.js?v=202611031440"></script>
+<script src="js/site.js?v=202611031440"></script>
 </body>
 </html>
