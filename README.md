@@ -1,6 +1,6 @@
-# Kieron’s Tiling
+# Victorian Tiling
 
-Portfolio site for Kieron’s Tiling, a tiling studio in London.
+Portfolio site for Victorian Tiling, a tiling studio in London.
 
 Three static pages — `index.html` (projects), `about.html` and `contact.html` — sharing `css/site.css` and `js/site.js`. Fonts are in `fonts/`, photos and tile graphics in `img/`. No build step: GitHub Pages serves it as it is.
 
