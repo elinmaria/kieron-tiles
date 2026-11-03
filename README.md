@@ -43,3 +43,13 @@ The form on `contact.html` uses Netlify Forms, so it only sends once the site is
 
 Up to 3 photos per enquiry. Large phone photos are shrunk in the browser before sending, to stay under
 Netlify's 8 MB limit per enquiry. On other hosts the form shows a "didn't send, please email" message.
+
+## Free home visit booking (Cal.com)
+
+The Contact page embeds a Cal.com booking calendar for free home visits. The event is set near the top of
+`contact.html`:
+
+    window.KT_BOOKING = "elin-test-01/30min";
+
+Replace it with Kieron's own event link (the part after `cal.com/`) when his account is ready. Visit length,
+availability, travel buffers, booking questions and reminder emails are all set in Cal.com, not in the site.
