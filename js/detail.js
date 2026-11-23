@@ -111,7 +111,7 @@
         dImg.getBoundingClientRect();
         dImg.classList.add('flip'); dImg.style.transform = '';
       }
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'; document.body.classList.add('detail-open');
       setTimeout(() => $('d-close').focus({ preventScroll: true }), 300);
     },
     close() {
@@ -122,7 +122,7 @@
         dImg.classList.add('flip');
         dImg.style.transform = `translate(${from.left - to.left}px,${from.top - to.top}px) scale(${from.width / to.width})`;
       }
-      d.classList.remove('open'); d.setAttribute('aria-hidden', 'true'); document.body.style.overflow = '';
+      d.classList.remove('open'); d.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; document.body.classList.remove('detail-open');
       setTimeout(() => { if (d.classList.contains('open')) return; dImg.innerHTML = ''; dImg.style.transform = ''; dImg.classList.remove('flip'); }, 950);
       if (openFrom && openFrom.isConnected) openFrom.focus({ preventScroll: true });
       const cb = onClose; onClose = null; if (cb) cb();

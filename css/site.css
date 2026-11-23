@@ -429,3 +429,12 @@ footer{justify-content:space-between;align-items:center}
 @media (max-width:1100px){.pgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:820px){.pgrid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:64px}.pcard.shape-l{--cw:88%}.pcard.shape-s{--cw:76%}.pcard.shape-p{--cw:68%}.projects-page{padding-top:40px}}
 @media (max-width:820px){.filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}.filters::-webkit-scrollbar{display:none}.filter{flex:none}.pcard .caption{font-size:12px}.pcard .cap-type{display:inline}}
+
+/* project view keeps the site header on top; Close sits just under it */
+body.detail-open header{z-index:31}
+.detail{padding-top:max(130px,calc(env(safe-area-inset-top,0px) + 130px))}
+.detail .back-note{display:none}
+.detail .close{top:max(104px,calc(env(safe-area-inset-top,0px) + 104px));right:max(16px,env(safe-area-inset-right,0px),calc(89 * var(--w)))}
+@media (max-width:820px){.detail{padding-top:max(190px,calc(env(safe-area-inset-top,0px) + 190px))}.detail .close{top:150px}}
+.detail{padding-left:max(16px,env(safe-area-inset-left,0px),calc(60 * var(--w)));padding-right:max(16px,env(safe-area-inset-right,0px),calc(89 * var(--w)))}
+.detail .copy-col{padding-left:0}
