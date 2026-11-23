@@ -72,3 +72,9 @@ There's no separate booking calendar. "Book a free visit" links go to the enquir
 **When can Kieron pop round?** with Mon to Fri of this week (next week from Thursday onwards), plus "Next week" and
 "Any day's good". The choice arrives with the enquiry as `visit-day`, e.g. "Tuesday 24 November", and Kieron confirms
 the time. `book.html` only forwards old links to the form.
+
+## Privacy and Terms
+`privacy.html` and `terms.html` are linked from the footer on every page. Before launch, fill in the highlighted
+placeholders (Kieron's full name, business address, phone, VAT number or remove that line, hosting company, how long
+enquiries are kept) and remove the `todo` highlight. Fonts (PP Editorial New and Inter) are served from `fonts/`, so no
+visitor data goes to Google Fonts.
