@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Projects by Victorian Tiling: Victorian paths, hallways, porches and restorations across London.">
+<title>Projects — Victorian Tiling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+<link rel="icon" type="image/svg+xml" href="img/brand-tile.svg">
+<link rel="stylesheet" href="css/site.css?v=202611231500">
+<script src="js/config.js?v=202611231500"></script>
+</head>
+<body data-page="projects" class="is-loading">
+<div class="wrap">
+  <header>
+    <a class="brand" href="index.html"><span data-roll data-d="0.15">Victorian Tiling</span><img class="brand-tile" src="img/brand-tile.svg" alt=""></a>
+    <nav aria-label="Main">
+      <a class="nav-link" href="mailto:Email@email.com" data-roll data-d="0.35">Email@email.com</a>
+      <a class="nav-link" href="https://instagram.com/" target="_blank" rel="noopener" data-roll data-d="0.45">Instagram handle</a>
+      <a class="nav-link" href="projects.html" data-page="projects" data-roll data-d="0.5">Projects</a>
+      <a class="nav-link" href="about.html" data-page="about" data-roll data-d="0.55">About</a>
+      <a class="nav-link" href="contact.html" data-page="contact" data-roll data-d="0.65">Contact</a>
+    </nav>
+    <div class="coords"><span data-roll data-d="0.8">London</span><span data-roll data-d="0.9">51.5074° N, 0.1278° W</span></div>
+  </header>
+</div>
+
+<main class="projects-page">
+  <div class="pp-head">
+    <h1 class="pp-title"><span class="line"><span>Projects</span></span></h1>
+    <p class="pp-count" id="pp-count" aria-live="polite"></p>
+  </div>
+  <div class="filters" id="filters" role="group" aria-label="Filter projects by type"></div>
+  <div class="pgrid" id="pgrid"></div>
+  <p class="pp-empty" id="pp-empty" hidden>No projects of this type yet.</p>
+</main>
+
+<div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="d-title" aria-hidden="true">
+  <span class="back-note">Victorian Tiling — Project</span>
+  <button class="close" type="button" id="d-close" data-roll>Close</button>
+  <div class="copy-col">
+    <h3 id="d-title"><span class="line"><span id="d-l1"></span></span><span class="line"><span id="d-l2"></span></span></h3>
+    <p id="d-text"></p>
+    <div class="meta"><span>Type</span><b id="d-type" data-row></b><span>Location</span><b id="d-loc" data-row></b><span>Year</span><b id="d-year" data-row></b></div>
+    <a class="text-cta detail-cta" href="book.html">Book a free visit for your space</a>
+  </div>
+  <div class="media-col">
+    <div class="stage-img" id="d-img"></div>
+    <div class="thumbs" id="d-thumbs" hidden></div>
+  </div>
+</div>
+
+<footer><a class="foot-cta" href="book.html">Book a free visit</a><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
+<script src="js/site.js?v=202611231500"></script>
+<script src="js/sheet.js?v=202611231500"></script>
+<script src="js/detail.js?v=202611231500"></script>
+<script src="js/projects-page.js?v=202611231500"></script>
+</body>
+</html>

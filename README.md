@@ -2,7 +2,7 @@
 
 Portfolio site for Victorian Tiling, a tiling studio in London.
 
-Three static pages — `index.html` (projects), `about.html` and `contact.html` — sharing `css/site.css` and `js/site.js`. Fonts are in `fonts/`, photos and tile graphics in `img/`. No build step: GitHub Pages serves it as it is.
+Static pages — `index.html` (home gallery), `projects.html` (all projects in a grid), `about.html`, `contact.html` and `book.html` — sharing `css/site.css` and `js/site.js`. Fonts are in `fonts/`, photos and tile graphics in `img/`. No build step: GitHub Pages serves it as it is.
 
 ## Editing
 
@@ -16,16 +16,25 @@ Made by ElinLondon.
 
 ## Projects from a Google Sheet
 
-The project cards can come from a Google Sheet, so new jobs can be added without touching the code.
+The homepage gallery and the projects page both read the same Google Sheet, so new jobs can be added without
+touching the code. The sheet's link is in `js/config.js`; the sheet must be shared as **Anyone with the link: Viewer**.
 
-1. Import `kieron-tiles-projects.xlsx` into Google Sheets (File → Import), or make a sheet with the headers
-   `Show, Order, Title, Year, Location, Type, Description, Before photo, After photo`.
-2. Share the sheet as **Anyone with the link: Viewer**.
-3. Paste its link into `window.KT_SHEET = "…"` near the top of `index.html`.
+Columns (row 1): `Show, Order, Title, Year, Location, Type, Description, Before photo, After photo, Photo 2, Photo 3, Photo 4`.
+Other columns (such as the photo previews) are ignored.
 
-Photos: upload them to a Google Drive folder shared as *Anyone with the link*, and paste each file's share link
-into the sheet. Rows with `Show = No` stay hidden; `Order` sets the position. If the sheet can't be reached, the
-projects written in `index.html` are shown instead.
+- **Photos:** upload to the shared Google Drive folder and paste each file's share link into the sheet.
+  A single photo goes in *After photo*. Fill *Before photo* too and the project gets the before/after slider.
+  *Photo 2–4* are extra photos of the same job, shown under the main photo in the project view.
+- **Show = No** hides a row; **Order** sets the position on both pages.
+- **Type** becomes the filter buttons on the projects page, so keep the names consistent (e.g. "Hallway", not "Hallways").
+
+If the sheet can't be reached, the homepage shows the projects written in `index.html`.
+
+## Projects page
+
+`projects.html` shows every project in a grid (4 across on a laptop, 2 on a phone) with filter buttons for each Type.
+Clicking a project opens the same project view as the homepage (`js/detail.js`). Each project has its own link
+(`projects.html#green-hallway`) and so does each filter (`projects.html?type=hallway`), so both can be shared.
 
 ## Publishing changes
 

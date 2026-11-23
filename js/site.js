@@ -14,7 +14,7 @@
     const b = document.createElement('span'); b.textContent = t; b.setAttribute('aria-hidden', 'true');
     r.append(a, b); el.append(r);
   };
-  window.KT = { rollify, reduce };
+  window.KT = Object.assign(window.KT || {}, { rollify, reduce });
   document.querySelectorAll('[data-roll]').forEach(el => rollify(el, !!el.dataset.d));
 
   /* ---- hand-drawn underline ---- */
