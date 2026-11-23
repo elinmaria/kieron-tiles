@@ -106,22 +106,29 @@
       .catch(err => { console.warn(`[Victorian Tiler] Using the built-in ${name} text:`, err.message); return null; });
   };
 
+  /* The live sheet first (up to 12 seconds, tried twice). If that fails, the copy from the last visit,
+     then data/projects-backup.csv (a snapshot of the sheet kept with the site). Never just a handful. */
   let pending = null;
+  const CACHE = 'kt-projects-csv';
+  const fromText = text => { if (!text || /^\s*</.test(text)) return null; const l = toProjects(parseCSV(text)); return l.length ? l : null; };
+  const get = (url, ms) => {
+    const ctrl = 'AbortController' in window ? new AbortController() : null;
+    const timer = setTimeout(() => ctrl && ctrl.abort(), ms);
+    return fetch(url, { signal: ctrl ? ctrl.signal : undefined, cache: 'no-store' })
+      .then(r => { if (!r.ok) throw new Error('returned ' + r.status); return r.text(); })
+      .finally(() => clearTimeout(timer));
+  };
   KT.loadProjects = () => {
     if (pending) return pending;
     const SHEET = (window.KT_SHEET || '').trim();
-    if (!SHEET) return (pending = Promise.resolve(null));
-    const ctrl = 'AbortController' in window ? new AbortController() : null;
-    const timer = setTimeout(() => ctrl && ctrl.abort(), 6000);
-    return (pending = fetch(csvUrl(SHEET), { signal: ctrl ? ctrl.signal : undefined, cache: 'no-store' })
-      .then(r => { if (!r.ok) throw new Error('Sheet returned ' + r.status); return r.text(); })
-      .then(text => {
-        if (/^\s*</.test(text)) throw new Error('Sheet is not shared publicly');
-        const list = toProjects(parseCSV(text));
-        return list.length ? list : null;
-      })
-      .catch(err => { console.warn('[Victorian Tiler] Using the built-in projects:', err.message); return null; })
-      .finally(() => clearTimeout(timer)));
+    const live = SHEET ? get(csvUrl(SHEET), 12000).catch(() => get(csvUrl(SHEET), 12000)) : Promise.reject(new Error('no sheet set'));
+    return (pending = live
+      .then(text => { const l = fromText(text); if (!l) throw new Error('Sheet is not shared publicly'); try { localStorage.setItem(CACHE, text); } catch (e) {} return l; })
+      .catch(err => {
+        console.warn('[Victorian Tiler] Sheet not reachable, using the saved copy:', err.message);
+        let saved = null; try { saved = fromText(localStorage.getItem(CACHE)); } catch (e) {}
+        return saved || get('data/projects-backup.csv', 8000).then(fromText).catch(() => null);
+      }));
   };
 
   // Shown if the sheet can't be reached: a few real projects with photos stored in img/projects/.

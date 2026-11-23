@@ -747,3 +747,5 @@ nav a.nav-phone::after{display:none}
   .page-about .work-photos{width:71%;margin:0 auto;column-gap:5px;row-gap:6px}
   .page-about .about-row-2{gap:40px}
 }
+
+@media (max-width:820px){.detail .copy-col .detail-cta{display:none}}

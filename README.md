@@ -78,3 +78,8 @@ the time. `book.html` only forwards old links to the form.
 placeholders (Kieron's full name, business address, phone, VAT number or remove that line, hosting company, how long
 enquiries are kept) and remove the `todo` highlight. Fonts (PP Editorial New and Inter) are served from `fonts/`, so no
 visitor data goes to Google Fonts.
+
+## If the sheet can't be reached
+The site tries the Google Sheet twice (12 seconds each), then uses the copy saved from the visitor's last visit, then
+`data/projects-backup.csv` — a snapshot of the sheet kept with the site. Refresh that file now and then: open the sheet's
+CSV link (`https://docs.google.com/spreadsheets/d/<ID>/gviz/tq?tqx=out:csv&headers=1`), save it over the file.
