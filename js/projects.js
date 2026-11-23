@@ -31,7 +31,7 @@
   };
 
   const HOME_COUNT = 5;   // how many projects the homepage shows before "View all projects"
-  const viewAll = n => `<a class="view-all" href="projects.html"><span class="va-title">View all<br>projects</span><span class="va-count">${n} projects</span><span class="va-arrow" aria-hidden="true">→</span></a>`;
+  const viewAll = n => `<a class="view-all" href="projects.html" aria-label="All ${n} projects"><span class="text-cta">All projects</span></a>`;
 
   function render(all) {
     const projects = all.slice(0, HOME_COUNT);

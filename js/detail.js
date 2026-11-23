@@ -61,7 +61,7 @@
       el.textContent = v || '';
       if (el.dataset.row !== undefined) { el.hidden = !v; el.previousElementSibling.hidden = !v; }
     };
-    set('d-l1', p.title); set('d-l2', p.year ? p.year + '.' : '');
+    set('d-l1', p.title); set('d-l2', p.year ? p.year + '.' : ''); set('d-crumb', p.title);
     set('d-text', p.description); $('d-text').hidden = !p.description;
     set('d-type', p.type); set('d-loc', p.location); set('d-year', p.year);
   }
@@ -132,6 +132,9 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const c = $('d-close'); if (c) c.addEventListener('click', () => KT.detail.close());
+    // On the projects page, the "Projects" crumb just closes the view instead of reloading the page
+    const crumb = document.querySelector('.crumbs a[href="projects.html"]');
+    if (crumb && document.body.dataset.page === 'projects') crumb.addEventListener('click', e => { e.preventDefault(); KT.detail.close(); });
   });
   addEventListener('keydown', e => { if (e.key === 'Escape' && $('detail')) KT.detail.close(); });
 })();

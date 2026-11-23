@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
 <link rel="icon" type="image/svg+xml" href="img/brand-tile.svg">
-<link rel="stylesheet" href="css/site.css?v=202611231700">
-<script src="js/config.js?v=202611231700"></script>
+<link rel="stylesheet" href="css/site.css?v=202611231900">
+<script src="js/config.js?v=202611231900"></script>
 </head>
 <body data-page="home" class="is-loading">
 <div class="wrap">
@@ -28,6 +28,11 @@
 </div>
 <h1 class="vh">Victorian Tiling — floor and wall tiling in London</h1>
 
+
+<div class="home-intro" id="home-intro">
+  <p>Floor and wall tiling across London. Victorian path restorations, hallways, kitchens and bathrooms, laid by hand and finished properly.</p>
+  <a class="text-cta" href="about.html">Find out more about Kieron</a>
+</div>
 
 <section class="stage" id="work" aria-label="Projects">
   <div class="track" id="track">
@@ -71,19 +76,19 @@
       </div>
       <div class="caption">Hampstead 2026.</div>
     </article>
-    <a class="view-all" href="projects.html"><span class="va-title">View all<br>projects</span><span class="va-arrow" aria-hidden="true">→</span></a>
+    <a class="view-all" href="projects.html"><span class="text-cta">All projects</span></a>
   </div>
 </section>
 
 
 <div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="d-title" aria-hidden="true">
-  <span class="back-note">Victorian Tiling — Project</span>
-  <button class="close" type="button" id="d-close" data-roll>Close</button>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="projects.html">Projects</a><span aria-hidden="true">/</span><span id="d-crumb" aria-current="page"></span></nav>
+  <button class="close" type="button" id="d-close" data-roll>Back</button>
   <div class="copy-col">
     <h3 id="d-title"><span class="line"><span id="d-l1">Hampstead</span></span><span class="line"><span id="d-l2">2026.</span></span></h3>
     <p id="d-text">A cracked concrete path replaced with a Victorian geometric pattern in red, buff and black, finished with a black border.</p>
     <div class="meta"><span>Type</span><b id="d-type" data-row>Garden path</b><span>Location</span><b id="d-loc" data-row>Hampstead, London</b><span>Year</span><b id="d-year" data-row>2026</b></div>
-    <a class="text-cta detail-cta" href="contact.html#enquiry">Book a free visit for your space</a>
+    <a class="text-cta detail-cta" href="contact.html#enquiry">When can Kieron pop round?</a>
   </div>
   <div class="media-col">
     <div class="stage-img" id="d-img"></div>
@@ -95,8 +100,8 @@
   <div class="ph ph-before"></div><div class="ph ph-after"></div><div class="ph ph-before"></div><div class="ph ph-after"></div>
 </div>
 
-<footer><a class="foot-cta" href="contact.html#enquiry">Book a free visit</a><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
-<script src="js/site.js?v=202611231700"></script>
+<footer><a class="foot-cta" href="contact.html#enquiry">When can Kieron pop round?</a><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
+<script src="js/site.js?v=202611231900"></script>
 <div class="cursor" id="cursor" aria-hidden="true">Drag</div>
 
 <script>
@@ -182,6 +187,7 @@ window.KT.startHome=()=>{
   addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;
     const overFrame=e.target.closest&&e.target.closest('.card .frame, .view-all');cur.textContent=overFrame?'View':'Drag';});
 
+  const homeIntro=document.getElementById('home-intro');
   const photoFrames=[...document.querySelectorAll('.card .frame')];let lastPX=0;
   function tick(){
     // second tile: rides in with the gallery, then stops at its design spot (Figma 1478 px from the left) and stays
@@ -189,6 +195,7 @@ window.KT.startHome=()=>{
       tileB.style.transform=here<stopX?`translateX(${(stopX-here).toFixed(1)}px)`:''; }
     x+=(target-x)*(reduce?1:.075);
     track.style.transform=`translate3d(${x.toFixed(2)}px,0,0)`;
+    if(homeIntro&&innerWidth>820){const o=Math.max(0,Math.min(1,1+x/260));homeIntro.style.opacity=o.toFixed(3);homeIntro.style.pointerEvents=o<.2?'none':'';}
     // while the gallery moves, photos glide inside their frames; the tiles only nudge a few pixels and settle
     const nudge=Math.max(-6,Math.min(6,(x-target)*.035));
     if(Math.abs(nudge)>.02||fixedTiles.moving){[...fixedTiles,tileB].forEach((el,i)=>{const k=i?.7:1;
@@ -255,8 +262,8 @@ window.KT.startHome=()=>{
 
 };
 </script>
-<script src="js/sheet.js?v=202611231700"></script>
-<script src="js/detail.js?v=202611231700"></script>
-<script src="js/projects.js?v=202611231700"></script>
+<script src="js/sheet.js?v=202611231900"></script>
+<script src="js/detail.js?v=202611231900"></script>
+<script src="js/projects.js?v=202611231900"></script>
 </body>
 </html>
