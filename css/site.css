@@ -684,9 +684,12 @@ footer .foot-links a{color:inherit;transition:color .3s;font-size:inherit}
 nav a.nav-phone::after{display:none}
 
 /* email next to the phone in the header, and next to the address on the contact page */
-nav .nav-mail+.nav-phone{margin-left:calc(-1 * max(18px,calc(64 * var(--w))) + max(10px,calc(20 * var(--w))))}
 .nav-mail .ph-ring{animation-delay:1.35s}
 .with-icon{display:inline-flex;align-items:center;gap:.35em}
 .with-icon .nav-mail{width:.85em;height:.85em;flex:none}
 .with-icon:hover .nav-mail{animation:phone-ring .6s ease-in-out}
 .detail h3 .line:has(>span:empty){display:none}
+
+/* Contact, email and phone sit together as one group in the menu */
+.nav-contact{display:inline-flex;align-items:baseline;gap:max(10px,calc(14 * var(--w)))}
+.nav-contact .nav-phone{align-self:center}
