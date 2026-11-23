@@ -2,7 +2,7 @@
 
 Portfolio site for Victorian Tiling, a tiling studio in London.
 
-Static pages — `index.html` (home gallery), `projects.html` (all projects in a grid), `about.html`, `contact.html` and `book.html` — sharing `css/site.css` and `js/site.js`. Fonts are in `fonts/`, photos and tile graphics in `img/`. No build step: GitHub Pages serves it as it is.
+Static pages — `index.html` (home gallery), `projects.html` (all projects in a grid), `about.html` and `contact.html` — sharing `css/site.css` and `js/site.js`. Fonts are in `fonts/`, photos and tile graphics in `img/`. No build step: GitHub Pages serves it as it is.
 
 ## Editing
 
@@ -53,12 +53,9 @@ The form on `contact.html` uses Netlify Forms, so it only sends once the site is
 Up to 3 photos per enquiry. Large phone photos are shrunk in the browser before sending, to stay under
 Netlify's 8 MB limit per enquiry. On other hosts the form shows a "didn't send, please email" message.
 
-## Free home visit booking (Cal.com)
+## Free home visits
 
-The Contact page embeds a Cal.com booking calendar for free home visits. The event is set near the top of
-`contact.html`:
-
-    window.KT_BOOKING = "elin-test-01/30min";
-
-Replace it with Kieron's own event link (the part after `cal.com/`) when his account is ready. Visit length,
-availability, travel buffers, booking questions and reminder emails are all set in Cal.com, not in the site.
+There's no separate booking calendar. "Book a free visit" links go to the enquiry form on `contact.html`, which has an
+optional **Preferred day for a visit** calendar (from tomorrow up to 3 months ahead, Sundays off) plus Any time /
+Morning / Afternoon. The chosen day arrives with the enquiry as `visit-day`, e.g. "Thursday 10 December, morning",
+and Kieron confirms the time by email. `book.html` only forwards old links to the form.

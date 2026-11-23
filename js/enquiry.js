@@ -73,6 +73,53 @@
     render();
   }));
 
+  /* ---- preferred visit day: a small month calendar ----
+     Days from tomorrow up to 3 months ahead; Sundays are off. Click a day again to clear it. */
+  const cal = document.getElementById('visit-cal');
+  if (cal) {
+    const out = document.getElementById('visit-day'), note = document.getElementById('visit-note');
+    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const first = new Date(today); first.setDate(first.getDate() + 1);
+    const last = new Date(today); last.setMonth(last.getMonth() + 3);
+    let view = new Date(first.getFullYear(), first.getMonth(), 1), picked = null;
+    const long = d => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    const key = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    const time = () => (form.querySelector('input[name=visit-time]:checked') || {}).value || 'Any time';
+    const sync = () => {
+      out.value = picked ? long(picked) + ', ' + time().toLowerCase() : '';
+      note.textContent = picked ? 'Kieron will confirm: ' + out.value + '.' : 'Pick a day and Kieron will confirm a time.';
+    };
+    function draw() {
+      const y = view.getFullYear(), m = view.getMonth();
+      const canPrev = new Date(y, m, 0) >= first, canNext = new Date(y, m + 1, 1) <= last;
+      let html = `<div class="cal-head"><button type="button" class="cal-nav" data-step="-1" aria-label="Previous month"${canPrev ? '' : ' disabled'}>‹</button>
+        <span class="cal-month" aria-live="polite">${view.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}</span>
+        <button type="button" class="cal-nav" data-step="1" aria-label="Next month"${canNext ? '' : ' disabled'}>›</button></div>
+        <div class="cal-grid">${DAYS.map(d => `<span class="cal-dow">${d}</span>`).join('')}`;
+      const lead = (new Date(y, m, 1).getDay() + 6) % 7;
+      for (let i = 0; i < lead; i++) html += '<span></span>';
+      for (let d = 1; d <= new Date(y, m + 1, 0).getDate(); d++) {
+        const day = new Date(y, m, d), off = day < first || day > last || day.getDay() === 0;
+        const on = picked && key(day) === key(picked);
+        html += `<button type="button" class="cal-day${on ? ' on' : ''}" data-day="${key(day)}" aria-label="${long(day)}"${on ? ' aria-pressed="true"' : ' aria-pressed="false"'}${off ? ' disabled' : ''}>${d}</button>`;
+      }
+      cal.innerHTML = html + '</div>';
+    }
+    cal.addEventListener('click', e => {
+      const nav = e.target.closest('.cal-nav'), b = e.target.closest('.cal-day');
+      if (nav && !nav.disabled) { view.setMonth(view.getMonth() + +nav.dataset.step); draw(); cal.querySelector(`.cal-nav[data-step="${nav.dataset.step}"]`).focus(); return; }
+      if (!b || b.disabled) return;
+      const [yy, mm, dd] = b.dataset.day.split('-').map(Number);
+      const d = new Date(yy, mm - 1, dd);
+      picked = picked && key(picked) === key(d) ? null : d;
+      draw(); sync();
+      const again = cal.querySelector(`[data-day="${key(d)}"]`); if (again) again.focus();
+    });
+    form.querySelectorAll('input[name=visit-time]').forEach(r => r.addEventListener('change', sync));
+    draw(); sync();
+  }
+
   /* ---- checks ---- */
   const fields = [
     ['f-name', v => v.trim() ? '' : 'Please add your name.'],

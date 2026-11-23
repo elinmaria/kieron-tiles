@@ -449,3 +449,40 @@ body.detail-open header{z-index:31}
 .view-all:hover .va-title{color:var(--terracotta);transition:color .4s}
 .is-intro .view-all{opacity:0}
 @media (max-width:820px){.view-all{width:min(50vw,260px);margin-left:4px;padding-left:20px}}
+
+/* ---------- enquiry form: easier to read ---------- */
+.enquiry{gap:30px;scroll-margin-top:40px}
+.enquiry-title{margin-bottom:0}
+.enquiry-intro{margin:-18px 0 4px;font-size:max(18px,calc(21 * var(--w)));line-height:1.4;color:var(--ink-soft);max-width:30ch}
+.enquiry label,.enquiry legend,.enquiry .label{font-size:13px;letter-spacing:.02em;text-transform:none;color:var(--ink);font-weight:500}
+.enquiry .opt{font-weight:400;color:var(--muted);letter-spacing:0;margin-left:4px;opacity:1}
+.enquiry .field{gap:9px}
+.enquiry input:not([type=radio]):not([type=file]),.enquiry textarea{font-size:max(20px,calc(24 * var(--w)));padding:6px 0 10px;
+  border-bottom:1px solid color-mix(in srgb,var(--ink) 32%,transparent)}
+.enquiry input::placeholder,.enquiry textarea::placeholder{color:var(--muted);opacity:.85}
+.enquiry input:focus,.enquiry textarea:focus{border-bottom:1.5px solid var(--ink)}
+.enquiry .err{font-size:13px}
+.enquiry .chips label{letter-spacing:.02em;font-weight:400}
+.enquiry .chips span{font-size:14px;padding:10px 17px;border-color:color-mix(in srgb,var(--ink) 25%,transparent)}
+.enquiry legend{margin-bottom:10px}
+.add-photo{font-size:13px;letter-spacing:.02em;text-transform:none;padding:12px 18px}
+.status{font-size:14px}
+
+/* preferred visit day */
+.visit{display:grid;gap:14px}
+.cal{max-width:340px;border:1px solid color-mix(in srgb,var(--ink) 18%,transparent);padding:14px 14px 10px;background:color-mix(in srgb,var(--linen) 70%,#fff)}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-month{font-size:20px;text-transform:uppercase;letter-spacing:.01em}
+.cal-nav{font:inherit;font-size:24px;line-height:1;width:34px;height:34px;border-radius:50%;border:1px solid transparent;background:none;color:var(--ink);cursor:pointer;transition:border-color .3s}
+.cal-nav:hover:not(:disabled){border-color:var(--line)}
+.cal-nav:disabled{opacity:.25;cursor:default}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cal-dow{font-family:var(--sans);font-size:11px;color:var(--muted);padding:4px 0 6px}
+.cal-day{font-family:var(--sans);font-size:14px;aspect-ratio:1;border-radius:50%;border:1px solid transparent;background:none;color:var(--ink);cursor:pointer;padding:0;
+  transition:background .3s var(--ease-out),color .3s,border-color .3s}
+.cal-day:hover:not(:disabled){border-color:var(--ink)}
+.cal-day:disabled{color:var(--muted);opacity:.4;cursor:default}
+.cal-day.on{background:var(--ink);color:var(--linen)}
+.cal-day:focus-visible,.cal-nav:focus-visible{outline:1.5px solid var(--terracotta);outline-offset:1px}
+.visit .times{margin-top:2px}
+.visit-note{margin:0;font-family:var(--sans);font-size:13px;color:var(--ink-soft)}
