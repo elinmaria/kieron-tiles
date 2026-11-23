@@ -71,6 +71,7 @@
       </div>
       <div class="caption">Hampstead 2026.</div>
     </article>
+    <a class="view-all" href="projects.html"><span class="va-title">View all<br>projects</span><span class="va-arrow" aria-hidden="true">→</span></a>
   </div>
 </section>
 
@@ -139,12 +140,13 @@ window.KT.startHome=()=>{
   document.querySelectorAll('.card .frame').forEach(bindSlider);
 
   /* ---- inertial drag carousel ---- */
-  let x=0,target=0,dragging=false,startX=0,startT=0,lastX=0,vel=0,lastTime=0,moved=0,downCard=null;
+  let x=0,target=0,dragging=false,startX=0,startT=0,lastX=0,vel=0,lastTime=0,moved=0,downCard=null,downLink=null;
   const bounds=()=>{const max=track.scrollWidth-stage.clientWidth+40;return [-Math.max(0,max),0]};
   stage.addEventListener('pointerdown',e=>{
     if(window.KT.sliding||e.button!==0||document.body.classList.contains('is-intro'))return;
     dragging=true;moved=0;startX=e.clientX;startT=target;lastX=e.clientX;lastTime=performance.now();vel=0;
     downCard=e.target.closest('.frame')?e.target.closest('.card'):null;
+    downLink=e.target.closest('.view-all');
     stage.setPointerCapture(e.pointerId);cur.classList.add('down');
   });
   stage.addEventListener('pointermove',e=>{
@@ -157,6 +159,7 @@ window.KT.startHome=()=>{
   });
   const release=()=>{if(!dragging)return;dragging=false;cur.classList.remove('down');
     const [mn,mx]=bounds();
+    if(moved<6&&downLink){location.href=downLink.href;return}
     if(moved<6&&downCard){target=Math.max(mn,Math.min(mx,target));openCard(downCard);return}
     target=Math.max(mn,Math.min(mx,target+vel*420));};
   stage.addEventListener('pointerup',release);stage.addEventListener('pointercancel',()=>{dragging=false;cur.classList.remove('down')});
@@ -177,7 +180,7 @@ window.KT.startHome=()=>{
   stage.addEventListener('pointerenter',()=>cur.classList.add('on'));
   stage.addEventListener('pointerleave',()=>cur.classList.remove('on'));
   addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;
-    const overFrame=e.target.closest&&e.target.closest('.card .frame');cur.textContent=overFrame?'View':'Drag';});
+    const overFrame=e.target.closest&&e.target.closest('.card .frame, .view-all');cur.textContent=overFrame?'View':'Drag';});
 
   const photoFrames=[...document.querySelectorAll('.card .frame')];let lastPX=0;
   function tick(){

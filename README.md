@@ -25,7 +25,7 @@ Other columns (such as the photo previews) are ignored.
 - **Photos:** upload to the shared Google Drive folder and paste each file's share link into the sheet.
   A single photo goes in *After photo*. Fill *Before photo* too and the project gets the before/after slider.
   *Photo 2–4* are extra photos of the same job, shown under the main photo in the project view.
-- **Show = No** hides a row; **Order** sets the position on both pages.
+- **Show = No** hides a row; **Order** sets the position on both pages. The homepage shows the first 5, then "View all projects" (change `HOME_COUNT` in `js/projects.js`).
 - **Type** becomes the filter buttons on the projects page, so keep the names consistent (e.g. "Hallway", not "Hallways").
 
 If the sheet can't be reached, the homepage shows the projects written in `index.html`.

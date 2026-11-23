@@ -30,9 +30,13 @@
       before: card.querySelector('.ph-before') ? 'img/before.webp' : '', after: 'img/after.webp', photos: [] };
   };
 
-  function render(projects) {
+  const HOME_COUNT = 5;   // how many projects the homepage shows before "View all projects"
+  const viewAll = n => `<a class="view-all" href="projects.html"><span class="va-title">View all<br>projects</span><span class="va-count">${n} projects</span><span class="va-arrow" aria-hidden="true">→</span></a>`;
+
+  function render(all) {
+    const projects = all.slice(0, HOME_COUNT);
     KT.homeProjects = projects;
-    document.getElementById('track').innerHTML = projects.map(cardHTML).join('\n');
+    document.getElementById('track').innerHTML = projects.map(cardHTML).join('\n') + viewAll(all.length);
     // The opening slideshow uses the first project's photos.
     const first = projects[0];
     document.querySelectorAll('#intro .ph').forEach((el, i) => {
