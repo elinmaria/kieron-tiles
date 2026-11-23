@@ -511,17 +511,21 @@ body.detail-open header{z-index:31}
 @media (min-width:821px){
   .page-contact{min-height:calc(1560 * var(--w))}
   .page-contact .page-title{left:calc(275 * var(--w));top:calc(279 * var(--w))}
-  .page-contact .contact-side:not(.message-side){position:absolute;margin:0;left:calc(290 * var(--w));top:calc(524 * var(--w));width:calc(360 * var(--w));padding:0;gap:max(24px,calc(40 * var(--w)))}
-  .page-contact .message-side{position:absolute;margin:0;left:calc(878 * var(--w));top:calc(285 * var(--w));width:max(420px,calc(518 * var(--w)));padding:0 0 140px}
-  .page-contact .contact-list dd{font-size:max(20px,calc(31 * var(--w)))}
-  .contact-tile{left:calc(58 * var(--w));top:calc(898 * var(--w));bottom:auto;width:calc(615 * var(--w))}
+  .page-contact .contact-side:not(.message-side){position:absolute;margin:0;left:calc(293 * var(--w));top:calc(615 * var(--w));width:calc(420 * var(--w));padding:0;gap:0}
+  .page-contact .contact-list{gap:calc(26 * var(--w))}
+  .page-contact .message-side{position:absolute;margin:0;left:calc(878 * var(--w));top:calc(285 * var(--w));width:max(460px,calc(678 * var(--w)));padding:0 0 140px}
+  .page-contact .contact-list dd{font-size:max(22px,calc(36 * var(--w)));line-height:1.5}
+  .enquiry-intro{max-width:none}
+  .contact-tile{left:calc(274 * var(--w));top:calc(1115 * var(--w));bottom:auto;width:calc(436 * var(--w))}
 }
 .enquiry-title{font-size:max(28px,calc(42 * var(--w)));line-height:1.08}
 .detail .copy-col{max-width:max(320px,calc(430 * var(--w)))}
 .detail h3 .line{padding-top:.1em;margin-top:-.1em}
 
 /* ---------- contact form: outlined boxes, high contrast ---------- */
-.enquiry{gap:26px}
+.enquiry{gap:max(22px,calc(30 * var(--w)))}
+.enquiry .enquiry-intro{margin:calc(18 * var(--w)) 0 0;color:var(--ink)}
+.enquiry .option-text{font-family:var(--serif);font-weight:200;font-style:italic;letter-spacing:.12em}
 .boxes{display:grid;border:1px solid var(--ink)}
 .box-row{display:grid;grid-template-columns:1fr 1fr}
 .box-row>.box+.box{border-left:1px solid var(--ink)}
@@ -549,6 +553,8 @@ body.detail-open header{z-index:31}
 .options{display:grid}
 .option{display:flex;align-items:center;gap:14px;padding:16px 0;border-top:1px solid color-mix(in srgb,var(--ink) 30%,transparent);cursor:pointer;position:relative}
 .option:first-child{border-top:0;padding-top:2px}
+.enquiry .option{padding:16px 0;letter-spacing:0}
+.enquiry .option:first-child{padding-top:2px}
 .option input{position:absolute;opacity:0;pointer-events:none}
 .option .mark{flex:none;width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative;transition:border-color .3s}
 .option .mark::after{content:"↳";position:absolute;inset:-4px 0 0 1px;font:500 18px/1 var(--sans);color:var(--ink);opacity:0;transform:translateX(-4px);transition:opacity .3s,transform .4s var(--ease-out)}
