@@ -64,15 +64,10 @@
     </fieldset>
 
     <fieldset class="field visit">
-      <legend>Preferred day for a visit <span class="opt">optional</span></legend>
+      <legend>When can Kieron pop round? <span class="opt">optional</span></legend>
       <input type="hidden" name="visit-day" id="visit-day">
-      <div class="cal" id="visit-cal" aria-label="Choose a day for Kieron's visit"></div>
-      <div class="chips times" role="radiogroup" aria-label="Time of day">
-        <label><input type="radio" name="visit-time" value="Any time" checked><span>Any time</span></label>
-        <label><input type="radio" name="visit-time" value="Morning"><span>Morning</span></label>
-        <label><input type="radio" name="visit-time" value="Afternoon"><span>Afternoon</span></label>
-      </div>
-      <p class="visit-note" id="visit-note">Pick a day and Kieron will confirm a time.</p>
+      <div class="chips days" id="visit-days"></div>
+      <p class="visit-note" id="visit-note">Pick a day and he'll be in touch to sort a time.</p>
     </fieldset>
 
     <div class="field"><label for="f-msg">About the job</label><textarea id="f-msg" name="message" rows="3" placeholder="Rough size, what's there now, when you'd like it done" required></textarea></div>

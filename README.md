@@ -55,7 +55,7 @@ Netlify's 8 MB limit per enquiry. On other hosts the form shows a "didn't send, 
 
 ## Free home visits
 
-There's no separate booking calendar. "Book a free visit" links go to the enquiry form on `contact.html`, which has an
-optional **Preferred day for a visit** calendar (from tomorrow up to 3 months ahead, Sundays off) plus Any time /
-Morning / Afternoon. The chosen day arrives with the enquiry as `visit-day`, e.g. "Thursday 10 December, morning",
-and Kieron confirms the time by email. `book.html` only forwards old links to the form.
+There's no separate booking calendar. "Book a free visit" links go to the enquiry form on `contact.html`, which asks
+**When can Kieron pop round?** with Mon to Fri of this week (next week from Thursday onwards), plus "Next week" and
+"Any day's good". The choice arrives with the enquiry as `visit-day`, e.g. "Tuesday 24 November", and Kieron confirms
+the time. `book.html` only forwards old links to the form.
