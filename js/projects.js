@@ -6,7 +6,7 @@
   const start = () => KT.startHome && KT.startHome();
 
   function cardHTML(p, i) {
-    const caption = [p.title, p.year].filter(Boolean).join(' ') + '.';
+    const caption = p.title + '.';
     const pair = !!p.before;
     return `<article class="card${pair ? '' : ' single'}" data-i="${i}" data-id="${esc(p.id || '')}" data-title="${esc(p.title)}" data-year="${esc(p.year)}" data-type="${esc(p.type)}" data-location="${esc(p.location)}" data-desc="${esc(p.description)}">
       <div class="tile ${i % 2 ? 'b' : 'a'}"></div>

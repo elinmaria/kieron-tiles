@@ -61,7 +61,7 @@
       el.textContent = v || '';
       if (el.dataset.row !== undefined) { el.hidden = !v; el.previousElementSibling.hidden = !v; }
     };
-    set('d-l1', p.title); set('d-l2', p.year ? p.year + '.' : ''); set('d-crumb', p.title);
+    set('d-l1', p.title); set('d-l2', ''); set('d-crumb', p.title);
     set('d-text', p.description); $('d-text').hidden = !p.description;
     set('d-type', p.type); set('d-loc', p.location); set('d-year', p.year);
     const ty = $('d-type'); if (ty && ty.tagName === 'A') ty.href = 'projects.html' + (p.type ? '?type=' + encodeURIComponent(KT.slug(p.type)) : '');

@@ -22,7 +22,7 @@
         ${p.before ? `<div class="ph ph-before pc-before" aria-hidden="true" style="${KT.bg(p.beforeThumb)}"></div><span class="pc-tag" aria-hidden="true"><span>After</span><span>Before</span></span>` : ''}
         ${n > 1 ? `<span class="pc-count" aria-label="${n} photos">${n}</span>` : ''}
       </div>
-      <div class="caption"><span class="cap-title">${esc([p.title, p.year].filter(Boolean).join(' '))}.</span><span class="cap-type">${esc(p.type)}</span><span class="cap-num">${pad(i + 1)}</span></div>
+      <div class="caption"><span class="cap-title">${esc(p.title)}.</span><span class="cap-type">${esc(p.type)}</span><span class="cap-num">${pad(i + 1)}</span></div>
     </a>`;
   }
 
