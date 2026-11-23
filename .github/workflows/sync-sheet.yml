@@ -1,0 +1,32 @@
+# Copies the Google Sheet (projects, photos, About text) into the site once a day.
+# To update straight away: GitHub → Actions → "Update from the Google Sheet" → Run workflow.
+name: Update from the Google Sheet
+on:
+  schedule:
+    - cron: '17 5 * * *'      # every day at 05:17 UTC (5–6am in London)
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: sync-sheet
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow==11.0.0
+      - name: Copy the sheet and photos
+        run: python3 scripts/sync_sheet.py
+      - name: Save the changes
+        run: |
+          git add data img/sheet
+          if git diff --cached --quiet; then echo "Nothing changed"; exit 0; fi
+          git config user.name "Victorian Tiler updater"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Daily update from the Google Sheet"
+          git push

@@ -1,4 +1,4 @@
-/* Reads the projects from the Google Sheet set in js/config.js.
+/* Projects and About text: read from the daily copy of the Google Sheet set in js/config.js (see scripts/sync_sheet.py).
    The sheet must be shared as "Anyone with the link: Viewer". Each row is a project.
    Columns (first row, any order, case doesn't matter):
      Show | Order | Title | Year | Location | Type | Description |
@@ -90,46 +90,20 @@
 
   // Another tab of the same sheet, by name (e.g. "About page"), as rows of {column: value}.
   // Resolves to null if it can't be read or doesn't have the expected first column.
-  KT.loadTab = (name, firstCol) => {
-    const SHEET = (window.KT_SHEET || '').trim();
-    const m = SHEET.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-    if (!m) return Promise.resolve(null);
-    const url = `https://docs.google.com/spreadsheets/d/${m[1]}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(name)}`;
-    return fetch(url, { cache: 'no-store' })
-      .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
-      .then(text => {
-        if (/^\s*</.test(text)) throw new Error('not shared');
-        const rows = parseCSV(text), head = (rows.shift() || []).map(key);
-        if (head[0] !== key(firstCol)) throw new Error('tab not found');   // Google returns the first tab when a name doesn't exist
-        return rows.map(r => Object.fromEntries(head.map((h, i) => [h, (r[i] || '').trim()])));
-      })
-      .catch(err => { console.warn(`[Victorian Tiler] Using the built-in ${name} text:`, err.message); return null; });
+  KT.loadTab = name => {
+    const file = { 'About page': 'data/about.json' }[name];
+    if (!file) return Promise.resolve(null);
+    return fetch(file, { cache: 'no-cache' }).then(r => (r.ok ? r.json() : null)).catch(() => null);
   };
 
-  /* The live sheet first (up to 12 seconds, tried twice). If that fails, the copy from the last visit,
-     then data/projects-backup.csv (a snapshot of the sheet kept with the site). Never just a handful. */
+  /* Projects come from data/projects.json, a copy of the Google Sheet made once a day by
+     scripts/sync_sheet.py (GitHub Actions, .github/workflows/sync-sheet.yml), with the photos stored in img/sheet/.
+     The site never reads the sheet live, so a problem with Google or the sheet can't break it. */
   let pending = null;
-  const CACHE = 'kt-projects-csv';
-  const fromText = text => { if (!text || /^\s*</.test(text)) return null; const l = toProjects(parseCSV(text)); return l.length ? l : null; };
-  const get = (url, ms) => {
-    const ctrl = 'AbortController' in window ? new AbortController() : null;
-    const timer = setTimeout(() => ctrl && ctrl.abort(), ms);
-    return fetch(url, { signal: ctrl ? ctrl.signal : undefined, cache: 'no-store' })
-      .then(r => { if (!r.ok) throw new Error('returned ' + r.status); return r.text(); })
-      .finally(() => clearTimeout(timer));
-  };
-  KT.loadProjects = () => {
-    if (pending) return pending;
-    const SHEET = (window.KT_SHEET || '').trim();
-    const live = SHEET ? get(csvUrl(SHEET), 12000).catch(() => get(csvUrl(SHEET), 12000)) : Promise.reject(new Error('no sheet set'));
-    return (pending = live
-      .then(text => { const l = fromText(text); if (!l) throw new Error('Sheet is not shared publicly'); try { localStorage.setItem(CACHE, text); } catch (e) {} return l; })
-      .catch(err => {
-        console.warn('[Victorian Tiler] Sheet not reachable, using the saved copy:', err.message);
-        let saved = null; try { saved = fromText(localStorage.getItem(CACHE)); } catch (e) {}
-        return saved || get('data/projects-backup.csv', 8000).then(fromText).catch(() => null);
-      }));
-  };
+  KT.loadProjects = () => pending || (pending = fetch('data/projects.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(list => (Array.isArray(list) && list.length ? list : null))
+    .catch(err => { console.warn('[Victorian Tiler] Using the built-in projects:', err.message); return null; }));
 
   // Shown if the sheet can't be reached: a few real projects with photos stored in img/projects/.
   const fb = (id, title, year, type, description, after, before, photos) => ({ id, title, year, type, location: 'London', description,

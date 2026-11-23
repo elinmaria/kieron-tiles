@@ -79,7 +79,16 @@ placeholders (Kieron's full name, business address, phone, VAT number or remove 
 enquiries are kept) and remove the `todo` highlight. Fonts (PP Editorial New and Inter) are served from `fonts/`, so no
 visitor data goes to Google Fonts.
 
-## If the sheet can't be reached
-The site tries the Google Sheet twice (12 seconds each), then uses the copy saved from the visitor's last visit, then
-`data/projects-backup.csv` — a snapshot of the sheet kept with the site. Refresh that file now and then: open the sheet's
-CSV link (`https://docs.google.com/spreadsheets/d/<ID>/gviz/tq?tqx=out:csv&headers=1`), save it over the file.
+## How the sheet gets onto the site (once a day)
+The site does not read the Google Sheet live. Every morning at about 5–6am a GitHub Action
+(`.github/workflows/sync-sheet.yml`) runs `scripts/sync_sheet.py`, which:
+- reads the Projects and About page tabs,
+- copies every project photo from Google Drive into `img/sheet/` (a big and a small version),
+- writes `data/projects.json` and `data/about.json`, which is all the site reads.
+
+If anything goes wrong (sheet not shared, no projects showing, Google down), nothing is changed, the site keeps
+yesterday's version and GitHub emails the repo owner. To publish sheet changes straight away:
+GitHub → Actions → "Update from the Google Sheet" → Run workflow. To run it on a computer: `python3 scripts/sync_sheet.py`
+(needs Python 3 and `pip install pillow`).
+
+If the site moves to another host, deploy it from this repository so it keeps receiving the daily update.
