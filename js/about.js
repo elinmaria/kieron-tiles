@@ -63,12 +63,13 @@
     if (services.length) { list.innerHTML = services.map(r => item(r.title, r.text)).join(''); }
   }
 
-  /* ---- start the story a comfortable gap below the intro, however long the intro text is ---- */
+  /* ---- the story starts where it is in Figma, or lower if the intro text from the sheet runs longer ---- */
   const more = document.querySelector('.about-more'), lede = document.getElementById('about-lede');
   function place() {
     if (!more || !lede) return;
     if (matchMedia('(max-width:820px)').matches) { more.style.paddingTop = ''; return; }
-    more.style.paddingTop = Math.round(lede.offsetTop + lede.offsetHeight + Math.max(96, innerWidth * 0.085)) + 'px';
+    const unit = innerWidth / 1728;                                  // 1 Figma px
+    more.style.paddingTop = Math.round(Math.max(927 * unit, lede.offsetTop + lede.offsetHeight + 90 * unit)) + 'px';
   }
   place(); addEventListener('resize', place);
   if (document.fonts) document.fonts.ready.then(place);
