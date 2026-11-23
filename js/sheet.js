@@ -97,7 +97,7 @@
         const list = toProjects(parseCSV(text));
         return list.length ? list : null;
       })
-      .catch(err => { console.warn('[Victorian Tiling] Using the built-in projects:', err.message); return null; })
+      .catch(err => { console.warn('[Victorian Tiler] Using the built-in projects:', err.message); return null; })
       .finally(() => clearTimeout(timer)));
   };
 

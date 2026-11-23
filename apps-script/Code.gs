@@ -1,5 +1,5 @@
 /**
- * Victorian Tiling: website enquiry form → Kieron's Google account.
+ * Victorian Tiler: website enquiry form → Kieron's Google account.
  *
  * For each enquiry this script:
  *   1. emails Kieron (Reply goes straight to the customer),
@@ -8,7 +8,7 @@
  *   4. adds a row to a "Website enquiries" Google Sheet.
  *
  * Set-up (about 5 minutes, signed in as the Google account that should own all this):
- *   1. Go to script.google.com → New project. Name it "Victorian Tiling form".
+ *   1. Go to script.google.com → New project. Name it "Victorian Tiler form".
  *   2. Replace everything in Code.gs with this file. Fill in NOTIFY_EMAIL below.
  *   3. Click Run with "setup" selected and allow the permissions it asks for
  *      (Gmail to send, Calendar, Drive, Sheets). This also sends a test email.
@@ -101,7 +101,7 @@ function emailKieron_(f, photoLinks, event) {
     '', 'Reply to this email to answer them directly.'
   ];
   MailApp.sendEmail({
-    to: CONFIG.NOTIFY_EMAIL, replyTo: f.email, name: 'Victorian Tiling website',
+    to: CONFIG.NOTIFY_EMAIL, replyTo: f.email, name: 'Victorian Tiler website',
     subject: `New enquiry: ${f.name}, ${f.job}${f.visitDay ? ' · visit ' + f.visitDay : ''}`,
     body: lines.join('\n')
   });
@@ -134,5 +134,5 @@ function json_(o) {
 /* Run once from the editor: asks for permissions, creates the folder and sheet, sends a test email. */
 function setup() {
   folder_(); sheet_();
-  MailApp.sendEmail(CONFIG.NOTIFY_EMAIL, 'Victorian Tiling form is connected', 'Website enquiries will arrive here, and visit requests will appear in your Google Calendar in yellow.');
+  MailApp.sendEmail(CONFIG.NOTIFY_EMAIL, 'Victorian Tiler form is connected', 'Website enquiries will arrive here, and visit requests will appear in your Google Calendar in yellow.');
 }

@@ -1,6 +1,6 @@
-# Victorian Tiling
+# Victorian Tiler
 
-Portfolio site for Victorian Tiling, a tiling studio in London.
+Portfolio site for Victorian Tiler, a tiling studio in London.
 
 Static pages — `index.html` (home gallery), `projects.html` (all projects in a grid), `about.html` and `contact.html` — sharing `css/site.css` and `js/site.js`. Fonts are in `fonts/`, photos and tile graphics in `img/`. No build step: any static host can serve it as it is.
 
