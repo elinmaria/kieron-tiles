@@ -2,7 +2,7 @@
 
 Portfolio site for Victorian Tiling, a tiling studio in London.
 
-Static pages — `index.html` (home gallery), `projects.html` (all projects in a grid), `about.html` and `contact.html` — sharing `css/site.css` and `js/site.js`. Fonts are in `fonts/`, photos and tile graphics in `img/`. No build step: GitHub Pages serves it as it is.
+Static pages — `index.html` (home gallery), `projects.html` (all projects in a grid), `about.html` and `contact.html` — sharing `css/site.css` and `js/site.js`. Fonts are in `fonts/`, photos and tile graphics in `img/`. No build step: any static host can serve it as it is.
 
 ## Editing
 
@@ -41,17 +41,25 @@ Clicking a project opens the same project view as the homepage (`js/detail.js`).
 After changing `css/site.css` or anything in `js/`, bump the `?v=` number on those links in all three pages so
 browsers load the new files straight away (GitHub Pages lets browsers keep them for up to 10 minutes).
 
-## Enquiry form (Netlify)
+## Enquiry form (Google)
 
-The form on `contact.html` uses Netlify Forms, so it only sends once the site is hosted on Netlify.
+The form on `contact.html` sends to Kieron's Google account through a small Apps Script (`apps-script/Code.gs`),
+so it works on any host. Each enquiry:
 
-1. Deploy the site on Netlify. The form is picked up automatically (Forms → enable form detection if asked).
-2. In Netlify: Project configuration → Notifications → Emails and webhooks → Form submission notifications →
-   add Kieron's email. Each enquiry then arrives by email, with any photos as links.
-3. Spam is filtered with a hidden honeypot field; Netlify also flags spam itself.
+- is emailed to Kieron (replying answers the customer directly),
+- adds a yellow **Visit request** to his Google Calendar on the day they picked (he confirms the time by email),
+- saves photos to a Drive folder, *Website enquiry photos*,
+- is logged in a Google Sheet, *Website enquiries*.
 
-Up to 3 photos per enquiry. Large phone photos are shrunk in the browser before sending, to stay under
-Netlify's 8 MB limit per enquiry. On other hosts the form shows a "didn't send, please email" message.
+Set-up, once, signed in as the Google account that should get the enquiries (steps are also at the top of `Code.gs`):
+
+1. script.google.com → New project → paste `apps-script/Code.gs` → set `NOTIFY_EMAIL`.
+2. Run `setup` and allow the permissions (it sends a test email).
+3. Deploy → New deployment → Web app → Execute as **Me**, Who has access **Anyone** → copy the `/exec` URL.
+4. Paste that URL into `js/config.js` as `KT_FORM_URL`.
+
+Until `KT_FORM_URL` is set, the form tells people to email instead. Up to 3 photos per enquiry; phone photos are
+shrunk in the browser before sending.
 
 ## Free home visits
 

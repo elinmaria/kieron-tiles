@@ -37,10 +37,8 @@
 
 
   <div class="contact-side message-side">
-  <!-- Enquiry form: handled by Netlify Forms (emails each enquiry to Kieron once notifications are switched on in Netlify) -->
-  <form class="enquiry" id="enquiry" name="enquiry" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
-    <input type="hidden" name="form-name" value="enquiry">
-    <input type="hidden" name="subject" value="New enquiry from the website">
+  <!-- Enquiry form: sent to Kieron's Google account (email, Google Calendar, Drive, Sheet). See apps-script/Code.gs -->
+  <form class="enquiry" id="enquiry" name="enquiry" novalidate>
     <p class="hp" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
     <h2 class="enquiry-title">Book a free visit</h2>
     <p class="enquiry-intro">Or just ask a question. Kieron replies by email, usually within a couple of days.</p>
@@ -65,7 +63,7 @@
 
     <fieldset class="field visit">
       <legend>When can Kieron pop round? <span class="opt">optional</span></legend>
-      <input type="hidden" name="visit-day" id="visit-day">
+      <input type="hidden" name="visit-day" id="visit-day"><input type="hidden" name="visit-date" id="visit-date">
       <div class="chips days" id="visit-days"></div>
       <p class="visit-note" id="visit-note">Pick a day and he'll be in touch to sort a time.</p>
     </fieldset>
@@ -90,6 +88,7 @@
   <img class="page-tile contact-tile" src="img/contact-tile.svg" alt="">
 </main>
 <footer><a class="foot-cta" href="#enquiry">Book a free visit</a><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
+<script src="js/config.js?v=202611231800"></script>
 <script src="js/enquiry.js?v=202611231700"></script>
 <script src="js/site.js?v=202611231700"></script>
 </body>

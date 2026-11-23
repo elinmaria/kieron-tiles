@@ -1,6 +1,8 @@
-/* Contact page enquiry form (Netlify Forms).
-   - Up to 3 photos, one per hidden file input (Netlify takes one file per input).
-   - Large phone photos are shrunk in the browser so an enquiry stays under Netlify's 8 MB limit.
+/* Contact page enquiry form.
+   Sends to Kieron's Google account through a small Apps Script web app (apps-script/Code.gs; its address
+   goes in js/config.js as KT_FORM_URL). That script emails Kieron, puts the visit request in his Google
+   Calendar, saves photos to Drive and logs the enquiry in a Google Sheet. Works on any host.
+   - Up to 3 photos; large phone photos are shrunk in the browser first.
    - Sends in the background and shows a thank-you, or a clear message if it can't send. */
 (() => {
   const form = document.getElementById('enquiry');
@@ -10,7 +12,7 @@
   const addBtn = document.getElementById('add-photo');
   const status = document.getElementById('status');
   const send = document.getElementById('send');
-  const LIMIT = 7.5 * 1024 * 1024;     // keep a margin under Netlify's 8 MB per enquiry
+  const LIMIT = 15 * 1024 * 1024;      // all photos together, after shrinking
   const MAX_SIDE = 1800;               // longest side after shrinking, in pixels
 
   // hand-drawn underline on the send button, like the nav links
@@ -78,14 +80,15 @@
      Days that have passed (and today) can't be picked. Tap a choice again to clear it. */
   const days = document.getElementById('visit-days');
   if (days) {
-    const out = document.getElementById('visit-day'), note = document.getElementById('visit-note');
+    const out = document.getElementById('visit-day'), outDate = document.getElementById('visit-date'), note = document.getElementById('visit-note');
     const today = new Date(); today.setHours(0, 0, 0, 0);
     const dow = (today.getDay() + 6) % 7;                         // 0 = Monday
     const monday = new Date(today); monday.setDate(today.getDate() - dow + (dow >= 3 ? 7 : 0));
     const short = d => d.toLocaleDateString('en-GB', { weekday: 'short' }) + ' ' + d.getDate();
     const long = d => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     const choices = [];
-    for (let i = 0; i < 5; i++) { const d = new Date(monday); d.setDate(monday.getDate() + i); choices.push({ label: short(d), value: long(d), off: d <= today, say: long(d) }); }
+    for (let i = 0; i < 5; i++) { const d = new Date(monday); d.setDate(monday.getDate() + i); choices.push({ label: short(d), value: long(d), date: iso(d), off: d <= today, say: long(d) }); }
     choices.push({ label: 'Next week', value: 'Next week', say: 'next week', wide: true });
     choices.push({ label: "Any day's good", value: 'Any day', say: 'any day that suits him', wide: true });
     days.innerHTML = choices.map((c, i) => `<label class="${c.wide ? 'wide' : 'day'}"><input type="radio" name="visit-choice" value="${i}"${c.off ? ' disabled' : ''}><span>${c.label}</span></label>`).join('');
@@ -94,6 +97,7 @@
     const sync = r => {
       const c = r && r.checked ? choices[+r.value] : null;
       out.value = c ? c.value : '';
+      outDate.value = c && c.date ? c.date : '';
       note.textContent = c ? (c.wide ? `Lovely, ${c.say} it is. Kieron will message to fix a time.` : `Lovely, ${c.say} it is. Kieron will confirm the time.`)
                            : "Pick a day and he'll be in touch to sort a time.";
     };
@@ -135,11 +139,21 @@
     if (total > LIMIT) { status.className = 'status bad'; status.textContent = 'The photos are too large together. Remove one and try again.'; return; }
     send.disabled = true; status.textContent = 'Sending…';
     try {
-      const r = await fetch(form.getAttribute('action') || '/', { method: 'POST', body: new FormData(form) });
-      if (!r.ok) throw new Error(r.status);
+      const URL_ = (window.KT_FORM_URL || '').trim();
+      if (!URL_) throw new Error('No form address set');
+      const toData = f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(f); });
+      const photos = [];
+      for (const i of inputs) { const f = i.files && i.files[0]; if (f) photos.push({ name: f.name, type: f.type || 'image/jpeg', data: await toData(f) }); }
+      const fd = new FormData(form), v = k => (fd.get(k) || '').toString().trim();
+      const payload = { name: v('name'), email: v('email'), phone: v('phone'), area: v('area'), job: v('job'), message: v('message'),
+        visitDay: v('visit-day'), visitDate: v('visit-date'), botField: v('bot-field'), page: location.href, photos };
+      // text/plain keeps this a "simple" request, which Apps Script accepts from any website
+      const r = await fetch(URL_, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+      const res = await r.json().catch(() => ({}));
+      if (!r.ok || !res.ok) throw new Error(res.error || r.status);
       const name = document.getElementById('f-name').value.trim().split(' ')[0];
       form.classList.add('done');
-      form.innerHTML = `<h2 class="enquiry-title">Thank you${name ? ', ' + name.replace(/[<>&"]/g, '') : ''}.</h2><p class="thanks">Your enquiry is with Kieron. He'll get back to you by email, usually within a couple of days.</p>`;
+      form.innerHTML = `<h2 class="enquiry-title">Thank you${name ? ', ' + name.replace(/[<>&"]/g, '') : ''}.</h2><p class="thanks">${payload.visitDate ? "Your visit request is in Kieron's calendar. He'll confirm the time by email, usually within a couple of days." : "Your enquiry is with Kieron. He'll get back to you by email, usually within a couple of days."}</p>`;
     } catch (err) {
       send.disabled = false;
       status.className = 'status bad';
