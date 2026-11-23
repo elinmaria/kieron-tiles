@@ -374,14 +374,14 @@ footer{justify-content:space-between;align-items:center}
 .projects-page{position:relative;padding:max(56px,calc(120 * var(--w))) max(16px,env(safe-area-inset-right,0px),calc(89 * var(--w))) 140px max(16px,env(safe-area-inset-left,0px),calc(60 * var(--w)))}
 .pp-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line);padding-bottom:max(14px,calc(22 * var(--w)))}
 .pp-title{margin:0;font-weight:200;text-transform:uppercase;font-size:max(52px,calc(128 * var(--w)));line-height:.95;letter-spacing:-.01em}
-.pp-title .line{display:block;overflow:hidden;padding-bottom:.04em}
+.pp-title .line{display:block;overflow:hidden;padding-bottom:.2em;margin-bottom:-.16em}
 .pp-title .line>span{display:block;animation:lineup 1.4s var(--ease-out) .25s backwards}
 .pp-count{margin:0 0 .4em;font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums}
 .filters{display:flex;flex-wrap:wrap;gap:8px;padding-block:max(18px,calc(28 * var(--w))) max(28px,calc(48 * var(--w)));animation:fadeup 1.2s var(--ease-out) .45s backwards}
 .filter{font-family:var(--sans);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:transparent;
-  border:1px solid var(--line);border-radius:999px;padding:9px 15px 8px;cursor:pointer;display:inline-flex;align-items:flex-start;gap:5px;
+  border:1px solid var(--line);border-radius:999px;padding:9px 15px 8px;cursor:pointer;display:inline-flex;align-items:baseline;gap:6px;
   transition:background .45s var(--ease-out),border-color .45s,color .45s}
-.filter sup{font-size:9px;letter-spacing:.04em;color:var(--muted);transition:color .45s;line-height:1;margin-top:-1px}
+.filter sup{font-size:inherit;letter-spacing:.04em;color:var(--muted);transition:color .45s;line-height:inherit;vertical-align:baseline;position:static;margin:0}
 .filter:hover{border-color:var(--ink)}
 .filter[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--linen)}
 .filter[aria-pressed="true"] sup{color:var(--linen);opacity:.7}
