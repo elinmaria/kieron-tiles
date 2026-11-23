@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
 <link rel="icon" type="image/svg+xml" href="img/brand-tile.svg">
-<link rel="stylesheet" href="css/site.css?v=202611232000">
+<link rel="stylesheet" href="css/site.css?v=202611232100">
 </head>
 <body data-page="contact">
 <div class="wrap">
@@ -43,40 +43,48 @@
     <h2 class="enquiry-title">Enquire about a visit</h2>
     <p class="enquiry-intro">Fill in the form to book a free visit, or just ask a question.</p>
 
-    <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
-    <div class="row">
-      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
-      <div class="field"><label for="f-phone">Phone <span class="opt">optional</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
-    </div>
-    <div class="field"><label for="f-area">Postcode or area</label><input id="f-area" name="area" autocomplete="postal-code" placeholder="e.g. NW3 or Hampstead"></div>
-
-    <fieldset class="field kinds">
-      <legend>Type of job</legend>
-      <div class="chips">
-        <label><input type="radio" name="job" value="Garden path" checked><span>Garden path</span></label>
-        <label><input type="radio" name="job" value="Hallway"><span>Hallway</span></label>
-        <label><input type="radio" name="job" value="Bathroom"><span>Bathroom</span></label>
-        <label><input type="radio" name="job" value="Kitchen"><span>Kitchen</span></label>
-        <label><input type="radio" name="job" value="Other"><span>Other</span></label>
+    <div class="boxes">
+      <div class="field box"><label for="f-name">What's your name?</label><input id="f-name" name="name" autocomplete="name" required></div>
+      <div class="box-row">
+        <div class="field box"><label for="f-email">What's your email?</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field box"><label for="f-phone">Phone number <span class="opt">optional</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
       </div>
-    </fieldset>
+      <div class="field box"><label for="f-area">Where's the job?</label><input id="f-area" name="area" autocomplete="postal-code" placeholder="Postcode or area, e.g. NW3"></div>
 
-    <fieldset class="field visit">
-      <legend>When can Kieron pop round? <span class="opt">optional</span></legend>
-      <input type="hidden" name="visit-day" id="visit-day"><input type="hidden" name="visit-date" id="visit-date">
-      <div class="chips days" id="visit-days"></div>
-      <p class="visit-note" id="visit-note">Pick a day and he'll be in touch to sort a time.</p>
-    </fieldset>
+      <fieldset class="field box kinds">
+        <legend>What kind of job is it?</legend>
+        <div class="chips">
+          <label><input type="radio" name="job" value="Garden path" checked><span>Garden path</span></label>
+          <label><input type="radio" name="job" value="Hallway"><span>Hallway</span></label>
+          <label><input type="radio" name="job" value="Bathroom"><span>Bathroom</span></label>
+          <label><input type="radio" name="job" value="Kitchen"><span>Kitchen</span></label>
+          <label><input type="radio" name="job" value="Other"><span>Other</span></label>
+        </div>
+      </fieldset>
 
-    <div class="field"><label for="f-msg">About the job</label><textarea id="f-msg" name="message" rows="3" placeholder="Rough size, what's there now, when you'd like it done" required></textarea></div>
+      <fieldset class="field box visit">
+        <legend>When can Kieron pop round?</legend>
+        <input type="hidden" name="visit-day" id="visit-day"><input type="hidden" name="visit-date" id="visit-date">
+        <div class="options" id="visit-options">
+          <label class="option"><input type="radio" name="visit-when" value="this-week"><span class="mark" aria-hidden="true"></span><span class="option-text" id="this-week-label">This week</span></label>
+          <div class="chips days" id="visit-days" hidden></div>
+          <label class="option"><input type="radio" name="visit-when" value="next-week"><span class="mark" aria-hidden="true"></span><span class="option-text">Next week</span></label>
+          <label class="option"><input type="radio" name="visit-when" value="any"><span class="mark" aria-hidden="true"></span><span class="option-text">Any day's good</span></label>
+          <label class="option"><input type="radio" name="visit-when" value="email"><span class="mark" aria-hidden="true"></span><span class="option-text">I just want to email</span></label>
+        </div>
+        <p class="visit-note" id="visit-note" aria-live="polite"></p>
+      </fieldset>
 
-    <div class="field photos">
-      <span class="label">Photos <span class="opt">optional, up to 3</span></span>
-      <input type="file" name="photo-1" accept="image/*" hidden>
-      <input type="file" name="photo-2" accept="image/*" hidden>
-      <input type="file" name="photo-3" accept="image/*" hidden>
-      <div class="photo-list" id="photo-list"></div>
-      <button type="button" class="add-photo" id="add-photo">+ Add a photo</button>
+      <div class="field box"><label for="f-msg">Tell Kieron about the job</label><textarea id="f-msg" name="message" rows="3" placeholder="Rough size, what's there now, when you'd like it done" required></textarea></div>
+
+      <div class="field box photos">
+        <span class="label">Photos <span class="opt">optional, up to 3</span></span>
+        <input type="file" name="photo-1" accept="image/*" hidden>
+        <input type="file" name="photo-2" accept="image/*" hidden>
+        <input type="file" name="photo-3" accept="image/*" hidden>
+        <div class="photo-list" id="photo-list"></div>
+        <button type="button" class="add-photo" id="add-photo">+ Add a photo</button>
+      </div>
     </div>
 
     <div class="send-row">
@@ -88,8 +96,8 @@
   <img class="page-tile contact-tile" src="img/contact-tile.svg" alt="">
 </main>
 <footer><a class="foot-cta" href="#enquiry">When can Kieron pop round?</a><span><img src="img/heart.png" alt="">Made by ElinLondon</span></footer>
-<script src="js/config.js?v=202611232000"></script>
-<script src="js/enquiry.js?v=202611232000"></script>
-<script src="js/site.js?v=202611232000"></script>
+<script src="js/config.js?v=202611232100"></script>
+<script src="js/enquiry.js?v=202611232100"></script>
+<script src="js/site.js?v=202611232100"></script>
 </body>
 </html>

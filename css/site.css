@@ -44,7 +44,7 @@ a:focus-visible,button:focus-visible,.handle:focus-visible{outline:1.5px solid v
 
 /* Header */
 header{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;gap:24px;padding-block:max(16px,calc(26 * var(--w))) 0;position:relative;z-index:5}
-.brand{font-size:max(28px,calc(40 * var(--w)));white-space:nowrap;line-height:1.2;letter-spacing:-.005em;font-weight:200;margin:0;text-transform:uppercase;display:inline-flex;align-items:center;gap:.28em;justify-self:start}
+.brand{font-size:max(28px,calc(40 * var(--w)));white-space:nowrap;line-height:1.2;letter-spacing:-.005em;font-weight:200;margin:0;text-transform:uppercase;display:inline-flex;align-items:center;gap:.5em;justify-self:start}
 .brand-tile{width:1.125em;height:1.125em;flex:none;transition:transform 1.6s var(--ease-out)}
 .brand:hover .brand-tile{transform:rotate(90deg)}
 nav{display:flex;gap:max(14px,calc(22 * var(--w)));font-size:max(17px,calc(22 * var(--w)));white-space:nowrap;padding-top:0}
@@ -525,3 +525,47 @@ body.detail-open header{z-index:31}
 .enquiry-title{font-size:max(28px,calc(42 * var(--w)));line-height:1.08}
 .detail .copy-col{max-width:max(320px,calc(430 * var(--w)))}
 .detail h3 .line{padding-top:.1em;margin-top:-.1em}
+
+/* ---------- contact form: outlined boxes, high contrast ---------- */
+.enquiry{gap:26px}
+.boxes{display:grid;border:1px solid var(--ink)}
+.box-row{display:grid;grid-template-columns:1fr 1fr}
+.box-row>.box+.box{border-left:1px solid var(--ink)}
+.enquiry .box{display:grid;gap:10px;padding:18px 20px 16px;margin:0;border:0;border-top:1px solid var(--ink);min-width:0;transition:background .3s}
+.boxes>.box:first-child{border-top:0}
+.box-row{border-top:1px solid var(--ink)}
+.box-row>.box{border-top:0}
+.enquiry .box:focus-within{background:color-mix(in srgb,var(--linen) 55%,#fff);box-shadow:inset 0 0 0 2px var(--ink)}
+.enquiry .box>label,.enquiry .box>legend,.enquiry .box>.label{font-family:var(--sans);font-size:max(16px,calc(18 * var(--w)));font-weight:500;letter-spacing:0;color:var(--ink);text-transform:none;padding:0}
+.enquiry .box>legend{float:left;width:100%;margin:0 0 12px}
+.enquiry .box>legend+*{clear:both}
+.enquiry .opt{font-weight:400;color:#5E5850}
+.enquiry .box input:not([type=radio]):not([type=file]),.enquiry .box textarea{border:0;padding:2px 0 4px;font-size:max(20px,calc(24 * var(--w)));color:var(--ink)}
+.enquiry .box input:focus,.enquiry .box textarea:focus{border:0;outline:none}
+.enquiry .box input::placeholder,.enquiry .box textarea::placeholder{color:#5E5850;opacity:1}
+.enquiry .box textarea{min-height:3.6em}
+.enquiry .chips span{border-color:var(--ink);color:var(--ink)}
+.enquiry .chips input:checked+span{background:var(--ink);color:var(--linen)}
+.enquiry .invalid{box-shadow:inset 0 0 0 2px var(--terracotta)}
+.enquiry .err{color:var(--terracotta);font-family:var(--sans);font-size:14px;font-weight:500}
+.add-photo{border:1px dashed var(--ink);color:var(--ink)}
+.photos{justify-items:start}
+
+/* When can Kieron pop round? — a list with lines, ↳ on the chosen one */
+.options{display:grid}
+.option{display:flex;align-items:center;gap:14px;padding:16px 0;border-top:1px solid color-mix(in srgb,var(--ink) 30%,transparent);cursor:pointer;position:relative}
+.option:first-child{border-top:0;padding-top:2px}
+.option input{position:absolute;opacity:0;pointer-events:none}
+.option .mark{flex:none;width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative;transition:border-color .3s}
+.option .mark::after{content:"↳";position:absolute;inset:-4px 0 0 1px;font:500 18px/1 var(--sans);color:var(--ink);opacity:0;transform:translateX(-4px);transition:opacity .3s,transform .4s var(--ease-out)}
+.option:hover .mark,.option.on .mark{border-color:transparent}
+.option:hover .mark::after,.option.on .mark::after{opacity:1;transform:none}
+.option-text{font-size:max(20px,calc(24 * var(--w)));line-height:1.2;color:var(--ink)}
+.option.on .option-text{text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:1px}
+.option input:focus-visible~.option-text{outline:2px solid var(--terracotta);outline-offset:3px}
+.options .days{padding:2px 0 14px 34px}
+.options .days[hidden]{display:none}
+.chips.days input:disabled+span{opacity:.45;text-decoration:line-through}
+.visit-note{margin:2px 0 0;font-family:var(--sans);font-size:14px;color:var(--ink)}
+.visit-note:empty{display:none}
+@media (max-width:820px){.box-row{grid-template-columns:1fr}.box-row>.box+.box{border-left:0;border-top:1px solid var(--ink)}}

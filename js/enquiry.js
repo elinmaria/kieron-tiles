@@ -76,34 +76,45 @@
   }));
 
   /* ---- when can Kieron pop round? ----
-     Mon to Fri of this week (or next week once it's Thursday or the weekend), plus "Next week" and "Any day's good".
-     Days that have passed (and today) can't be picked. Tap a choice again to clear it. */
-  const days = document.getElementById('visit-days');
-  if (days) {
-    const out = document.getElementById('visit-day'), outDate = document.getElementById('visit-date'), note = document.getElementById('visit-note');
+     A short list: this week (then pick a day, Mon to Fri), next week, any day, or just email.
+     From Thursday on, "this week" becomes next week and "next week" the week after. */
+  const opts = document.getElementById('visit-options');
+  if (opts) {
+    const out = document.getElementById('visit-day'), outDate = document.getElementById('visit-date');
+    const note = document.getElementById('visit-note'), days = document.getElementById('visit-days');
     const today = new Date(); today.setHours(0, 0, 0, 0);
-    const dow = (today.getDay() + 6) % 7;                         // 0 = Monday
-    const monday = new Date(today); monday.setDate(today.getDate() - dow + (dow >= 3 ? 7 : 0));
+    const dow = (today.getDay() + 6) % 7, late = dow >= 3;              // 0 = Monday; Thursday onwards counts as late
+    const monday = new Date(today); monday.setDate(today.getDate() - dow + (late ? 7 : 0));
     const short = d => d.toLocaleDateString('en-GB', { weekday: 'short' }) + ' ' + d.getDate();
     const long = d => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
     const iso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-    const choices = [];
-    for (let i = 0; i < 5; i++) { const d = new Date(monday); d.setDate(monday.getDate() + i); choices.push({ label: short(d), value: long(d), date: iso(d), off: d <= today, say: long(d) }); }
-    choices.push({ label: 'Next week', value: 'Next week', say: 'next week', wide: true });
-    choices.push({ label: "Any day's good", value: 'Any day', say: 'any day that suits him', wide: true });
-    days.innerHTML = choices.map((c, i) => `<label class="${c.wide ? 'wide' : 'day'}"><input type="radio" name="visit-choice" value="${i}"${c.off ? ' disabled' : ''}><span>${c.label}</span></label>`).join('');
-    const radios = [...days.querySelectorAll('input')];
-    let last = null;
-    const sync = r => {
-      const c = r && r.checked ? choices[+r.value] : null;
-      out.value = c ? c.value : '';
-      outDate.value = c && c.date ? c.date : '';
-      note.textContent = c ? (c.wide ? `Lovely, ${c.say} it is. Kieron will message to fix a time.` : `Lovely, ${c.say} it is. Kieron will confirm the time.`)
-                           : "Pick a day and he'll be in touch to sort a time.";
+    if (late) {
+      document.getElementById('this-week-label').textContent = 'Next week';
+      opts.querySelector('input[value=next-week]').nextElementSibling.nextElementSibling.textContent = 'The week after';
+    }
+    const week = [...Array(5)].map((_, i) => { const d = new Date(monday); d.setDate(monday.getDate() + i); return d; });
+    days.innerHTML = week.map((d, i) => `<label class="day"><input type="radio" name="visit-choice" value="${i}"${d <= today ? ' disabled' : ''}><span>${short(d)}</span></label>`).join('');
+    const say = {
+      'next-week': late ? 'The week after it is. Kieron will message to fix a day.' : 'Next week it is. Kieron will message to fix a day.',
+      any: 'Lovely. Kieron will suggest a day that suits him.',
+      email: "No problem. Kieron will just reply by email."
     };
-    radios.forEach(r => {
-      r.addEventListener('click', () => { if (last === r) { r.checked = false; last = null; } else last = r; sync(r); });
-      r.addEventListener('change', () => sync(r));
+    const value = { 'next-week': late ? 'The week after' : 'Next week', any: 'Any day', email: 'No visit, just email' };
+    const set = (v, date, text) => { out.value = v; outDate.value = date || ''; note.textContent = text || ''; };
+    opts.addEventListener('change', e => {
+      const r = e.target;
+      if (r.name === 'visit-when') {
+        opts.querySelectorAll('.option').forEach(o => o.classList.toggle('on', o.contains(r) && r.checked));
+        days.hidden = r.value !== 'this-week';
+        if (r.value === 'this-week') {
+          days.querySelectorAll('input').forEach(i => { i.checked = false; });
+          set('', '', 'Pick a day and Kieron will confirm the time.');
+          const first = days.querySelector('input:not(:disabled)'); if (first) first.focus();
+        } else set(value[r.value], '', say[r.value]);
+      } else if (r.name === 'visit-choice') {
+        const d = week[+r.value];
+        set(long(d), iso(d), `Lovely, ${long(d)} it is. Kieron will confirm the time.`);
+      }
     });
   }
 
