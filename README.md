@@ -32,7 +32,7 @@ If the sheet can't be reached, the homepage shows the projects written in `index
 
 ## Projects page
 
-`projects.html` shows every project in a grid (4 across on a laptop, 2 on a phone) with filter buttons for each Type.
+`projects.html` shows every project in a grid (5 across on a laptop, 2 on a phone; photos alternate between landscape, square and portrait like a gallery wall) with filter buttons for each Type.
 Clicking a project opens the same project view as the homepage (`js/detail.js`). Each project has its own link
 (`projects.html#green-hallway`) and so does each filter (`projects.html?type=hallway`), so both can be shared.
 

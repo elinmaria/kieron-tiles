@@ -1,4 +1,4 @@
-/* Projects page: every project in a grid, filtered by Type.
+/* Projects page: every project in a five-column gallery grid, filtered by Type.
    Clicking a project opens the same project view as the homepage (js/detail.js).
    Each project has its own address (projects.html#red-star-path) and each filter too
    (projects.html?type=hallway), so both can be shared. */
@@ -8,6 +8,9 @@
   const count = document.getElementById('pp-count'), empty = document.getElementById('pp-empty');
   const reduce = KT.reduce;
   const pad = n => String(n).padStart(2, '0');
+  // Card shapes repeat in this order, like a hung gallery wall: landscape, square, portrait.
+  const SHAPES = ['l', 's', 'p', 's', 'p', 'p', 'p', 's', 'l', 'p'];
+  const shape = i => 'shape-' + SHAPES[i % SHAPES.length];
 
   // Shown if the sheet can't be reached: the sample project that ships with the site.
   const FALLBACK = [{ id: 'hampstead', title: 'Hampstead', year: '2026', location: 'Hampstead, London', type: 'Garden path',
@@ -18,7 +21,7 @@
 
   function cardHTML(p, i) {
     const n = 1 + (p.photos || []).length;   // the main photo plus Photo 2–4
-    return `<a class="pcard" href="#${esc(p.id)}" data-id="${esc(p.id)}" data-type="${esc(KT.slug(p.type))}" style="--i:${i}">
+    return `<a class="pcard ${shape(i)}" href="#${esc(p.id)}" data-id="${esc(p.id)}" data-type="${esc(KT.slug(p.type))}" style="--i:${i}">
       <div class="frame">
         <div class="ph ph-after" role="img" aria-label="${esc(p.title)}" style="${KT.bg(p.afterThumb)}"></div>
         ${p.before ? `<div class="ph ph-before pc-before" aria-hidden="true" style="${KT.bg(p.beforeThumb)}"></div><span class="pc-tag" aria-hidden="true"><span>After</span><span>Before</span></span>` : ''}
@@ -48,7 +51,7 @@
       let k = 0;
       cards.forEach(c => {
         const on = show(c); c.hidden = !on;
-        if (on) { c.style.setProperty('--i', k); c.querySelector('.cap-num').textContent = pad(++k); }
+        if (on) { c.style.setProperty('--i', k); c.className = c.className.replace(/shape-\w/, shape(k)); c.querySelector('.cap-num').textContent = pad(++k); }
       });
       count.textContent = k === 1 ? '1 project' : k + ' projects';
       empty.hidden = k > 0;
