@@ -5,3 +5,7 @@ window.KT_SHEET = "https://docs.google.com/spreadsheets/d/1Q8Fk9d1VWXv-EdHJEzdCq
 /* Where the contact form sends enquiries: the web app address of apps-script/Code.gs
    (ends in /exec). Until it's set, the form asks people to email instead. */
 window.KT_FORM_URL = "";
+
+/* Kieron's phone number, for the little phone in the header (tap to call on a phone).
+   Until it's set, the phone opens the contact form. Example: "+44 7700 900123" */
+window.KT_PHONE = "";

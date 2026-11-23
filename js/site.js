@@ -22,6 +22,11 @@
   if (!firstPage) document.documentElement.classList.add('header-still');
   document.querySelectorAll('[data-roll]').forEach(el => rollify(el, !!el.dataset.d && (firstPage || !el.closest('header'))));
 
+  /* ---- phone in the header: calls Kieron once his number is in js/config.js ---- */
+  const phone = document.getElementById('nav-phone'), num = (window.KT_PHONE || '').trim();
+  if (phone && num) { phone.href = 'tel:' + num.replace(/[^\d+]/g, ''); phone.title = 'Call Kieron on ' + num; phone.setAttribute('aria-label', 'Call Kieron on ' + num); }
+  if (phone && !firstPage) phone.classList.add('still');
+
   /* ---- hand-drawn underline ---- */
   // Three slightly different strokes so the links don't look stamped out.
   const strokes = [
