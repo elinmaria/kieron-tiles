@@ -173,6 +173,7 @@ nav a::after{display:none}
   padding:max(96px,calc(env(safe-area-inset-top,0px) + 96px)) max(24px,env(safe-area-inset-right,0px)) 72px max(24px,env(safe-area-inset-left,0px));
   opacity:0;pointer-events:none;transition:opacity .9s var(--ease-out)}
 .detail.open{opacity:1;pointer-events:auto}
+.detail{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:max(60px,calc(80 * var(--w)))}
 .detail .copy-col{display:flex;flex-direction:column;gap:22px;min-width:0;padding-left:clamp(0px,3vw,48px)}
 .detail h3{margin:0;font-weight:200;font-size:clamp(52px,7.4vw,128px);line-height:.92;letter-spacing:-.02em;text-transform:none}
 .detail h3 .line{display:block;overflow:hidden;padding-bottom:.06em}
@@ -509,11 +510,11 @@ body.detail-open header{z-index:31}
 
 /* contact: form beside the title, details under it, bigger tile */
 @media (min-width:821px){
-  .page-contact{min-height:calc(1560 * var(--w))}
+  .page-contact{min-height:calc(1620 * var(--w))}
   .page-contact .page-title{left:calc(275 * var(--w));top:calc(279 * var(--w))}
   .page-contact .contact-side:not(.message-side){position:absolute;margin:0;left:calc(293 * var(--w));top:calc(615 * var(--w));width:calc(420 * var(--w));padding:0;gap:0}
   .page-contact .contact-list{gap:calc(26 * var(--w))}
-  .page-contact .message-side{position:absolute;margin:0;left:calc(878 * var(--w));top:calc(285 * var(--w));width:max(460px,calc(678 * var(--w)));padding:0 0 140px}
+  .page-contact .message-side{position:relative;margin:calc(285 * var(--w)) 0 0 calc(878 * var(--w));left:auto;top:auto;width:max(460px,calc(678 * var(--w)));padding:0 0 140px}
   .page-contact .contact-list dd{font-size:max(22px,calc(36 * var(--w)));line-height:1.5}
   .enquiry-intro{max-width:none}
   .contact-tile{left:calc(274 * var(--w));top:calc(1115 * var(--w));bottom:auto;width:calc(436 * var(--w))}
