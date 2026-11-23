@@ -1,7 +1,7 @@
 /* Reads the projects from the Google Sheet set in js/config.js.
    The sheet must be shared as "Anyone with the link: Viewer". Each row is a project.
    Columns (first row, any order, case doesn't matter):
-     Show | Order | Title | Year | Location | Type | Description |
+     Show | Order | Title | Year | Location | Type | Service | Description |
      Before photo | After photo | Photo 2 | Photo 3 | Photo 4
    Columns it doesn't know (like the preview columns) are ignored.
    KT.loadProjects() resolves to a list of projects, or null if the sheet can't be read. */
@@ -68,6 +68,7 @@
         year: get(r, 'year'),
         location: get(r, 'location', 'area'),
         type: get(r, 'type', 'category'),
+        service: get(r, 'service', 'services'),
         description: get(r, 'description', 'text', 'about'),
         before: imageUrl(raw.before), after: imageUrl(raw.after),
         beforeThumb: imageUrl(raw.before, 900), afterThumb: imageUrl(raw.after, 900),
@@ -82,6 +83,25 @@
   KT.esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   KT.bg = u => `background-image:url(&quot;${KT.esc(u).replace(/\(/g, '%28').replace(/\)/g, '%29')}&quot;)`;
   KT.slug = slug;
+  KT.parseCSV = parseCSV;
+
+  // Another tab of the same sheet, by name (e.g. "About page"), as rows of {column: value}.
+  // Resolves to null if it can't be read or doesn't have the expected first column.
+  KT.loadTab = (name, firstCol) => {
+    const SHEET = (window.KT_SHEET || '').trim();
+    const m = SHEET.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+    if (!m) return Promise.resolve(null);
+    const url = `https://docs.google.com/spreadsheets/d/${m[1]}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(name)}`;
+    return fetch(url, { cache: 'no-store' })
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(text => {
+        if (/^\s*</.test(text)) throw new Error('not shared');
+        const rows = parseCSV(text), head = (rows.shift() || []).map(key);
+        if (head[0] !== key(firstCol)) throw new Error('tab not found');   // Google returns the first tab when a name doesn't exist
+        return rows.map(r => Object.fromEntries(head.map((h, i) => [h, (r[i] || '').trim()])));
+      })
+      .catch(err => { console.warn(`[Victorian Tiler] Using the built-in ${name} text:`, err.message); return null; });
+  };
 
   let pending = null;
   KT.loadProjects = () => {
@@ -112,6 +132,7 @@
     fb('black-and-white-path', 'Black and White Path', '2026', 'Front path', 'A classic black and white diamond path with a patterned border running along one side.', 'black-and-white-path.jpg'),
     fb('rosette-hallway', 'Rosette Hallway', '2024', 'Restoration', 'Cracked tiles in an original rosette and star floor replaced with matching ones, so the pattern reads as one again.', 'rosette-hallway-after.jpg', 'rosette-hallway-before.jpg')
   ];
+  KT.FALLBACK.forEach(p => { p.service = p.type === 'Restoration' ? 'Copy existing pattern' : 'Pattern library'; });
 
   // For testing the parser without a network.
   KT._parse = text => toProjects(parseCSV(text));

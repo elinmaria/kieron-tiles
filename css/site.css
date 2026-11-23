@@ -563,3 +563,45 @@ body.detail-open header{z-index:31}
 .visit-note{margin:2px 0 0;font-family:var(--sans);font-size:14px;color:var(--ink)}
 .visit-note:empty{display:none}
 @media (max-width:820px){.box-row{grid-template-columns:1fr}.box-row>.box+.box{border-left:0;border-top:1px solid var(--ink)}}
+
+/* ---- About page: story + services accordion (text from the sheet's "About page" tab, js/about.js) ---- */
+.page-about{height:auto;min-height:max(100vh, calc(1117 * var(--w)) + 40px)}
+.about-more{position:relative;margin-left:30.27vw;width:min(46vw,860px);padding:calc(1300 * var(--w)) 0 calc(200 * var(--w) + 90px);display:grid;gap:max(56px,calc(110 * var(--w)));animation:fadeup 1.3s var(--ease-out) .8s backwards}
+.about-h{margin:0 0 max(18px,calc(28 * var(--w)));font-family:var(--sans);font-weight:500;font-size:max(11px,calc(12 * var(--w)));letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.story-text{display:grid;gap:1em;max-width:34em}
+.story-text p{margin:0;font-size:max(19px,calc(26 * var(--w)));line-height:1.45;color:var(--ink)}
+
+.acc-box{border:1px solid var(--ink);padding:18px 20px 2px}
+.acc-label{margin:0 0 4px;font-family:var(--sans);font-size:max(16px,calc(18 * var(--w)));font-weight:500;letter-spacing:0;color:var(--ink)}
+.accordion{display:grid}
+.acc{border-top:1px solid color-mix(in srgb,var(--ink) 30%,transparent)}
+.acc:first-child{border-top:0}
+.acc summary{display:flex;align-items:center;gap:14px;padding:16px 0;cursor:pointer;list-style:none;position:relative}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:focus-visible{outline:2px solid var(--terracotta);outline-offset:3px}
+.acc .mark{flex:none;width:20px;height:20px;border:1.5px solid var(--ink);border-radius:50%;position:relative;transition:border-color .3s}
+.acc .mark::after{content:"↳";position:absolute;inset:-4px 0 0 1px;font:500 18px/1 var(--sans);color:var(--ink);opacity:0;transform:translateX(-4px);transition:opacity .3s,transform .4s var(--ease-out)}
+.acc summary:hover .mark,.acc[open]:not(.closing) .mark{border-color:transparent}
+.acc summary:hover .mark::after,.acc[open]:not(.closing) .mark::after{opacity:1;transform:none}
+.acc .option-text{flex:1;min-width:0}
+.acc[open]:not(.closing) .option-text{text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:1px}
+.acc-plus{flex:none;width:14px;height:14px;position:relative;margin-right:2px}
+.acc-plus::before,.acc-plus::after{content:"";position:absolute;left:0;right:0;top:50%;height:1.5px;margin-top:-.75px;background:var(--ink);transition:transform .5s var(--ease-out)}
+.acc-plus::after{transform:rotate(90deg)}
+.acc[open]:not(.closing) .acc-plus::after{transform:rotate(0deg)}
+.acc-body{overflow:hidden;transition:height .55s var(--ease-out)}
+.acc-inner{padding:0 0 24px 34px;display:grid;gap:16px;justify-items:start}
+.acc-inner p{margin:0;max-width:36em;font-size:max(17px,calc(20 * var(--w)));line-height:1.5;color:var(--ink)}
+.acc[open] .acc-inner{animation:fadeup .6s var(--ease-out) .08s backwards}
+@media (prefers-reduced-motion: reduce){.acc-body{transition:none}.acc[open] .acc-inner{animation:none}}
+
+.filter-service{border-color:var(--ink)}
+.filter-sep{flex:none;width:1px;align-self:stretch;margin:4px 6px;background:var(--line)}
+
+@media (max-width:820px){
+  .page-about{min-height:0}
+  .about-more{margin:0;width:auto;padding:0;gap:56px}
+  .page-about .about-tile{position:relative;top:auto;bottom:auto;right:auto;align-self:flex-end;margin:-8px -16px -24px 0;width:26vw}
+  .acc-box{padding:16px 16px 2px}
+  .acc-inner{padding-left:34px}
+}
