@@ -64,7 +64,10 @@
   function open(id, fromEl, push) {
     const p = projects.find(x => x.id === id); if (!p) return;
     if (push) history.pushState({ project: id }, '', location.pathname + location.search + '#' + id);
-    KT.detail.open(p, fromEl, { onClose: () => {
+    const visible = [...grid.children].filter(c => !c.hidden).map(c => projects.find(x => x.id === c.dataset.id)).filter(Boolean);
+    KT.detail.open(p, fromEl, { list: visible.length ? visible : projects,
+      onNext: n => history.replaceState(history.state, '', location.pathname + location.search + '#' + n.id),
+      onClose: () => {
       if (!location.hash) return;
       // Opened from the grid: step back so the Back button doesn't reopen it. Opened from a shared link: just tidy the address.
       if (history.state && history.state.project) history.back();

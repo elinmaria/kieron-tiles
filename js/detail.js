@@ -52,7 +52,7 @@
   };
 
   /* ---- the view ---- */
-  let openFrom = null, onClose = null;
+  let openFrom = null, onClose = null, list = null, current = null, onNext = null;
   const detail = () => $('detail');
 
   function fillText(p) {
@@ -91,6 +91,40 @@
     });
   }
 
+  /* ---- next project ---- */
+  const nextOf = p => {
+    if (!list || list.length < 2 || !p) return null;
+    const i = list.findIndex(x => x.id === p.id);
+    return i < 0 ? null : list[(i + 1) % list.length];
+  };
+  function showNext(p) {
+    const a = $('d-next'); if (!a) return;
+    const n = nextOf(p);
+    a.hidden = !n;
+    if (!n) return;
+    $('d-next-title').textContent = n.title;
+    a.href = (document.body.dataset.page === 'projects' ? '' : 'projects.html') + '#' + n.id;
+  }
+  // The frame of the card for a project, so closing the view still flies back to the right card.
+  const cardFrame = p => document.querySelector(`[data-id="${CSS.escape(p.id || '')}"] .frame`)
+    || [...document.querySelectorAll('.card[data-title]')].find(c => c.dataset.title === p.title)?.querySelector('.frame') || null;
+
+  function goNext() {
+    const n = nextOf(current); if (!n) return;
+    const d = detail(), copy = d.querySelector('.copy-col'), media = d.querySelector('.media-col');
+    const swap = () => {
+      const t = document.createElement('div'); t.innerHTML = KT.frameHTML(n);
+      current = n; openFrom = cardFrame(n);
+      fillText(n); fillPhotos(n, t.firstElementChild); showNext(n);
+      d.scrollTo({ top: 0 });
+      if (onNext) onNext(n);
+      d.classList.remove('turning');
+    };
+    if (reduce) return swap();
+    d.classList.add('turning');
+    setTimeout(swap, 380);
+  }
+
   KT.detail = {
     open(p, fromEl, opts = {}) {
       const d = detail(), dImg = $('d-img');
@@ -99,7 +133,8 @@
       else { const t = document.createElement('div'); t.innerHTML = KT.frameHTML(p); main = t.firstElementChild; }
       main.style.transform = ''; main.removeAttribute('tabindex');
       fillText(p); fillPhotos(p, main);
-      onClose = opts.onClose || null;
+      onClose = opts.onClose || null; onNext = opts.onNext || null;
+      list = opts.list || null; current = p; showNext(p);
       d.setAttribute('aria-hidden', 'false');
       openFrom = fromEl || null;
       d.scrollTop = 0;
@@ -132,6 +167,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const c = $('d-close'); if (c) c.addEventListener('click', () => KT.detail.close());
+    const nx = $('d-next'); if (nx) nx.addEventListener('click', e => { if (e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); goNext(); });
     // On the projects page, the "Projects" crumb just closes the view instead of reloading the page
     const crumb = document.querySelector('.crumbs a[href="projects.html"]');
     if (crumb && document.body.dataset.page === 'projects') crumb.addEventListener('click', e => { e.preventDefault(); KT.detail.close(); });

@@ -628,3 +628,15 @@ body.detail-open header{z-index:31}
   .acc-box{padding:16px 16px 2px}
   .acc-inner{padding-left:34px}
 }
+
+/* project view: next project */
+.next-cta{display:grid;gap:6px;justify-items:start;align-self:flex-start;margin-top:max(18px,calc(30 * var(--w)));padding-top:max(16px,calc(22 * var(--w)));border-top:1px solid var(--line);min-width:min(100%,260px);opacity:0;transition:opacity 1s ease .85s}
+.detail.open .next-cta{opacity:1}
+.next-cta[hidden]{display:none}
+.next-label{font-family:var(--sans);font-size:max(11px,calc(12 * var(--w)));letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.next-label::after{content:" →";letter-spacing:0}
+.next-title{font-size:max(24px,calc(34 * var(--w)));line-height:1.1;transition:color .4s}
+.next-cta:hover .next-title{color:var(--terracotta)}
+.next-cta:focus-visible{outline:2px solid var(--terracotta);outline-offset:4px}
+.detail .copy-col,.detail .media-col{transition:opacity .38s ease,transform .38s var(--ease-out)}
+.detail.turning .copy-col,.detail.turning .media-col{opacity:0;transform:translateY(-10px)}

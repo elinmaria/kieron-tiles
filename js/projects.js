@@ -8,7 +8,7 @@
   function cardHTML(p, i) {
     const caption = [p.title, p.year].filter(Boolean).join(' ') + '.';
     const pair = !!p.before;
-    return `<article class="card${pair ? '' : ' single'}" data-i="${i}" data-title="${esc(p.title)}" data-year="${esc(p.year)}" data-type="${esc(p.type)}" data-location="${esc(p.location)}" data-desc="${esc(p.description)}">
+    return `<article class="card${pair ? '' : ' single'}" data-i="${i}" data-id="${esc(p.id || '')}" data-title="${esc(p.title)}" data-year="${esc(p.year)}" data-type="${esc(p.type)}" data-location="${esc(p.location)}" data-desc="${esc(p.description)}">
       <div class="tile ${i % 2 ? 'b' : 'a'}"></div>
       ${pair ? '<div class="labels" aria-hidden="true"><span>Before</span><span>After</span></div>' : ''}
       <div class="frame" aria-label="Open project: ${esc(p.title)}">
@@ -30,7 +30,7 @@
 
   function render(all) {
     const projects = all.slice(0, HOME_COUNT);
-    KT.homeProjects = projects;
+    KT.homeProjects = projects; KT.allProjects = all;
     document.getElementById('track').innerHTML = projects.map(cardHTML).join('\n') + viewAll(all.length);
     // The opening slideshow uses the first project's photos.
     const first = projects[0];
