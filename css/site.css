@@ -1,5 +1,5 @@
 *,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
-@font-face{font-family:"PP Editorial New";src:url("../fonts/PPEditorialNew-Ultralight.otf") format("opentype");font-weight:200;font-style:normal;font-display:swap}
+@font-face{font-family:"PP Editorial New";src:url("../fonts/PPEditorialNew-Ultralight.otf") format("opentype");font-weight:200;font-style:normal;font-display:block}
 @font-face{font-family:"PP Editorial New";src:url("../fonts/PPEditorialNew-UltralightItalic.otf") format("opentype");font-weight:200;font-style:italic;font-display:swap}
 @font-face{font-family:"PP Editorial New";src:url("../fonts/PPEditorialNew-Ultrabold.otf") format("opentype");font-weight:800;font-style:normal;font-display:swap}
 /* Layout: cream architectural grid, editorial top bar, one draggable row of project cards with before/after sliders, quiet about + contact below. */
@@ -205,6 +205,7 @@ nav a::after{display:none}
   stroke-dasharray:1 1.2;stroke-dashoffset:1.05;transition:stroke-dashoffset .95s cubic-bezier(.65,0,.35,1)}
 .nav-link:hover .scribble path,.nav-link:focus-visible .scribble path,.nav-link.is-active .scribble path{stroke-dashoffset:0}
 .nav-link:focus-visible{outline:none}
+.header-still .nav-link[aria-current] .scribble path{transition:none}
 .brand:focus-visible{outline:1.5px solid var(--terracotta);outline-offset:6px}
 .brand:hover .brand-tile{transform:rotate(90deg)}
 

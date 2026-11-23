@@ -15,7 +15,12 @@
     r.append(a, b); el.append(r);
   };
   window.KT = Object.assign(window.KT || {}, { rollify, reduce });
-  document.querySelectorAll('[data-roll]').forEach(el => rollify(el, !!el.dataset.d));
+  // The header rolls in once, on the first page of a visit. After that it stays still between pages,
+  // so moving through the menu feels like one site rather than a reload.
+  let firstPage = true;
+  try { firstPage = !sessionStorage.getItem('kt-visited'); sessionStorage.setItem('kt-visited', '1'); } catch (e) {}
+  if (!firstPage) document.documentElement.classList.add('header-still');
+  document.querySelectorAll('[data-roll]').forEach(el => rollify(el, !!el.dataset.d && (firstPage || !el.closest('header'))));
 
   /* ---- hand-drawn underline ---- */
   // Three slightly different strokes so the links don't look stamped out.
@@ -43,7 +48,8 @@
   const current = links.find(a => a.dataset.page === page);
   if (current) {
     current.setAttribute('aria-current', 'page');
-    setTimeout(() => current.classList.add('is-active'), reduce ? 0 : 1100);
+    if (firstPage && !reduce) setTimeout(() => current.classList.add('is-active'), 1100);
+    else current.classList.add('is-active');   // already drawn when the link was clicked: just keep it
   }
 
   // Clicking a link draws its line and leaves it there.
