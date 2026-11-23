@@ -64,6 +64,7 @@
     set('d-l1', p.title); set('d-l2', p.year ? p.year + '.' : ''); set('d-crumb', p.title);
     set('d-text', p.description); $('d-text').hidden = !p.description;
     set('d-type', p.type); set('d-loc', p.location); set('d-year', p.year);
+    const ty = $('d-type'); if (ty && ty.tagName === 'A') ty.href = 'projects.html' + (p.type ? '?type=' + encodeURIComponent(KT.slug(p.type)) : '');
   }
 
   function fillPhotos(p, mainFrame) {
@@ -102,7 +103,8 @@
     const n = nextOf(p);
     a.hidden = !n;
     if (!n) return;
-    $('d-next-title').textContent = n.title;
+    a.setAttribute('aria-label', 'Next project: ' + n.title);
+    a.title = n.title;
     a.href = (document.body.dataset.page === 'projects' ? '' : 'projects.html') + '#' + n.id;
   }
   // The frame of the card for a project, so closing the view still flies back to the right card.
