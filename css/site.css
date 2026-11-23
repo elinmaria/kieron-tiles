@@ -720,3 +720,17 @@ nav a.nav-phone::after{display:none}
   footer .foot-links{width:100%;margin:0;gap:16px}
   footer .foot-links .credit{margin-left:auto}
 }
+
+/* ---------- phones: Projects head and About as in the Figma mobile frames ---------- */
+@media (max-width:820px){
+  .pp-head .pp-cta{display:none}
+  .pp-head{padding-top:58px;padding-bottom:22px}
+  .pp-title{font-size:34px;white-space:nowrap}
+  .page-about{position:relative}
+  .page-about .about-portrait{position:absolute;left:48.5vw;width:57vw;top:249px;margin:0;z-index:-1}
+  .page-about .about-tile{position:absolute;left:76.7vw;right:auto;width:26vw;top:696px;margin:0;z-index:-1}
+  .page-about .about-more{margin-top:61px;position:relative;z-index:1}
+  .page-about .about-row{gap:73px}
+  .page-about .work-photos{width:71%;margin:0 auto;column-gap:5px;row-gap:6px}
+  .page-about .about-row-2{gap:40px}
+}
