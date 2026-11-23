@@ -693,3 +693,5 @@ nav a.nav-phone::after{display:none}
 /* Contact, email and phone sit together as one group in the menu */
 .nav-contact{display:inline-flex;align-items:baseline;gap:max(10px,calc(14 * var(--w)))}
 .nav-contact .nav-phone{align-self:center}
+
+.text-cta{white-space:nowrap}
