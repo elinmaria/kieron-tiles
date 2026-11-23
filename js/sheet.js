@@ -57,6 +57,10 @@
         after: get(r, 'afterphoto', 'after', 'afterimage', 'photo', 'photo1'),
         extra: ['photo2', 'photo3', 'photo4', 'photo5', 'photo6'].map(n => get(r, n)).filter(Boolean)
       };
+      // A photo already used as the before or after isn't repeated in the extra photos.
+      const fid = u => (u.match(/\/d\/([a-zA-Z0-9-_]+)|[?&]id=([a-zA-Z0-9-_]+)/) || []).slice(1).find(Boolean) || u;
+      const used = new Set([raw.before, raw.after].filter(Boolean).map(fid));
+      raw.extra = raw.extra.filter(u => !used.has(fid(u)));
       const title = get(r, 'title', 'project', 'name');
       let id = slug(title) || 'project-' + (i + 1);
       if (seen[id]) id += '-' + (++seen[id]); else seen[id] = 1;
