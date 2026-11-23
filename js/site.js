@@ -24,12 +24,12 @@
 
   /* ---- phone in the header: calls Kieron once his number is in js/config.js ---- */
   const phone = document.getElementById('nav-phone'), num = (window.KT_PHONE || '').trim();
-  if (num) document.querySelectorAll('#nav-phone, .m-phone').forEach(p => { p.href = 'tel:' + num.replace(/[^\d+]/g, ''); p.title = 'Call Kieron on ' + num; p.setAttribute('aria-label', 'Call Kieron on ' + num); });
+  if (num) document.querySelectorAll('#nav-phone, .m-phone').forEach(p => { p.href = 'tel:' + num.replace(/[^\d+]/g, ''); p.title = 'Call Kieron on ' + num; p.setAttribute('aria-label', 'Call Kieron on ' + num); const t = p.querySelector('.m-phone-text'); if (t) t.textContent = num; });
 
   /* ---- phone menu: the wavy lines open Projects, About, Contact ---- */
   const toggle = document.querySelector('.menu-toggle'), head = document.querySelector('header');
   if (toggle && head) {
-    const set = open => { head.classList.toggle('menu-open', open); toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu'); };
+    const set = open => { head.classList.toggle('menu-open', open); document.body.classList.toggle('menu-lock', open); toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu'); };
     toggle.addEventListener('click', () => set(!head.classList.contains('menu-open')));
     addEventListener('keydown', e => { if (e.key === 'Escape' && head.classList.contains('menu-open')) { set(false); toggle.focus(); } });
   }
