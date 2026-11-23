@@ -19,7 +19,7 @@ Made by ElinLondon.
 The homepage gallery and the projects page both read the same Google Sheet, so new jobs can be added without
 touching the code. The sheet's link is in `js/config.js`; the sheet must be shared as **Anyone with the link: Viewer**.
 
-Columns (row 1): `Show, Order, Title, Year, Location, Type, Service, Description, Before photo, After photo, Photo 2, Photo 3, Photo 4`.
+Columns (row 1): `Show, Order, Title, Year, Location, Type, Description, Before photo, After photo, Photo 2, Photo 3, Photo 4`.
 Other columns (such as the photo previews) are ignored.
 
 - **Photos:** upload to the shared Google Drive folder and paste each file's share link into the sheet.
@@ -27,7 +27,6 @@ Other columns (such as the photo previews) are ignored.
   *Photo 2–4* are extra photos of the same job, shown under the main photo in the project view.
 - **Show = No** hides a row; **Order** sets the position on both pages. The homepage shows the first 5, then "View all projects" (change `HOME_COUNT` in `js/projects.js`).
 - **Type** becomes the filter buttons on the projects page, so keep the names consistent (e.g. "Hallway", not "Hallways").
-- **Service** is Pattern library, Copy existing pattern or New pattern (more than one: separate with commas). These are filter buttons too, and the services on the About page link to them (`projects.html?service=pattern-library`).
 
 ### About page text
 The **About page** tab of the same sheet holds the About text, one row per piece (`Section | Title | Text`):

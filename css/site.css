@@ -595,8 +595,6 @@ body.detail-open header{z-index:31}
 .acc[open] .acc-inner{animation:fadeup .6s var(--ease-out) .08s backwards}
 @media (prefers-reduced-motion: reduce){.acc-body{transition:none}.acc[open] .acc-inner{animation:none}}
 
-.filter-service{border-color:var(--ink)}
-.filter-sep{flex:none;width:1px;align-self:stretch;margin:4px 6px;background:var(--line)}
 
 @media (max-width:820px){
   .page-about{min-height:0}

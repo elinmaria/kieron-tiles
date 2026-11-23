@@ -1,7 +1,7 @@
 /* Projects page: every project in a five-column gallery grid, filtered by Type.
    Clicking a project opens the same project view as the homepage (js/detail.js).
    Each project has its own address (projects.html#red-star-path) and each filter too
-   (projects.html?type=hallway, projects.html?service=pattern-library), so both can be shared. */
+   (projects.html?type=hallway), so both can be shared. */
 (() => {
   const KT = window.KT, esc = s => KT.esc(s);
   const grid = document.getElementById('pgrid'), bar = document.getElementById('filters');
@@ -13,12 +13,10 @@
   const shape = i => 'shape-' + SHAPES[i % SHAPES.length];
 
   let projects = [], current = 'all';
-  // A project can have more than one service, separated by commas in the sheet.
-  const services = p => String(p.service || '').split(',').map(s => s.trim()).filter(Boolean);
 
   function cardHTML(p, i) {
     const n = 1 + (p.photos || []).length;   // the main photo plus Photo 2–4
-    return `<a class="pcard ${shape(i)}" href="#${esc(p.id)}" data-id="${esc(p.id)}" data-type="${esc(KT.slug(p.type))}" data-service="${esc(services(p).map(KT.slug).join(' '))}" style="--i:${i}">
+    return `<a class="pcard ${shape(i)}" href="#${esc(p.id)}" data-id="${esc(p.id)}" data-type="${esc(KT.slug(p.type))}" style="--i:${i}">
       <div class="frame">
         <div class="ph ph-after" role="img" aria-label="${esc(p.title)}" style="${KT.bg(p.afterThumb)}"></div>
         ${p.before ? `<div class="ph ph-before pc-before" aria-hidden="true" style="${KT.bg(p.beforeThumb)}"></div><span class="pc-tag" aria-hidden="true"><span>After</span><span>Before</span></span>` : ''}
@@ -28,22 +26,13 @@
     </a>`;
   }
 
-  // Filters: All, then the services (Pattern library, Copy existing pattern, New pattern), then each Type.
-  // Service filters are keyed "s-<slug>" so they never clash with a type of the same name.
-  const SERVICE_ORDER = ['pattern-library', 'copy-existing-pattern', 'new-pattern'];
   function buildFilters() {
-    const types = {}, servs = {};
-    projects.forEach(p => {
-      if (p.type) { const k = KT.slug(p.type); (types[k] = types[k] || { label: p.type, n: 0 }).n++; }
-      services(p).forEach(s => { const k = 's-' + KT.slug(s); (servs[k] = servs[k] || { label: s, n: 0 }).n++; });
-    });
+    const types = {};
+    projects.forEach(p => { if (!p.type) return; const k = KT.slug(p.type); (types[k] = types[k] || { label: p.type, n: 0 }).n++; });
     const list = Object.entries(types).sort((a, b) => b[1].n - a[1].n || a[1].label.localeCompare(b[1].label));
-    const rank = k => { const i = SERVICE_ORDER.indexOf(k.slice(2)); return i < 0 ? 99 : i; };
-    const slist = Object.entries(servs).sort((a, b) => rank(a[0]) - rank(b[0]) || a[1].label.localeCompare(b[1].label));
-    bar.hidden = list.length + slist.length < 2;
-    const btn = ([k, t]) => `<button type="button" class="filter${k.startsWith('s-') ? ' filter-service' : ''}" data-type="${esc(k)}" aria-pressed="false">${esc(t.label)}<sup>${t.n}</sup></button>`;
-    bar.innerHTML = btn(['all', { label: 'All', n: projects.length }]) + slist.map(btn).join('')
-      + (slist.length ? '<span class="filter-sep" aria-hidden="true"></span>' : '') + list.map(btn).join('');
+    bar.hidden = list.length < 2;
+    bar.innerHTML = [['all', { label: 'All', n: projects.length }], ...list].map(([k, t]) =>
+      `<button type="button" class="filter" data-type="${esc(k)}" aria-pressed="false">${esc(t.label)}<sup>${t.n}</sup></button>`).join('');
     bar.querySelectorAll('.filter').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.type, true)));
   }
 
@@ -51,7 +40,7 @@
     if (!bar.querySelector(`[data-type="${CSS.escape(type)}"]`)) type = 'all';
     current = type;
     bar.querySelectorAll('.filter').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.type === type)));
-    const show = c => type === 'all' || (type.startsWith('s-') ? c.dataset.service.split(' ').includes(type.slice(2)) : c.dataset.type === type);
+    const show = c => type === 'all' || c.dataset.type === type;
     const cards = [...grid.children];
     const apply = () => {
       let k = 0;
@@ -67,8 +56,7 @@
     else apply();
     if (user) {
       const u = new URL(location.href);
-      u.searchParams.delete('type'); u.searchParams.delete('service');
-      if (type.startsWith('s-')) u.searchParams.set('service', type.slice(2)); else if (type !== 'all') u.searchParams.set('type', type);
+      if (type === 'all') u.searchParams.delete('type'); else u.searchParams.set('type', type);
       history.replaceState(history.state, '', u.pathname + u.search + u.hash);
     }
   }
@@ -91,8 +79,7 @@
       e.preventDefault(); open(a.dataset.id, a.querySelector('.frame'), true);
     }));
     buildFilters();
-    const q = new URLSearchParams(location.search);
-    setFilter(q.get('service') ? 's-' + KT.slug(q.get('service')) : (q.get('type') || 'all'), false);
+    setFilter(new URLSearchParams(location.search).get('type') || 'all', false);
     document.body.classList.remove('is-loading');
     const id = decodeURIComponent(location.hash.slice(1));
     if (id) open(id, grid.querySelector(`[data-id="${CSS.escape(id)}"] .frame`), false);

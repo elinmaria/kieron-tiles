@@ -6,7 +6,7 @@
      Services  the heading above the services list (in Title)
      Service   one row per service: Title is the name, Text shows when it opens
    If the tab can't be read, the text written in about.html stays.
-   Each service links to the projects page filtered to that service, with the count from the Projects tab. */
+   Each service links to the projects page. */
 (() => {
   const KT = window.KT, esc = s => KT.esc(s);
   const list = document.getElementById('services');
@@ -16,7 +16,7 @@
 
   const item = (title, text) => `<details class="acc" data-service="${esc(title)}">
       <summary><span class="mark" aria-hidden="true"></span><span class="option-text">${esc(title)}</span><span class="acc-plus" aria-hidden="true"></span></summary>
-      <div class="acc-body"><div class="acc-inner">${paras(text)}<a class="text-cta" href="projects.html?service=${esc(KT.slug(title))}">See the projects</a></div></div>
+      <div class="acc-body"><div class="acc-inner">${paras(text)}<a class="text-cta" href="projects.html">See the projects</a></div></div>
     </details>`;
 
   /* ---- open and close smoothly: the body's height eases between 0 and its content ---- */
@@ -42,19 +42,6 @@
           body.addEventListener('transitionend', () => { d.open = false; d.classList.remove('closing'); done(); }, { once: true });
         }
       });
-    });
-  }
-
-  /* ---- "See 14 projects" from the Projects tab ---- */
-  function counts(projects) {
-    if (!projects) return;
-    list.querySelectorAll('.acc').forEach(d => {
-      const k = KT.slug(d.dataset.service);
-      const n = projects.filter(p => String(p.service || '').split(',').some(s => KT.slug(s.trim()) === k)).length;
-      const a = d.querySelector('.text-cta');
-      if (!a) return;
-      if (n) a.textContent = n === 1 ? 'See the project' : `See ${n} projects`;
-      else { a.textContent = 'See all projects'; a.href = 'projects.html'; }
     });
   }
 
@@ -87,7 +74,6 @@
   if (document.fonts) document.fonts.ready.then(place);
 
   const tab = KT.loadTab ? KT.loadTab('About page', 'Section') : Promise.resolve(null);
-  Promise.all([tab, KT.loadProjects ? KT.loadProjects() : null])
-    .then(([rows, projects]) => { apply(rows); place(); wire(); counts(projects || KT.FALLBACK); })
+  tab.then(rows => { apply(rows); place(); wire(); })
     .catch(() => wire());
 })();
