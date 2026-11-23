@@ -12,11 +12,6 @@
   const SHAPES = ['l', 's', 'p', 's', 'p', 'p', 'p', 's', 'l', 'p'];
   const shape = i => 'shape-' + SHAPES[i % SHAPES.length];
 
-  // Shown if the sheet can't be reached: the sample project that ships with the site.
-  const FALLBACK = [{ id: 'hampstead', title: 'Hampstead', year: '2026', location: 'Hampstead, London', type: 'Garden path',
-    description: 'A cracked concrete path replaced with a Victorian geometric pattern in red, buff and black, finished with a black border.',
-    before: 'img/before.webp', after: 'img/after.webp', beforeThumb: 'img/before.webp', afterThumb: 'img/after.webp', photos: [] }];
-
   let projects = [], current = 'all';
 
   function cardHTML(p, i) {
@@ -96,5 +91,5 @@
     if (!id) KT.detail.close(); else if (!KT.detail.isOpen()) open(id, null, false);
   });
 
-  KT.loadProjects().then(list => { projects = list || FALLBACK; render(); });
+  KT.loadProjects().then(list => { projects = list || KT.FALLBACK; render(); });
 })();

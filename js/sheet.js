@@ -101,6 +101,18 @@
       .finally(() => clearTimeout(timer)));
   };
 
+  // Shown if the sheet can't be reached: a few real projects with photos stored in img/projects/.
+  const fb = (id, title, year, type, description, after, before, photos) => ({ id, title, year, type, location: 'London', description,
+    after: 'img/projects/' + after, afterThumb: 'img/projects/' + after, before: before ? 'img/projects/' + before : '',
+    beforeThumb: before ? 'img/projects/' + before : '', photos: [], photoThumbs: [] });
+  KT.FALLBACK = [
+    fb('red-star-path', 'Red Star Path', '', 'Garden path', 'A garden path in a red, buff and black star pattern, framed by a red sawtooth border and a black edge.', 'red-star-path.jpg'),
+    fb('green-hallway', 'Green Hallway', '', 'Hallway', 'A matching green, cream and black geometric floor laid through the hallway, across the stair landing and out onto the front step.', 'green-hallway.jpg'),
+    fb('buff-and-brown-path', 'Buff and Brown Path', '2022', 'Front path', 'A front path in brown, buff, black and white geometric tiles, finished with a red edge.', 'buff-and-brown-path.jpg'),
+    fb('black-and-white-path', 'Black and White Path', '2026', 'Front path', 'A classic black and white diamond path with a patterned border running along one side.', 'black-and-white-path.jpg'),
+    fb('rosette-hallway', 'Rosette Hallway', '2024', 'Restoration', 'Cracked tiles in an original rosette and star floor replaced with matching ones, so the pattern reads as one again.', 'rosette-hallway-after.jpg', 'rosette-hallway-before.jpg')
+  ];
+
   // For testing the parser without a network.
   KT._parse = text => toProjects(parseCSV(text));
 })();

@@ -6,7 +6,7 @@ Static pages — `index.html` (home gallery), `projects.html` (all projects in a
 
 ## Editing
 
-- **Projects:** each project is an `<article class="card">` in `index.html`. The before/after photos are set by `.ph-before` and `.ph-after` in the stylesheet; the geometric tiles are `img/geometric-tile.svg`.
+- **Projects:** come from the Google Sheet (below). The geometric tiles are `img/geometric-tile.svg`.
 - **Contact details:** search all three pages for `Email@email.com` and `Instagram handle` (the header is repeated in each page).
 - **About text:** in `about.html`.
 
@@ -28,7 +28,7 @@ Other columns (such as the photo previews) are ignored.
 - **Show = No** hides a row; **Order** sets the position on both pages. The homepage shows the first 5, then "View all projects" (change `HOME_COUNT` in `js/projects.js`).
 - **Type** becomes the filter buttons on the projects page, so keep the names consistent (e.g. "Hallway", not "Hallways").
 
-If the sheet can't be reached, the homepage shows the projects written in `index.html`.
+If the sheet can't be reached, both pages show a few backup projects (`KT.FALLBACK` in `js/sheet.js`, photos in `img/projects/`).
 
 ## Projects page
 

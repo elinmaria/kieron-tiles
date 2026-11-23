@@ -2,8 +2,6 @@
 @font-face{font-family:"PP Editorial New";src:url("../fonts/PPEditorialNew-Ultralight.otf") format("opentype");font-weight:200;font-style:normal;font-display:swap}
 @font-face{font-family:"PP Editorial New";src:url("../fonts/PPEditorialNew-UltralightItalic.otf") format("opentype");font-weight:200;font-style:italic;font-display:swap}
 @font-face{font-family:"PP Editorial New";src:url("../fonts/PPEditorialNew-Ultrabold.otf") format("opentype");font-weight:800;font-style:normal;font-display:swap}
-.ph-after{background-image:url("../img/after.webp")}
-.ph-before{background-image:url("../img/before.webp")}
 /* Layout: cream architectural grid, editorial top bar, one draggable row of project cards with before/after sliders, quiet about + contact below. */
 :root{
   --linen:#F4EFE3;
@@ -503,7 +501,7 @@ body.detail-open header{z-index:31}
 /* homepage: intro text and "All projects" link */
 .home-intro{position:absolute;z-index:3;left:max(16px,calc(44 * var(--gp)));top:calc(max(130px, min(310 * var(--gp), 100vh - 44px - 600 * var(--gp))) - 129 * var(--gp));
   width:calc(382 * var(--gp));display:grid;gap:max(18px,calc(30 * var(--gp)));justify-items:start;animation:fadeup 1.3s var(--ease-out) 1s backwards;transition:opacity .2s linear}
-.home-intro p{margin:0;font-size:max(18px,calc(33 * var(--gp)));line-height:1.3;color:var(--ink)}
+.home-intro p{margin:0;font-size:calc(max(18px,calc(33 * var(--gp))) * var(--intro-scale,1));line-height:1.3;color:var(--ink)}
 .is-intro .home-intro{opacity:0}
 .view-all{width:auto;aspect-ratio:auto;border-left:0;padding:0;margin-left:calc(24 * var(--gp));align-self:flex-start;
   margin-top:0;gap:0;animation:none;position:relative;z-index:3}

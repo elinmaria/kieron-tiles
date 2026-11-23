@@ -1,5 +1,5 @@
 /* Homepage gallery: fills the draggable row from the Google Sheet (js/sheet.js).
-   If the sheet can't be reached, the projects written in index.html are kept. */
+   If the sheet can't be reached, it shows the backup projects in KT.FALLBACK. */
 (() => {
   const KT = window.KT;
   const esc = s => KT.esc(s);
@@ -23,12 +23,7 @@
 
   // The project behind a card: from the sheet if we have it, otherwise read off the card itself.
   KT.homeProjects = null;
-  KT.projectForCard = card => {
-    if (KT.homeProjects && card.dataset.i != null) return KT.homeProjects[+card.dataset.i];
-    const d = card.dataset;
-    return { title: d.title, year: d.year, type: d.type, location: d.location, description: d.desc,
-      before: card.querySelector('.ph-before') ? 'img/before.webp' : '', after: 'img/after.webp', photos: [] };
-  };
+  KT.projectForCard = card => KT.homeProjects[+card.dataset.i];
 
   const HOME_COUNT = 5;   // how many projects the homepage shows before "View all projects"
   const viewAll = n => `<a class="view-all" href="projects.html" aria-label="All ${n} projects"><span class="text-cta">All projects</span></a>`;
@@ -45,5 +40,5 @@
     });
   }
 
-  KT.loadProjects().then(list => { if (list) render(list); }).finally(start);
+  KT.loadProjects().then(list => render(list || KT.FALLBACK)).finally(start);
 })();
