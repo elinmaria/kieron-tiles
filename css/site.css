@@ -682,3 +682,10 @@ footer .foot-links a{color:inherit;transition:color .3s;font-size:inherit}
 @keyframes phone-ring{0%,100%{transform:rotate(0)}20%{transform:rotate(-12deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-7deg)}80%{transform:rotate(4deg)}}
 @media (prefers-reduced-motion: reduce){.nav-phone path{animation:none;stroke-dashoffset:0}.nav-phone:hover{animation:none}}
 nav a.nav-phone::after{display:none}
+
+/* email next to the phone in the header, and next to the address on the contact page */
+nav .nav-mail+.nav-phone{margin-left:calc(-1 * max(18px,calc(64 * var(--w))) + max(10px,calc(20 * var(--w))))}
+.nav-mail .ph-ring{animation-delay:1.35s}
+.with-icon{display:inline-flex;align-items:center;gap:.35em}
+.with-icon .nav-mail{width:.85em;height:.85em;flex:none}
+.with-icon:hover .nav-mail{animation:phone-ring .6s ease-in-out}
