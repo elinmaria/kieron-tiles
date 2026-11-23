@@ -689,3 +689,4 @@ nav .nav-mail+.nav-phone{margin-left:calc(-1 * max(18px,calc(64 * var(--w))) + m
 .with-icon{display:inline-flex;align-items:center;gap:.35em}
 .with-icon .nav-mail{width:.85em;height:.85em;flex:none}
 .with-icon:hover .nav-mail{animation:phone-ring .6s ease-in-out}
+.detail h3 .line:has(>span:empty){display:none}
