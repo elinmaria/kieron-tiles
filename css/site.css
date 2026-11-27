@@ -766,3 +766,4 @@ nav a.nav-phone::after{display:none}
 .cookie-actions button:hover{color:var(--terracotta);border-color:var(--terracotta)!important}
 @media (max-width:820px){.cookie-note{left:16px;right:16px;width:auto;bottom:max(16px,calc(env(safe-area-inset-bottom,0px) + 16px))}}
 @media (prefers-reduced-motion:reduce){.cookie-note{transition:none}}
+@media (max-width:820px){header.menu-open{z-index:1000}}
