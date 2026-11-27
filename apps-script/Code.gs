@@ -5,7 +5,8 @@
  *   1. emails Kieron (Reply goes straight to the customer),
  *   2. adds a "Visit request" to his Google Calendar on the day they picked,
  *   3. saves any photos to a Google Drive folder,
- *   4. adds a row to a "Website enquiries" Google Sheet.
+ *   4. adds a row to a "Website enquiries" Google Sheet,
+ *   5. sends a short alert to a phone, if phone alerts are on (see turnOnPhoneAlerts below).
  *
  * Set-up (about 5 minutes, signed in as the Google account that should own all this):
  *   1. Go to script.google.com → New project. Name it "Victorian Tiler form".
@@ -44,6 +45,7 @@ function doPost(e) {
     const event = addVisit_(f, photoLinks);
     logRow_(f, photoLinks, event);
     emailKieron_(f, photoLinks, event);
+    try { phoneAlert_(f); } catch (err) { console.error('Phone alert failed', err); }   // never stops the enquiry
     return json_({ ok: true });
   } catch (err) {
     console.error(err);
@@ -104,6 +106,43 @@ function emailKieron_(f, photoLinks, event) {
     to: CONFIG.NOTIFY_EMAIL, replyTo: f.email, name: 'Victorian Tiler website',
     subject: `New enquiry: ${f.name}, ${f.job}${f.visitDay ? ' · visit ' + f.visitDay : ''}`,
     body: lines.join('\n')
+  });
+}
+
+/* ---- phone alerts ----
+   A short notification on the phone through the free ntfy app (ntfy.sh): no account, no phone number needed.
+   1. Run turnOnPhoneAlerts once. The log shows a private channel name.
+   2. On the phone: install "ntfy" (App Store / Google Play), tap +, type that channel name, Subscribe.
+   3. Run testPhoneAlert to check it arrives.
+   Anyone else's phone can subscribe to the same channel later (e.g. Kieron's), and unsubscribe in the app.
+   The alert only says the first name, the kind of job and the visit day; the details stay in Gmail. */
+function turnOnPhoneAlerts() {
+  const props = PropertiesService.getScriptProperties();
+  let topic = props.getProperty('NTFY_TOPIC');
+  if (!topic) {
+    topic = 'victoriantiler-' + Utilities.getUuid().replace(/-/g, '').slice(0, 16);
+    props.setProperty('NTFY_TOPIC', topic);
+  }
+  console.log('Phone alerts are on. In the ntfy app, subscribe to: ' + topic);
+}
+function turnOffPhoneAlerts() {
+  PropertiesService.getScriptProperties().deleteProperty('NTFY_TOPIC');
+  console.log('Phone alerts are off.');
+}
+function testPhoneAlert() {
+  phoneAlert_({ name: 'Test', job: 'Hallway', visitDay: 'Thursday morning' }, true);
+  console.log('Test alert sent. It should be on the phone within a few seconds.');
+}
+function phoneAlert_(f, isTest) {
+  const topic = PropertiesService.getScriptProperties().getProperty('NTFY_TOPIC');
+  if (!topic) return;
+  const first = String(f.name || '').trim().split(/\s+/)[0];
+  const msg = [first, f.job, f.visitDay ? 'visit ' + f.visitDay : 'no visit, just email'].filter(Boolean).join(' · ');
+  UrlFetchApp.fetch('https://ntfy.sh/' + topic, {
+    method: 'post',
+    payload: (isTest ? 'Test: ' : '') + msg + '\nDetails are in Gmail.',
+    headers: { Title: 'New website enquiry', Tags: 'house', Click: 'https://mail.google.com/mail/u/0/#inbox', Priority: 'high' },
+    muteHttpExceptions: true
   });
 }
 
