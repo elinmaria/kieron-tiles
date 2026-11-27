@@ -169,7 +169,7 @@
     } catch (err) {
       send.disabled = false;
       status.className = 'status bad';
-      status.textContent = "Sorry, that didn't send. Please try again, or email Email@email.com directly.";
+      status.textContent = "Sorry, that didn't send. Please try again, or email victoriantiler@gmail.com directly.";
     }
   });
 })();

@@ -7,7 +7,7 @@ Static pages — `index.html` (home gallery), `projects.html` (all projects in a
 ## Editing
 
 - **Projects:** come from the Google Sheet (below). The geometric tiles are `img/geometric-tile.svg`.
-- **Contact details:** search all three pages for `Email@email.com` and `Instagram handle` (the header is repeated in each page).
+- **Contact details:** email is victoriantiler@gmail.com; search all pages for it (and `Instagram handle`) (the header is repeated in each page).
 - **About text:** in `about.html`.
 
 Typeface: PP Editorial New (Pangram Pangram). Check the licence covers web use before the site goes public.

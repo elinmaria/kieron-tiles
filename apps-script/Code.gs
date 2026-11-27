@@ -20,7 +20,7 @@
  */
 
 const CONFIG = {
-  NOTIFY_EMAIL: 'kieron@example.com',      // where enquiries are emailed
+  NOTIFY_EMAIL: 'victoriantiler@gmail.com',      // where enquiries are emailed
   CALENDAR_ID: 'primary',                  // 'primary' = this account's main calendar, or a calendar's ID
   VISIT_START_HOUR: { Morning: 9, Afternoon: 13, Default: 9 },
   VISIT_LENGTH_HOURS: 1,
