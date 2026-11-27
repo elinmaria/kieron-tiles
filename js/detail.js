@@ -56,6 +56,7 @@
   const detail = () => $('detail');
 
   function fillText(p) {
+    if (KT.track) KT.track('project_view', { project_name: p.title, project_type: p.type || '' });
     const set = (id, v) => {
       const el = $(id); if (!el) return;
       el.textContent = v || '';

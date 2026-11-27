@@ -163,6 +163,7 @@
       const res = await r.json().catch(() => ({}));
       if (!r.ok || !res.ok) throw new Error(res.error || r.status);
       const name = document.getElementById('f-name').value.trim().split(' ')[0];
+      if (KT.track) KT.track('enquiry_sent', { visit_requested: payload.visitDate ? 'yes' : 'no', photos: photos.length });
       form.classList.add('done');
       form.innerHTML = `<h2 class="enquiry-title">Thank you${name ? ', ' + name.replace(/[<>&"]/g, '') : ''}.</h2><p class="thanks">${payload.visitDate ? "Your visit request is in Kieron's calendar. He'll confirm the time by email, usually within a couple of days." : "Your enquiry is with Kieron. He'll get back to you by email, usually within a couple of days."}</p>`;
     } catch (err) {

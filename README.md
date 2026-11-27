@@ -92,3 +92,11 @@ GitHub → Actions → "Update from the Google Sheet" → Run workflow. To run i
 (needs Python 3 and `pip install pillow`).
 
 If the site moves to another host, deploy it from this repository so it keeps receiving the daily update.
+
+## Analytics and cookies
+
+Google Tag Manager (`KT_GTM` in js/config.js) loads only on the real domain, never on the github.io preview.
+Until a visitor answers the cookie question, Tag Manager is told analytics consent is **denied**; in Tag Manager,
+set the analytics tags to require `analytics_storage`. Add `?cookies` to any address to preview the question.
+Events the site sends (make a Custom Event trigger for each): `enquiry_sent`, `email_click`, `phone_click`,
+`project_view` (details in js/analytics.js).
