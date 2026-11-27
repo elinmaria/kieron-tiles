@@ -4,7 +4,7 @@ window.KT_SHEET = "https://docs.google.com/spreadsheets/d/1Q8Fk9d1VWXv-EdHJEzdCq
 
 /* Where the contact form sends enquiries: the web app address of apps-script/Code.gs
    (ends in /exec). Until it's set, the form asks people to email instead. */
-window.KT_FORM_URL = "";
+window.KT_FORM_URL = "https://script.google.com/macros/s/AKfycbzPFYG_A-dgnT4oJuZD967QpLKHWMPcJFjWrfytSgwospYifbwMGvx82Ad-BbYp4sTlLg/exec";
 
 /* Kieron's phone number, for the little phone in the header (tap to call on a phone).
    Until it's set, the phone opens the contact form. Example: "+44 7700 900123" */
