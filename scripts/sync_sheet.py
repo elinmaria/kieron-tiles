@@ -10,7 +10,9 @@ The website only reads these files, so it keeps working even if Google or the sh
 Safety: if the sheet can't be read, isn't shared, or has no visible projects, nothing is changed and the script
 exits with an error (GitHub then emails the repo owner). Photos that fail to download keep their previous copy.
 
-Run by .github/workflows/sync-sheet.yml every morning, or by hand: python3 scripts/sync_sheet.py
+It also writes the "Website copy" and "Privacy and terms" tabs into the pages (scripts/site_copy.py).
+
+Run by .github/workflows/sync-sheet.yml every evening at 6pm UK time, or by hand: python3 scripts/sync_sheet.py
 """
 import csv, io, json, os, re, sys, unicodedata, urllib.request
 
@@ -123,6 +125,29 @@ def about(sid):
     return [{h: (r[i].strip() if i < len(r) else '') for i, h in enumerate(head) if h} for r in rows]
 
 
+def site_text(sid):
+    """The "Website copy" and "Privacy and terms" tabs, written into the pages (see scripts/site_copy.py)."""
+    sys.path.insert(0, os.path.join(ROOT, 'scripts'))
+    import site_copy
+    head, rows = tab_rows(sid, 'Website copy')
+    k = next((i for i, h in enumerate(head) if h.startswith('key')), None)
+    if k is None or 'text' not in head:
+        raise RuntimeError('the "Website copy" tab needs Key and Text columns')
+    t = head.index('text')
+    copy = {r[k].strip(): (r[t] if t < len(r) else '') for r in rows if k < len(r) and r[k].strip()}
+    legal = None
+    try:
+        lh, lrows = tab_rows(sid, 'Privacy and terms')
+        pi, ti, xi = lh.index('page'), lh.index('type'), lh.index('text')
+        legal = {}
+        for r in lrows:
+            if len(r) > xi and r[pi].strip():
+                legal.setdefault(r[pi].strip().lower(), []).append((r[ti], r[xi]))
+    except Exception as e:
+        print(f'Privacy and terms not updated: {e}')
+    return site_copy.apply(ROOT, copy, legal)
+
+
 def write_json(name, data):
     path = os.path.join(ROOT, 'data', name)
     with open(path, 'w', encoding='utf-8') as f:
@@ -146,6 +171,11 @@ def main():
         print('About page text updated')
     except Exception as e:
         print(f'About page not updated: {e}')
+    try:
+        changed = site_text(sid)
+        print('Website copy updated:', ', '.join(changed) if changed else 'no changes')
+    except Exception as e:
+        print(f'Website copy not updated: {e}')
     # tidy photos no project uses any more
     keep = {os.path.basename(u) for p in plist for u in [p['after'], p['afterThumb'], p['before'], p['beforeThumb'], *p['photos'], *p['photoThumbs']] if u.startswith('img/sheet/')}
     for f in os.listdir(IMG_DIR):

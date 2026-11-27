@@ -5,11 +5,13 @@
    - Up to 3 photos; large phone photos are shrunk in the browser first.
    - Sends in the background and shows a thank-you, or a clear message if it can't send. */
 (() => {
+  const T = (k, f) => (window.KT && KT.text ? KT.text(k, f) : f);
   const form = document.getElementById('enquiry');
   if (!form) return;
   const inputs = [...form.querySelectorAll('input[type=file]')];
   const list = document.getElementById('photo-list');
   const addBtn = document.getElementById('add-photo');
+  const addLabel = addBtn ? addBtn.textContent : '+ Add a photo';
   const status = document.getElementById('status');
   const send = document.getElementById('send');
   const LIMIT = 15 * 1024 * 1024;      // all photos together, after shrinking
@@ -68,10 +70,10 @@
   });
   inputs.forEach(input => input.addEventListener('change', async () => {
     const f = input.files && input.files[0]; if (!f) return render();
-    addBtn.textContent = 'Preparing photo…'; addBtn.disabled = true;
+    addBtn.textContent = T('msg_preparing_photo', 'Preparing photo…'); addBtn.disabled = true;
     const small = await shrink(f);
     if (small !== f) setFile(input, small);
-    addBtn.textContent = '+ Add a photo'; addBtn.disabled = false;
+    addBtn.textContent = addLabel; addBtn.disabled = false;
     render();
   }));
 
@@ -108,7 +110,7 @@
         days.hidden = r.value !== 'this-week';
         if (r.value === 'this-week') {
           days.querySelectorAll('input').forEach(i => { i.checked = false; });
-          set('', '', 'Pick a day and Kieron will confirm the time.');
+          set('', '', T('msg_pick_day', 'Pick a day and Kieron will confirm the time.'));
           const first = days.querySelector('input:not(:disabled)'); if (first) first.focus();
         } else set(value[r.value], '', say[r.value]);
       } else if (r.name === 'visit-choice') {
@@ -120,9 +122,9 @@
 
   /* ---- checks ---- */
   const fields = [
-    ['f-name', v => v.trim() ? '' : 'Please add your name.'],
-    ['f-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Please add an email address Kieron can reply to.'],
-    ['f-msg', v => v.trim() ? '' : 'A line or two about the job helps Kieron quote.']
+    ['f-name', v => v.trim() ? '' : T('msg_need_name', 'Please add your name.')],
+    ['f-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : T('msg_need_email', 'Please add an email address Kieron can reply to.')],
+    ['f-msg', v => v.trim() ? '' : T('msg_need_message', 'A line or two about the job helps Kieron quote.')]
   ];
   function check() {
     let first = null;
@@ -147,8 +149,8 @@
     status.className = 'status'; status.textContent = '';
     if (!check()) return;
     const total = inputs.reduce((s, i) => s + ((i.files && i.files[0]) ? i.files[0].size : 0), 0);
-    if (total > LIMIT) { status.className = 'status bad'; status.textContent = 'The photos are too large together. Remove one and try again.'; return; }
-    send.disabled = true; status.textContent = 'Sending…';
+    if (total > LIMIT) { status.className = 'status bad'; status.textContent = T('msg_photos_too_large', 'The photos are too large together. Remove one and try again.'); return; }
+    send.disabled = true; status.textContent = T('msg_sending', 'Sending…');
     try {
       const URL_ = (window.KT_FORM_URL || '').trim();
       if (!URL_) throw new Error('No form address set');
@@ -165,11 +167,15 @@
       const name = document.getElementById('f-name').value.trim().split(' ')[0];
       if (KT.track) KT.track('enquiry_sent', { visit_requested: payload.visitDate ? 'yes' : 'no', photos: photos.length });
       form.classList.add('done');
-      form.innerHTML = `<h2 class="enquiry-title">Thank you${name ? ', ' + name.replace(/[<>&"]/g, '') : ''}.</h2><p class="thanks">${payload.visitDate ? "Your visit request is in Kieron's calendar. He'll confirm the time by email, usually within a couple of days." : "Your enquiry is with Kieron. He'll get back to you by email, usually within a couple of days."}</p>`;
+      const esc = x => String(x).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const thanks = payload.visitDate
+        ? T('msg_thanks_visit', "Your visit request is in Kieron's calendar. He'll confirm the time by email, usually within a couple of days.")
+        : T('msg_thanks_email', "Your enquiry is with Kieron. He'll get back to you by email, usually within a couple of days.");
+      form.innerHTML = `<h2 class="enquiry-title">${esc(T('msg_thanks', 'Thank you'))}${name ? ', ' + esc(name) : ''}.</h2><p class="thanks">${esc(thanks)}</p>`;
     } catch (err) {
       send.disabled = false;
       status.className = 'status bad';
-      status.textContent = "Sorry, that didn't send. Please try again, or email victoriantiler@gmail.com directly.";
+      status.textContent = T('msg_error', "Sorry, that didn't send. Please try again, or email victoriantiler@gmail.com directly.");
     }
   });
 })();

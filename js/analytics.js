@@ -21,6 +21,12 @@
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   KT.track = (event, params = {}) => { dataLayer.push(Object.assign({ event }, params)); };
+  /* Website copy kept in the page (from the "Website copy" tab of the sheet): KT.text('cookie_yes', 'That\'s fine') */
+  KT.text = (key, fallback) => {
+    const el = document.querySelector('[data-copy-store] [data-copy="' + key + '"]');
+    const t = el && el.textContent.trim();
+    return t || fallback;
+  };
 
   /* ---- consent ---- */
   const KEY = 'kt-consent';
@@ -46,8 +52,10 @@
     box.className = 'cookie-note';
     box.setAttribute('role', 'dialog');
     box.setAttribute('aria-label', 'Cookies');
-    box.innerHTML = `<p>Can we count your visit? It helps Kieron see which projects people like. No adverts, nothing sold on. <a href="privacy.html#cookies">More about cookies</a></p>
-      <div class="cookie-actions"><button type="button" class="cookie-yes">That's fine</button><button type="button" class="cookie-no">No thanks</button></div>`;
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const t = (k, f) => esc(KT.text(k, f));
+    box.innerHTML = `<p>${t('cookie_question', 'Can we count your visit? It helps Kieron see which projects people like. No adverts, nothing sold on.')} <a href="privacy.html#cookies">${t('cookie_more', 'More about cookies')}</a></p>
+      <div class="cookie-actions"><button type="button" class="cookie-yes">${t('cookie_yes', "That's fine")}</button><button type="button" class="cookie-no">${t('cookie_no', 'No thanks')}</button></div>`;
     const answer = v => {
       keep(v);
       gtag('consent', 'update', state(v));

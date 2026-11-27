@@ -79,7 +79,7 @@ placeholders (Kieron's full name, business address, phone, VAT number or remove 
 enquiries are kept) and remove the `todo` highlight. Fonts (PP Editorial New and Inter) are served from `fonts/`, so no
 visitor data goes to Google Fonts.
 
-## How the sheet gets onto the site (once a day)
+## How the sheet gets onto the site (once a day, 6pm UK)
 The site does not read the Google Sheet live. Every morning at about 5–6am a GitHub Action
 (`.github/workflows/sync-sheet.yml`) runs `scripts/sync_sheet.py`, which:
 - reads the Projects and About page tabs,
@@ -100,3 +100,10 @@ Until a visitor answers the cookie question, Tag Manager is told analytics conse
 set the analytics tags to require `analytics_storage`. Add `?cookies` to any address to preview the question.
 Events the site sends (make a Custom Event trigger for each): `enquiry_sent`, `email_click`, `phone_click`,
 `project_view` (details in js/analytics.js).
+
+## Website copy and legal pages from the sheet
+
+All other text lives on the "Website copy" and "Privacy and terms" tabs. Each piece of text in the HTML has
+`data-copy="key"` (or `data-copy-attr="content:key"` for meta descriptions); the daily sync (scripts/site_copy.py)
+writes the sheet's text into the HTML, so pages stay static. To add new text to the sheet: give the element a
+`data-copy` key, add the key to `ROWS` in scripts/site_copy.py, and add a row with that key to the tab.
